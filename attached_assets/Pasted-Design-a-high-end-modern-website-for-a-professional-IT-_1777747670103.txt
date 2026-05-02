@@ -1,0 +1,117 @@
+Design a high-end, modern website for a professional IT syndicate in Palestine that represents technology and information science professionals. The platform should balance institutional credibility with a modern digital product feel, similar to a hybrid between a government portal and a SaaS platform.
+
+🎨 Branding & Visual System (STRICT)
+
+Use the following branding consistently:
+
+Primary color: deep teal (#004953)
+Secondary color: olive (#808000)
+Accent color: soft yellow (#F5DF4D)
+Background: white (#FFFFFF)
+Text: dark gray (#404040)
+Link color: muted purple (#5B2D6D)
+
+Typography:
+
+Use Changa font for headings and body
+Clean, modern Arabic/English bilingual typography
+Strong hierarchy with large, bold headlines and clean spacing
+
+Design tone:
+
+Professional, structured, trustworthy
+Medium energy (not flashy, not dull)
+Targeted toward Arabic-speaking professionals
+🧱 Layout & Structure
+1. Header / Navigation
+Clean sticky navbar
+Logo on the left, navigation centered or right
+Menu items: Home, About, Membership, News, Events, Training, Reports, Contact
+Prominent primary CTA button (yellow background, teal text): “Join Now”
+2. Hero Section (Make it visually advanced)
+Split layout:
+Left: strong headline + description
+Right: visual element
+
+Headline example:
+“Empowering IT Professionals Across Palestine”
+
+Subtext:
+Short, mission-driven description about uniting professionals, advancing careers, and protecting rights.
+
+CTA buttons:
+
+Primary: Join the Syndicate (yellow)
+Secondary: Explore Services (teal outline)
+
+Visual:
+
+Use a subtle looping visual or scroll-based image sequence (2-frame system)
+Should represent a connected digital network or professional ecosystem
+Keep it lightweight and elegant (no heavy animation focus)
+3. Core Services Section
+
+Display as modern cards with icons:
+
+Membership Registration
+Training & Workshops
+Employment Support Fund
+Legal & Professional Support
+
+Design:
+
+Soft shadows
+Rounded corners (~5px based on system)
+Hover interaction (slight elevation + color shift)
+4. Dynamic Content Sections
+News & Announcements
+Card-based layout
+Clean thumbnails + short previews
+Events & Workshops
+Timeline or grid layout
+Highlight upcoming items
+Reports & Publications
+Minimal, document-style layout
+Emphasis on credibility and structure
+5. Quick Access / Utility Section
+Regulations & Laws
+Membership Requirements
+Forms & Downloads
+
+Design:
+
+Grid with icons
+Very clear and functional
+6. Footer
+Structured and informative
+Contact info
+Social links
+Quick navigation
+Subtle background contrast using primary color
+✨ Visual Enhancements (IMPORTANT — KEEP BALANCED)
+Use soft gradients with teal tones for depth
+Subtle use of accent yellow only for actions (CTAs)
+Light micro-interactions (hover, fade, slight motion)
+Optional:
+Very subtle scroll-based image transition (2-frame loop concept)
+Minimal parallax or fade effects
+
+Avoid:
+
+Overuse of animations
+Bright or flashy UI
+Complex dashboards in homepage
+🧠 Design Philosophy
+
+The website should feel like:
+
+A trusted national institution
+A modern digital platform for professionals
+A community hub + service provider
+
+Not just informational — it should feel alive, useful, and structured.
+
+🔥 Optional Add-on (if your generator supports it)
+
+Add:
+“Dribbble-quality UI, pixel-perfect spacing, modern SaaS meets government design, clean grid system, high-end UX, subtle motion, premium look”

@@ -12,8 +12,12 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-md bg-accent flex items-center justify-center text-primary font-bold text-2xl shadow-sm">
-                PITS
+              <div className="w-14 h-14 rounded-md bg-white flex items-center justify-center p-1.5 shadow-sm shrink-0">
+                <img
+                  src="https://palist.ps/uploads/100Q1000W384H1693724962799404612.png"
+                  alt="Palist"
+                  className="max-h-full max-w-full object-contain"
+                />
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-white text-lg leading-tight">

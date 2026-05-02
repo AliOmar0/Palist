@@ -1,0 +1,281 @@
+{
+  "data": {
+    "branding": {
+      "colorScheme": "light",
+      "fonts": [
+        {
+          "family": "Changa",
+          "role": "body"
+        },
+        {
+          "family": "Arial",
+          "role": "unknown"
+        }
+      ],
+      "colors": {
+        "primary": "#004953",
+        "secondary": "#808000",
+        "accent": "#F5DF4D",
+        "background": "#FFFFFF",
+        "textPrimary": "#404040",
+        "link": "#5B2D6D"
+      },
+      "typography": {
+        "fontFamilies": {
+          "primary": "Changa",
+          "heading": "Changa"
+        },
+        "fontStacks": {
+          "heading": [
+            "Changa"
+          ],
+          "body": [
+            "Changa"
+          ],
+          "paragraph": [
+            "Changa"
+          ]
+        },
+        "fontSizes": {
+          "h1": "48px",
+          "h2": "15px",
+          "body": "16px"
+        }
+      },
+      "spacing": {
+        "baseUnit": 4,
+        "borderRadius": "5px"
+      },
+      "components": {
+        "input": {
+          "background": "#FFFFFF",
+          "textColor": "#6C6B6B",
+          "borderColor": "#AAAAAA",
+          "borderRadius": "4px",
+          "borderRadiusCorners": {
+            "topLeft": "4px",
+            "topRight": "4px",
+            "bottomRight": "4px",
+            "bottomLeft": "4px"
+          },
+          "shadow": "none"
+        },
+        "buttonPrimary": {
+          "background": "#F5DF4D",
+          "textColor": "#004953",
+          "borderRadius": "5px",
+          "borderRadiusCorners": {
+            "topLeft": "5px",
+            "topRight": "5px",
+            "bottomRight": "5px",
+            "bottomLeft": "5px"
+          },
+          "shadow": "none"
+        },
+        "buttonSecondary": {
+          "background": "#004953",
+          "textColor": "#FFFFFF",
+          "borderColor": "#808000",
+          "borderRadius": "0px",
+          "borderRadiusCorners": {
+            "topLeft": "0px",
+            "topRight": "0px",
+            "bottomRight": "0px",
+            "bottomLeft": "0px"
+          },
+          "shadow": "none"
+        }
+      },
+      "images": {
+        "logo": "https://palist.ps/uploads/100Q1000W384H1693724962799404612.png",
+        "favicon": "https://palist.ps/uploads/100Q180W69H1693724962799404612.png",
+        "ogImage": "https://palist.ps/uploads/1693724962799404612.png",
+        "logoHref": "https://palist.ps/ar",
+        "logoAlt": "Palist"
+      },
+      "__llm_logo_reasoning": {
+        "selectedIndex": 0,
+        "reasoning": "Selected #0 because it is visible, located in the header, and matches the brand name 'Palist'.",
+        "confidence": 0.9,
+        "source": "llm"
+      },
+      "__llm_button_reasoning": {
+        "primary": {
+          "index": 0,
+          "text": "!تعرف أكثر",
+          "reasoning": "Button #0 has a vibrant background color (#F5DF4D) and action-oriented text ('!تعرف أكثر'), making it the primary CTA."
+        },
+        "secondary": {
+          "index": 1,
+          "text": "<",
+          "reasoning": "Button #1 has a different background color (#004953) and serves as a secondary action with a less prominent design."
+        },
+        "confidence": 0.95
+      },
+      "personality": {
+        "tone": "professional",
+        "energy": "medium",
+        "targetAudience": "Arabic-speaking professionals and businesses"
+      },
+      "designSystem": {
+        "framework": "custom",
+        "componentLibrary": ""
+      },
+      "confidence": {
+        "buttons": 0.95,
+        "colors": 0.9,
+        "overall": 0.925
+      },
+      "__llm_metadata": {
+        "logoSelection": {
+          "llmCalled": true,
+          "llmSucceeded": true,
+          "finalSource": "llm",
+          "rawLogoSelection": {
+            "selectedLogoIndex": 0,
+            "selectedLogoReasoning": "Selected #0 because it is visible, located in the header, and matches the brand name 'Palist'.",
+            "confidence": 0.9
+          }
+        },
+        "buttonClassification": {
+          "llmCalled": true,
+          "llmSucceeded": true
+        }
+      }
+    },
+    "metadata": {
+      "og:url": "https://palist.ps/ar/",
+      "og:type": "website",
+      "fb:app_id": "",
+      "mobile-web-app-capable": "yes",
+      "og:image": "https://palist.ps/uploads/1693724962799404612.png",
+      "title": "Palist",
+      "ogImage": "https://palist.ps/uploads/1693724962799404612.png",
+      "apple-mobile-web-app-status-bar-style": "black-translucent",
+      "ogTitle": "Palist",
+      "description": "نقابتنا تنفيذ خطة توعوية ورفع مستوى المهنة وجمع طاقات العاملين في مجال العلوم المعلوماتية التكنولوجية وتسخيرها في سبيل الارتقاء بالوضع المادي والاعتباري للعامل بهذه المهنة وآماله وتطلعاته المستقبلية والدفاع عن حقوقه أينما كان وذلك في إطار القوانين والأعراف المهنية الدستورية ووفق المعايير الوطنية ",
+      "theme-color": "#f7f7f7",
+      "og:image:alt": "نقابتنا تنفيذ خطة توعوية ورفع مستوى المهنة وجمع طاقات العاملين في مجال العلوم المعلوماتية التكنولوجية وتسخيرها في سبيل الارتقاء بالوضع المادي والاعتباري للعامل بهذه المهنة وآماله وتطلعاته المستقبلية والدفاع عن حقوقه أينما كان وذلك في إطار القوانين والأعراف المهنية الدستورية ووفق المعايير الوطنية ",
+      "ROBOTS": "INDEX,FOLLOW",
+      "apple-mobile-web-app-capable": [
+        "yes",
+        "yes"
+      ],
+      "author": "ProVision",
+      "og:description": "نقابتنا تنفيذ خطة توعوية ورفع مستوى المهنة وجمع طاقات العاملين في مجال العلوم المعلوماتية التكنولوجية وتسخيرها في سبيل الارتقاء بالوضع المادي والاعتباري للعامل بهذه المهنة وآماله وتطلعاته المستقبلية والدفاع عن حقوقه أينما كان وذلك في إطار القوانين والأعراف المهنية الدستورية ووفق المعايير الوطنية ",
+      "ogUrl": "https://palist.ps/ar/",
+      "og:title": "Palist",
+      "ogDescription": "نقابتنا تنفيذ خطة توعوية ورفع مستوى المهنة وجمع طاقات العاملين في مجال العلوم المعلوماتية التكنولوجية وتسخيرها في سبيل الارتقاء بالوضع المادي والاعتباري للعامل بهذه المهنة وآماله وتطلعاته المستقبلية والدفاع عن حقوقه أينما كان وذلك في إطار القوانين والأعراف المهنية الدستورية ووفق المعايير الوطنية ",
+      "engine link": "https://legioncms.com",
+      "application-name": "Palist",
+      "og:site_name": "Palist",
+      "msapplication-starturl": "https://palist.ps/",
+      "msapplication-navbutton-color": "#f7f7f7",
+      "language": "ar",
+      "ogSiteName": "Palist",
+      "og:image:width": "1300",
+      "engine": "LEGION CMS - ProVision",
+      "og:locale": "ar",
+      "ogLocale": "ar",
+      "viewport": [
+        "width=device-width, initial-scale=1",
+        "width=device-width, initial-scale=1, shrink-to-fit=no"
+      ],
+      "og:image:height": "630",
+      "apple-mobile-web-app-title": "Palist",
+      "favicon": "https://palist.ps/uploads/100Q180W69H1693724962799404612.png",
+      "scrapeId": "019de4b3-0c7b-739e-8ef5-1321e909af94",
+      "sourceURL": "https://palist.ps/",
+      "url": "https://palist.ps/ar/",
+      "statusCode": 200,
+      "contentType": "text/html; charset=utf-8",
+      "timezone": "America/New_York",
+      "proxyUsed": "basic",
+      "indexId": "9799d30b-ec54-4090-920d-e37f229d7877",
+      "creditsUsed": 1,
+      "concurrencyLimited": false
+    }
+  },
+  "scrape_id": "019de4b3-0c7b-739e-8ef5-1321e909af94",
+  "id": "ST7CxbCJhNILIstZVTK3z",
+  "startedAt": "2026-05-01T18:00:29.859Z",
+  "endedAt": "2026-05-01T18:00:41.081Z",
+  "endpoint": "scrape",
+  "formState": {
+    "parseFile": null,
+    "parseFileMeta": null,
+    "extractSetupCompleted": false,
+    "urls": [],
+    "extractSchema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "company_mission": {
+          "type": "string"
+        },
+        "supports_sso": {
+          "type": "boolean"
+        },
+        "is_open_source": {
+          "type": "boolean"
+        },
+        "is_in_yc": {
+          "type": "boolean"
+        }
+      }
+    },
+    "extractPrompt": "Extract the company details, following the schema.",
+    "enableWebSearch": false,
+    "constrainUrls": false,
+    "options": {
+      "onlyMainContent": false,
+      "parsePDF": true,
+      "stealthMode": false,
+      "excludeTags": [],
+      "includeTags": [],
+      "waitFor": "",
+      "timeout": "",
+      "maxAge": "2 days",
+      "ignoreSitemap": false,
+      "crawlEntireDomain": false,
+      "sitemap": "include",
+      "limit": "10",
+      "maxDepth": "",
+      "excludePaths": [],
+      "includePaths": [],
+      "includeSubdomains": false,
+      "search": "",
+      "scrapeContentFromSearchResults": true,
+      "timeBasedSearch": "",
+      "location": "",
+      "prompt": ""
+    },
+    "formats": [
+      "branding"
+    ],
+    "sources": [
+      "web"
+    ],
+    "categories": [],
+    "jsonSchema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "company_name": {
+          "type": "string"
+        },
+        "company_description": {
+          "type": "string"
+        }
+      }
+    },
+    "jsonPrompt": "",
+    "queryPrompt": "",
+    "agent": {},
+    "url": "palist.ps/",
+    "endpoint": "scrape"
+  },
+  "status": "success",
+  "version": "DRL9UjAHKU1V19lnCCBeS",
+  "isPreview": true
+}

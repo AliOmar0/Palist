@@ -41,18 +41,12 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-md bg-primary flex items-center justify-center text-white font-bold text-xl shadow-sm group-hover:bg-primary/90 transition-colors">
-            PITS
-          </div>
-          <div className="flex flex-col">
-            <span className="font-bold text-primary leading-tight text-sm md:text-base">
-              {language === 'ar' ? 'نقابة تكنولوجيا المعلومات الفلسطينية' : 'Palestinian IT Syndicate'}
-            </span>
-            <span className="text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wider">
-              {language === 'ar' ? 'نقابة مهنية وطنية' : 'National Professional Body'}
-            </span>
-          </div>
+        <Link href="/" className="flex items-center group">
+          <img
+            src="https://palist.ps/uploads/100Q1000W384H1693724962799404612.png"
+            alt="Palist - نقابة العلوم المعلوماتية التكنولوجية الفلسطينية"
+            className="h-12 md:h-14 w-auto object-contain shrink-0 group-hover:opacity-90 transition-opacity"
+          />
         </Link>
 
         {/* Desktop Nav */}

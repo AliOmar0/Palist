@@ -74,7 +74,7 @@ export default function Home() {
           >
             <div className="relative aspect-video lg:aspect-square rounded-2xl overflow-hidden shadow-2xl border border-border bg-muted">
               <img 
-                src="/hero-network.png" 
+                src={`${import.meta.env.BASE_URL}hero-network.png`} 
                 alt="Digital Network" 
                 className="w-full h-full object-cover mix-blend-multiply opacity-90"
               />
@@ -140,7 +140,7 @@ export default function Home() {
               <div key={item} className="group rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-lg transition-all duration-300">
                 <div className="aspect-[4/3] overflow-hidden relative">
                   <img 
-                    src={`/news-${item}.png`} 
+                    src={`${import.meta.env.BASE_URL}news-${item}.png`} 
                     alt="News thumbnail" 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />

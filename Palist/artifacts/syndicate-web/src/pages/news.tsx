@@ -85,7 +85,7 @@ export default function News() {
             <div key={item.id} className="group rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col">
               <div className="aspect-[4/3] overflow-hidden relative bg-muted">
                 <img 
-                  src={`/news-${(index % 3) + 1}.png`} 
+                  src={`${import.meta.env.BASE_URL}news-${(index % 3) + 1}.png`} 
                   alt="News thumbnail" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />

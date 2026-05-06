@@ -1,9 +1,10 @@
 import { Link, useLocation } from "wouter";
 import { useLanguage } from "@/lib/language-context";
 import { Button } from "@/components/ui/button";
-import { Globe, Menu, X } from "lucide-react";
+import { Globe, Menu, X, LogOut, LayoutDashboard } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { Show, useUser, useClerk } from "@clerk/react";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -74,10 +75,23 @@ export function Navbar() {
             <Globe className="w-4 h-4" />
             <span>{language === 'ar' ? 'English' : 'العربية'}</span>
           </button>
-          
-          <Button className="bg-accent text-primary hover:bg-accent/90 font-semibold px-6 shadow-sm border-0">
-            {t("nav.join")}
-          </Button>
+
+          <Show when="signed-out">
+            <Link href="/sign-in">
+              <button className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+                {language === 'ar' ? 'تسجيل الدخول' : 'Sign in'}
+              </button>
+            </Link>
+            <Link href="/sign-up">
+              <Button className="bg-accent text-primary hover:bg-accent/90 font-semibold px-6 shadow-sm border-0">
+                {t("nav.join")}
+              </Button>
+            </Link>
+          </Show>
+
+          <Show when="signed-in">
+            <UserMenu />
+          </Show>
         </div>
 
         {/* Mobile Toggle */}
@@ -121,13 +135,93 @@ export function Navbar() {
               <Globe className="w-5 h-5" />
               <span>{language === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}</span>
             </button>
-            
-            <Button className="bg-accent text-primary hover:bg-accent/90 font-bold w-full py-6 text-lg border-0">
-              {t("nav.join")}
-            </Button>
+
+            <Show when="signed-out">
+              <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="outline" className="w-full py-5 text-base">
+                  {language === 'ar' ? 'تسجيل الدخول' : 'Sign in'}
+                </Button>
+              </Link>
+              <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
+                <Button className="bg-accent text-primary hover:bg-accent/90 font-bold w-full py-6 text-lg border-0">
+                  {t("nav.join")}
+                </Button>
+              </Link>
+            </Show>
+
+            <Show when="signed-in">
+              <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                <Button className="bg-primary text-white w-full py-5 text-base">
+                  <LayoutDashboard className="w-4 h-4 me-2" />
+                  {language === 'ar' ? 'لوحة التحكم' : 'Dashboard'}
+                </Button>
+              </Link>
+              <SignOutButton onDone={() => setMobileMenuOpen(false)} fullWidth />
+            </Show>
           </div>
         </div>
       )}
     </header>
+  );
+}
+
+function UserMenu() {
+  const { user } = useUser();
+  const [open, setOpen] = useState(false);
+  const initials = `${user?.firstName?.[0] ?? ""}${user?.lastName?.[0] ?? ""}`.toUpperCase() || "U";
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="flex items-center gap-2 p-1 rounded-full hover:bg-muted transition-colors"
+      >
+        {user?.imageUrl ? (
+          <img src={user.imageUrl} alt="" className="w-9 h-9 rounded-full object-cover" />
+        ) : (
+          <div className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold">
+            {initials}
+          </div>
+        )}
+      </button>
+      {open && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
+          <div className="absolute end-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50 py-1">
+            <div className="px-4 py-2 border-b">
+              <p className="text-sm font-semibold truncate">{user?.firstName ?? user?.username}</p>
+              <p className="text-xs text-muted-foreground truncate">
+                {user?.primaryEmailAddress?.emailAddress}
+              </p>
+            </div>
+            <Link href="/dashboard">
+              <a className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted" onClick={() => setOpen(false)}>
+                <LayoutDashboard className="w-4 h-4" /> Dashboard
+              </a>
+            </Link>
+            <SignOutButton onDone={() => setOpen(false)} />
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+function SignOutButton({ onDone, fullWidth }: { onDone?: () => void; fullWidth?: boolean }) {
+  const { signOut } = useClerk();
+  const [, navigate] = useLocation();
+  return (
+    <button
+      onClick={async () => {
+        onDone?.();
+        await signOut();
+        navigate("/");
+      }}
+      className={cn(
+        "flex items-center gap-2 text-sm text-destructive hover:bg-muted",
+        fullWidth ? "w-full justify-center py-3 rounded-md border border-destructive/30" : "px-4 py-2 w-full text-start",
+      )}
+    >
+      <LogOut className="w-4 h-4" /> Sign out
+    </button>
   );
 }

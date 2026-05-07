@@ -59,7 +59,7 @@ export default function JobsList() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder={isAr ? "ابحث بالمسمى أو الشركة" : "Search by title or company"}
-            className="bg-white pl-10 rtl:pr-10 rtl:pl-4 h-12"
+            className="bg-card pl-10 rtl:pr-10 rtl:pl-4 h-12"
             aria-label={isAr ? "بحث الوظائف" : "Search jobs"}
           />
         </div>
@@ -76,14 +76,14 @@ export default function JobsList() {
               <li key={job.id}>
                 <Link
                   href={`/jobs/${job.id}`}
-                  className="block rounded-xl border bg-white p-5 hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  className="block rounded-xl border bg-card p-5 hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
                   <div className="flex items-start gap-4">
                     {job.companyLogo ? (
                       <img
                         src={job.companyLogo}
                         alt={job.company}
-                        className="w-12 h-12 rounded-md object-contain border bg-white shrink-0"
+                        className="w-12 h-12 rounded-md object-contain border bg-card shrink-0"
                       />
                     ) : (
                       <div className="w-12 h-12 rounded-md bg-primary/10 text-primary flex items-center justify-center shrink-0">

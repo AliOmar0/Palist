@@ -61,7 +61,7 @@ export default function AdminPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-muted/30">
       <Navbar />
       <main className="container mx-auto px-4 md:px-6 pt-32 pb-20">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -77,7 +77,7 @@ export default function AdminPage() {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6">
-          <aside className="bg-white rounded-xl border p-3 shadow-sm h-fit lg:sticky lg:top-28">
+          <aside className="bg-card rounded-xl border p-3 shadow-sm h-fit lg:sticky lg:top-28">
             <nav className="flex lg:flex-col gap-1 overflow-x-auto">
               {tabs.map((t) => {
                 const Icon = t.icon;
@@ -99,7 +99,7 @@ export default function AdminPage() {
             </nav>
           </aside>
 
-          <section className="bg-white rounded-xl border p-6 shadow-sm min-h-[400px]">
+          <section className="bg-card rounded-xl border p-6 shadow-sm min-h-[400px]">
             {tab === "overview" && <Overview isAr={isAr} />}
             {tab === "news" && <NewsManager isAr={isAr} />}
             {tab === "events" && <EventsManager isAr={isAr} />}
@@ -136,7 +136,7 @@ function Overview({ isAr }: { isAr: boolean }) {
       <h2 className="text-xl font-bold mb-6">{isAr ? "نظرة عامة" : "Overview"}</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {stats.map((s) => (
-          <div key={s.label} className="rounded-lg border p-5 bg-gray-50">
+          <div key={s.label} className="rounded-lg border p-5 bg-muted/40">
             <p className="text-3xl font-bold text-primary">{s.value}</p>
             <p className="text-sm text-muted-foreground mt-1">{s.label}</p>
           </div>
@@ -215,7 +215,7 @@ function GenericManager({
             }
             create.mutate(payload);
           }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 mb-6 border border-dashed rounded-lg bg-gray-50"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 mb-6 border border-dashed rounded-lg bg-muted/40"
         >
           {fields.map((f) => {
             if (f.type === "image") {
@@ -238,7 +238,7 @@ function GenericManager({
                     required={f.required}
                     value={String(form[f.key] ?? "")}
                     onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
-                    className="mt-1 w-full rounded-md border bg-white px-3 py-2 text-sm"
+                    className="mt-1 w-full rounded-md border bg-card px-3 py-2 text-sm"
                   />
                 ) : (
                   <input
@@ -246,7 +246,7 @@ function GenericManager({
                     required={f.required}
                     value={String(form[f.key] ?? "")}
                     onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
-                    className="mt-1 w-full rounded-md border bg-white px-3 py-2 text-sm"
+                    className="mt-1 w-full rounded-md border bg-card px-3 py-2 text-sm"
                   />
                 )}
               </label>
@@ -276,7 +276,7 @@ function GenericManager({
           </thead>
           <tbody>
             {list.data?.map((row) => (
-              <tr key={row.id} className="border-b last:border-0 hover:bg-gray-50">
+              <tr key={row.id} className="border-b last:border-0 hover:bg-muted">
                 {columns.map((c) => (
                   <td key={String(c.key)} className="py-2 pe-3">
                     {String(row[c.key] ?? "—")}
@@ -639,7 +639,7 @@ function ContactManager({ isAr }: { isAr: boolean }) {
         {list.data?.map((row) => (
           <div
             key={row.id}
-            className={`border rounded-lg p-4 ${row.read ? "bg-white" : "bg-yellow-50/50 border-yellow-200"}`}
+            className={`border rounded-lg p-4 ${row.read ? "bg-card" : "bg-yellow-50/50 border-yellow-200"}`}
           >
             <div className="flex justify-between items-start mb-2">
               <div>

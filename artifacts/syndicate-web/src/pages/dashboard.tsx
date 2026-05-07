@@ -48,7 +48,7 @@ export default function Dashboard() {
   const latest = applications[0];
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-muted/30">
       <Navbar />
       <main className="container mx-auto px-4 md:px-6 pt-32 pb-20">
         <motion.div
@@ -67,7 +67,7 @@ export default function Dashboard() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <div className="bg-white rounded-xl border p-6 shadow-sm">
+          <div className="bg-card rounded-xl border p-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               {user?.imageUrl ? (
                 <img src={user.imageUrl} alt="" className="w-10 h-10 rounded-full object-cover" />
@@ -91,7 +91,7 @@ export default function Dashboard() {
             </Link>
           </div>
 
-          <div className="bg-white rounded-xl border p-6 shadow-sm">
+          <div className="bg-card rounded-xl border p-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               {latest?.status === "approved" ? (
                 <CheckCircle2 className="w-5 h-5 text-green-600" />
@@ -149,7 +149,7 @@ export default function Dashboard() {
             )}
           </div>
 
-          <div className="bg-white rounded-xl border p-6 shadow-sm">
+          <div className="bg-card rounded-xl border p-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <FileText className="w-5 h-5 text-primary" />
               <h3 className="font-semibold text-foreground">
@@ -177,7 +177,7 @@ export default function Dashboard() {
         </div>
 
         {applications.length > 0 && (
-          <div className="bg-white rounded-xl border p-6 shadow-sm">
+          <div className="bg-card rounded-xl border p-6 shadow-sm">
             <h3 className="font-bold text-lg text-foreground mb-4">
               {isAr ? "طلبات العضوية السابقة" : "My Applications"}
             </h3>

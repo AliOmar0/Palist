@@ -68,9 +68,9 @@ export default function Events() {
               </div>
               
               {/* Event Card */}
-              <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-6 rounded-2xl border shadow-sm hover:shadow-md transition-shadow relative">
+              <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-card p-6 rounded-2xl border shadow-sm hover:shadow-md transition-shadow relative">
                 {/* Connector Arrow */}
-                <div className="absolute top-10 w-4 h-4 bg-white border-t border-r md:group-even:-left-2 md:group-even:-rotate-[135deg] md:group-odd:-right-2 md:group-odd:rotate-45 rtl:md:group-odd:-left-2 rtl:md:group-odd:-rotate-[135deg] rtl:md:group-even:-right-2 rtl:md:group-even:rotate-45 -left-2 -rotate-[135deg] rtl:-right-2 rtl:rotate-45 hidden md:block"></div>
+                <div className="absolute top-10 w-4 h-4 bg-card border-t border-r md:group-even:-left-2 md:group-even:-rotate-[135deg] md:group-odd:-right-2 md:group-odd:rotate-45 rtl:md:group-odd:-left-2 rtl:md:group-odd:-rotate-[135deg] rtl:md:group-even:-right-2 rtl:md:group-even:rotate-45 -left-2 -rotate-[135deg] rtl:-right-2 rtl:rotate-45 hidden md:block"></div>
 
                 <div className="flex justify-between items-start mb-4">
                   <div className="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-md">
@@ -86,7 +86,7 @@ export default function Events() {
                   {event.desc}
                 </p>
 
-                <div className="space-y-3 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                <div className="space-y-3 mb-6 bg-muted/40 p-4 rounded-xl border border-border">
                   <div className="flex items-center text-sm text-foreground">
                     <CalendarIcon className="w-4 h-4 text-muted-foreground ml-2 rtl:mr-2 rtl:ml-0 shrink-0" />
                     <span className="font-medium">{event.date}</span>

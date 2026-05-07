@@ -64,7 +64,7 @@ export default function Training() {
             { icon: Award, num: '45', label: language === 'ar' ? 'مدرب معتمد' : 'Certified Trainers' },
             { icon: Monitor, num: '10', label: language === 'ar' ? 'مختبرات مجهزة' : 'Equipped Labs' },
           ].map((stat, i) => (
-            <div key={i} className="bg-white border rounded-xl p-6 text-center shadow-sm">
+            <div key={i} className="bg-card border rounded-xl p-6 text-center shadow-sm">
               <stat.icon className="w-8 h-8 text-secondary mx-auto mb-3" />
               <div className="text-2xl font-bold text-primary mb-1" dir="ltr">{stat.num}</div>
               <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
@@ -78,16 +78,16 @@ export default function Training() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {programs.map((prog) => (
-            <div key={prog.id} className="bg-white border rounded-2xl overflow-hidden shadow-sm flex flex-col">
+            <div key={prog.id} className="bg-card border rounded-2xl overflow-hidden shadow-sm flex flex-col">
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex gap-2 mb-4">
                   <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-md">{prog.type}</span>
-                  <span className="bg-gray-100 text-gray-700 text-xs font-bold px-2.5 py-1 rounded-md">{prog.level}</span>
+                  <span className="bg-muted text-muted-foreground text-xs font-bold px-2.5 py-1 rounded-md">{prog.level}</span>
                 </div>
                 <h3 className="text-xl font-bold text-foreground mb-3">{prog.title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">{prog.desc}</p>
                 
-                <div className="bg-gray-50 rounded-xl p-4 mb-6">
+                <div className="bg-muted/40 rounded-xl p-4 mb-6">
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm text-muted-foreground">{language === 'ar' ? 'المدة' : 'Duration'}</span>
                     <span className="font-bold text-sm">{prog.duration}</span>

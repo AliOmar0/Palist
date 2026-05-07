@@ -62,7 +62,7 @@ export default function Reports() {
               
               <div className="grid grid-cols-1 gap-4">
                 {group.items.map((doc, idx) => (
-                  <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl border bg-white hover:bg-gray-50 transition-colors group">
+                  <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl border bg-card hover:bg-muted transition-colors group">
                     <div className="flex items-start gap-4">
                       <div className="w-10 h-10 rounded bg-red-100 flex items-center justify-center text-red-600 shrink-0 mt-1 sm:mt-0 font-bold text-xs">
                         PDF

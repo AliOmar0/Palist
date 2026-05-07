@@ -79,7 +79,7 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-8 border shadow-sm">
+          <div className="bg-card rounded-2xl p-8 border shadow-sm">
             <h2 className="text-2xl font-bold text-foreground mb-6">
               {isAr ? 'أرسل رسالة' : 'Send a Message'}
             </h2>
@@ -109,22 +109,22 @@ export default function Contact() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">{isAr ? 'الاسم الكامل' : 'Full Name'}</Label>
-                    <Input id="name" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder={isAr ? 'أدخل اسمك' : 'Enter your name'} className="h-12 bg-gray-50" />
+                    <Input id="name" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder={isAr ? 'أدخل اسمك' : 'Enter your name'} className="h-12 bg-muted/40" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">{isAr ? 'البريد الإلكتروني' : 'Email Address'}</Label>
-                    <Input id="email" type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="example@mail.com" className="h-12 bg-gray-50 text-left" dir="ltr" />
+                    <Input id="email" type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="example@mail.com" className="h-12 bg-muted/40 text-left" dir="ltr" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="phone">{isAr ? 'رقم الهاتف (اختياري)' : 'Phone (optional)'}</Label>
-                    <Input id="phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+970 ..." className="h-12 bg-gray-50 text-left" dir="ltr" maxLength={40} />
+                    <Input id="phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+970 ..." className="h-12 bg-muted/40 text-left" dir="ltr" maxLength={40} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="subject">{isAr ? 'الموضوع' : 'Subject'}</Label>
-                    <Input id="subject" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} placeholder={isAr ? 'موضوع الرسالة' : 'Message subject'} className="h-12 bg-gray-50" maxLength={200} />
+                    <Input id="subject" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} placeholder={isAr ? 'موضوع الرسالة' : 'Message subject'} className="h-12 bg-muted/40" maxLength={200} />
                   </div>
                 </div>
 
@@ -136,7 +136,7 @@ export default function Contact() {
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     placeholder={isAr ? 'اكتب رسالتك هنا...' : 'Write your message here...'}
-                    className="min-h-[150px] bg-gray-50 resize-y"
+                    className="min-h-[150px] bg-muted/40 resize-y"
                   />
                 </div>
 

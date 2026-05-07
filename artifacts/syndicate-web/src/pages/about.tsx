@@ -66,7 +66,7 @@ export default function About() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-gray-50 rounded-2xl p-8 border"
+            className="bg-muted/40 rounded-2xl p-8 border"
           >
             <h2 className="text-2xl font-bold text-foreground mb-6">
               {language === 'ar' ? 'أهدافنا الاستراتيجية' : 'Strategic Goals'}
@@ -101,8 +101,8 @@ export default function About() {
               { name: language === 'ar' ? 'م. طارق عمر' : 'Eng. Tariq Omar', role: language === 'ar' ? 'أمين السر' : 'Secretary General' },
               { name: language === 'ar' ? 'أ. لينا حسن' : 'Ms. Lina Hassan', role: language === 'ar' ? 'أمين الصندوق' : 'Treasurer' },
             ].map((member, i) => (
-              <div key={i} className="bg-white border rounded-xl p-6 text-center hover:shadow-md transition-shadow">
-                <div className="w-24 h-24 rounded-full bg-gray-100 mx-auto mb-4 border-2 border-primary/10 flex items-center justify-center text-primary/30">
+              <div key={i} className="bg-card border rounded-xl p-6 text-center hover:shadow-md transition-shadow">
+                <div className="w-24 h-24 rounded-full bg-muted mx-auto mb-4 border-2 border-primary/10 flex items-center justify-center text-primary/30">
                   <Award className="w-10 h-10" />
                 </div>
                 <h3 className="font-bold text-lg text-foreground">{member.name}</h3>

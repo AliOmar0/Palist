@@ -39,8 +39,8 @@ export function Navbar() {
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300 border-b",
         isScrolled
-          ? "bg-white/95 backdrop-blur-md border-border shadow-sm py-3"
-          : "bg-white border-transparent py-5"
+          ? "bg-background/95 backdrop-blur-md border-border shadow-sm py-3"
+          : "bg-background border-transparent py-5"
       )}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
@@ -117,7 +117,7 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-white border-b border-border shadow-lg py-4 px-4 flex flex-col gap-4">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-background border-b border-border shadow-lg py-4 px-4 flex flex-col gap-4">
           <nav className="flex flex-col gap-2">
             {navLinks.map((link) => (
               <Link
@@ -210,7 +210,7 @@ function UserMenu() {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute end-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50 py-1">
+          <div className="absolute end-0 mt-2 w-56 bg-popover text-popover-foreground border rounded-lg shadow-lg z-50 py-1">
             <div className="px-4 py-2 border-b">
               <p className="text-sm font-semibold truncate">{user?.firstName ?? user?.username}</p>
               <p className="text-xs text-muted-foreground truncate">

@@ -25,7 +25,7 @@ export default function Membership() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           {/* Student Membership */}
-          <div className="bg-white border rounded-2xl p-8 relative hover:shadow-lg transition-shadow">
+          <div className="bg-card border rounded-2xl p-8 relative hover:shadow-lg transition-shadow">
             <h3 className="text-xl font-bold text-foreground mb-2">
               {language === 'ar' ? 'عضوية طالب' : 'Student Membership'}
             </h3>
@@ -86,7 +86,7 @@ export default function Membership() {
           </div>
 
           {/* Associate Membership */}
-          <div className="bg-white border rounded-2xl p-8 relative hover:shadow-lg transition-shadow">
+          <div className="bg-card border rounded-2xl p-8 relative hover:shadow-lg transition-shadow">
             <h3 className="text-xl font-bold text-foreground mb-2">
               {language === 'ar' ? 'عضوية مؤازرة' : 'Associate Membership'}
             </h3>
@@ -129,7 +129,7 @@ export default function Membership() {
                 : 'Please prepare: Copy of ID, certified copy of university degree, recent personal photo, and updated CV before starting the online application.'}
             </p>
           </div>
-          <Button variant="outline" className="bg-white border-blue-200 text-blue-700 hover:bg-blue-50 shrink-0">
+          <Button variant="outline" className="bg-card border-blue-200 text-blue-700 hover:bg-blue-50 shrink-0">
             {language === 'ar' ? 'دليل التسجيل التفصيلي' : 'Detailed Registration Guide'}
           </Button>
         </div>

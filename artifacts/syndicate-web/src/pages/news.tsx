@@ -67,14 +67,14 @@ export default function News() {
       </div>
 
       <div className="container mx-auto px-4 md:px-6 py-12">
-        <div className="flex flex-col sm:flex-row gap-4 mb-12 bg-gray-50 p-4 rounded-xl border">
+        <div className="flex flex-col sm:flex-row gap-4 mb-12 bg-muted/40 p-4 rounded-xl border">
           <div className="relative flex-1">
             <Search className="absolute right-3 rtl:right-3 ltr:left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
             <Input
               value={query}
               onChange={(e) => { setQuery(e.target.value); setVisible(PAGE_SIZE); }}
               placeholder={isAr ? 'ابحث في الأخبار...' : 'Search news...'}
-              className="bg-white pl-10 pr-4 rtl:pr-10 rtl:pl-4 h-12"
+              className="bg-card pl-10 pr-4 rtl:pr-10 rtl:pl-4 h-12"
             />
           </div>
           <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
@@ -83,7 +83,7 @@ export default function News() {
                 key={cat}
                 onClick={() => { setActiveCat(cat); setVisible(PAGE_SIZE); }}
                 variant={activeCat === cat ? "default" : "outline"}
-                className={activeCat === cat ? "bg-primary" : "bg-white whitespace-nowrap"}
+                className={activeCat === cat ? "bg-primary" : "bg-card whitespace-nowrap"}
               >
                 {cat === "all" ? (isAr ? "الكل" : "All") : cat}
               </Button>
@@ -109,7 +109,7 @@ export default function News() {
               });
               const fallback = `${import.meta.env.BASE_URL}news-${(index % 3) + 1}.png`;
               return (
-                <Link key={item.id} href={`/news/${item.id}`} className="group rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col">
+                <Link key={item.id} href={`/news/${item.id}`} className="group rounded-xl overflow-hidden border bg-card shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col">
                   <div className="aspect-[4/3] overflow-hidden relative bg-muted">
                     <img
                       src={item.coverImage || fallback}
@@ -117,7 +117,7 @@ export default function News() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallback; }}
                     />
-                    <div className="absolute top-4 right-4 rtl:left-4 rtl:right-auto bg-white/90 backdrop-blur text-primary text-xs font-bold px-3 py-1.5 rounded-md shadow-sm flex items-center gap-1.5">
+                    <div className="absolute top-4 right-4 rtl:left-4 rtl:right-auto bg-card/90 backdrop-blur text-primary text-xs font-bold px-3 py-1.5 rounded-md shadow-sm flex items-center gap-1.5">
                       <Calendar className="w-3.5 h-3.5" />
                       {date}
                     </div>

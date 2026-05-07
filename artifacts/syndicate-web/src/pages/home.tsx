@@ -41,7 +41,7 @@ function HomeNewsGrid({ isAr, ArrowIcon }: { isAr: boolean; ArrowIcon: LucideIco
         });
         const fallback = `${import.meta.env.BASE_URL}news-${(idx % 3) + 1}.png`;
         return (
-          <Link key={item.id} href={`/news/${item.id}`} className="group rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-lg transition-all duration-300 block">
+          <Link key={item.id} href={`/news/${item.id}`} className="group rounded-xl overflow-hidden border bg-card shadow-sm hover:shadow-lg transition-all duration-300 block">
             <div className="aspect-[4/3] overflow-hidden relative bg-muted">
               <img
                 src={item.coverImage || fallback}
@@ -49,7 +49,7 @@ function HomeNewsGrid({ isAr, ArrowIcon }: { isAr: boolean; ArrowIcon: LucideIco
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallback; }}
               />
-              <div className="absolute top-4 right-4 rtl:left-4 rtl:right-auto bg-white/90 backdrop-blur text-primary text-xs font-bold px-3 py-1.5 rounded-md shadow-sm">
+              <div className="absolute top-4 right-4 rtl:left-4 rtl:right-auto bg-card/90 backdrop-blur text-primary text-xs font-bold px-3 py-1.5 rounded-md shadow-sm">
                 {date}
               </div>
             </div>
@@ -107,7 +107,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center rounded-full border border-white/20 bg-white/10 backdrop-blur px-3 py-1 text-sm font-medium text-white"
+                className="inline-flex items-center rounded-full border border-white/20 bg-card/10 backdrop-blur px-3 py-1 text-sm font-medium text-white"
               >
                 <span className="flex h-2 w-2 rounded-full bg-accent me-2"></span>
                 {isAr ? 'البوابة الرسمية لنقابة العلوم المعلوماتية التكنولوجية الفلسطينية' : 'Official Portal of the Palestinian IT Syndicate'}
@@ -148,7 +148,7 @@ export default function Home() {
                   </Button>
                 </Link>
                 <Link href="/about">
-                  <Button size="lg" variant="outline" className="bg-transparent border-white/40 text-white hover:bg-white/10 font-semibold text-lg h-14 px-8 w-full sm:w-auto">
+                  <Button size="lg" variant="outline" className="bg-transparent border-white/40 text-white hover:bg-card/10 font-semibold text-lg h-14 px-8 w-full sm:w-auto">
                     {isAr ? 'تعرّف على النقابة' : 'About the syndicate'}
                   </Button>
                 </Link>
@@ -172,13 +172,13 @@ export default function Home() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="lg:col-span-5"
             >
-              <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-6 shadow-2xl">
+              <div className="rounded-2xl bg-card/10 backdrop-blur-md border border-white/20 p-6 shadow-2xl">
                 <p className="text-xs font-bold uppercase tracking-widest text-accent mb-4">
                   {isAr ? 'النقابة بالأرقام' : 'By the numbers'}
                 </p>
                 <div className="grid grid-cols-2 gap-4">
                   {heroStats.map((s) => (
-                    <div key={s.label} className="rounded-xl bg-white/5 border border-white/10 p-4">
+                    <div key={s.label} className="rounded-xl bg-card/5 border border-white/10 p-4">
                       <p className="text-3xl md:text-4xl font-bold text-white">{s.value}</p>
                       <p className="text-sm text-white/75 mt-1">{s.label}</p>
                     </div>
@@ -194,7 +194,7 @@ export default function Home() {
       </section>
 
       {/* Core Services */}
-      <section className="py-20 bg-gray-50/50">
+      <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -212,7 +212,7 @@ export default function Home() {
               >
                 <Link
                   href={service.href}
-                  className="block h-full bg-white rounded-xl p-8 border shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
+                  className="block h-full bg-card rounded-xl p-8 border shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
                 >
                   <div className={`w-14 h-14 rounded-lg flex items-center justify-center mb-6 transition-transform group-hover:scale-110 ${service.bg} ${service.color}`}>
                     <service.icon className="w-7 h-7" />
@@ -234,7 +234,7 @@ export default function Home() {
       </section>
 
       {/* News & Announcements */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-card">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex justify-between items-end mb-12 border-b pb-6">
             <div>
@@ -255,7 +255,7 @@ export default function Home() {
       </section>
 
       {/* Two column: Events & Reports */}
-      <section className="py-20 bg-gray-50 border-y">
+      <section className="py-20 bg-muted/40 border-y">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             
@@ -272,7 +272,7 @@ export default function Home() {
                       <span className="text-xs font-bold">{10 + event}</span>
                     </div>
                     {/* Card */}
-                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border bg-white shadow-sm hover:shadow-md transition-shadow">
+                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border bg-card shadow-sm hover:shadow-md transition-shadow">
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-bold text-primary">
                           {language === 'ar' ? 'أبريل 2025' : 'April 2025'}
@@ -308,7 +308,7 @@ export default function Home() {
               </h2>
               <div className="space-y-4">
                 {[1, 2, 3, 4].map((report) => (
-                  <div key={report} className="flex items-start gap-4 p-5 rounded-xl border bg-white hover:bg-gray-50 transition-colors group cursor-pointer">
+                  <div key={report} className="flex items-start gap-4 p-5 rounded-xl border bg-card hover:bg-muted transition-colors group cursor-pointer">
                     <div className="w-12 h-12 rounded-lg bg-primary/5 flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
                       <FileText className="w-6 h-6" />
                     </div>
@@ -355,7 +355,7 @@ export default function Home() {
               { icon: FileSignature, label: t('quick.forms'), href: "/membership/apply" },
               { icon: Users, label: t('quick.directory'), href: "/membership" },
             ].map((item, i) => (
-              <Link key={i} href={item.href} className="flex flex-col items-center text-center p-6 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+              <Link key={i} href={item.href} className="flex flex-col items-center text-center p-6 rounded-xl bg-card/5 border border-white/10 hover:bg-card/10 transition-colors">
                 <item.icon className="w-8 h-8 mb-4 text-accent" />
                 <span className="font-medium text-sm md:text-base">{item.label}</span>
               </Link>

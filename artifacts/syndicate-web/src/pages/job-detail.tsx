@@ -89,7 +89,7 @@ export default function JobDetail() {
                 <img
                   src={job.companyLogo}
                   alt={job.company}
-                  className="w-16 h-16 rounded-md object-contain border bg-white shrink-0"
+                  className="w-16 h-16 rounded-md object-contain border bg-card shrink-0"
                 />
               ) : (
                 <div className="w-16 h-16 rounded-md bg-primary/10 text-primary flex items-center justify-center shrink-0">
@@ -198,7 +198,7 @@ export default function JobDetail() {
                         required
                         value={form.fullName || `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim()}
                         onChange={(e) => setForm({ ...form, fullName: e.target.value })}
-                        className="mt-1 w-full rounded-md border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+                        className="mt-1 w-full rounded-md border bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
                       />
                     </label>
                     <label className="block">
@@ -208,7 +208,7 @@ export default function JobDetail() {
                         type="email"
                         value={form.email || (user?.primaryEmailAddress?.emailAddress ?? "")}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        className="mt-1 w-full rounded-md border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+                        className="mt-1 w-full rounded-md border bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
                       />
                     </label>
                     <label className="block">
@@ -216,7 +216,7 @@ export default function JobDetail() {
                       <input
                         value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                        className="mt-1 w-full rounded-md border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+                        className="mt-1 w-full rounded-md border bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
                       />
                     </label>
                     <label className="block">
@@ -224,7 +224,7 @@ export default function JobDetail() {
                       <input
                         value={form.resumeUrl}
                         onChange={(e) => setForm({ ...form, resumeUrl: e.target.value })}
-                        className="mt-1 w-full rounded-md border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+                        className="mt-1 w-full rounded-md border bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
                       />
                     </label>
                   </div>
@@ -234,7 +234,7 @@ export default function JobDetail() {
                       rows={5}
                       value={form.coverLetter}
                       onChange={(e) => setForm({ ...form, coverLetter: e.target.value })}
-                      className="mt-1 w-full rounded-md border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+                      className="mt-1 w-full rounded-md border bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
                     />
                   </label>
                   {apply.isError && (

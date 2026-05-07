@@ -117,10 +117,10 @@ export default function MembershipApply() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gray-50/50 dark:bg-background">
+      <div className="min-h-screen bg-muted/30 dark:bg-background">
         <Navbar />
         <main className="container mx-auto px-4 md:px-6 pt-32 pb-20 max-w-2xl">
-          <div className="bg-white dark:bg-card rounded-xl border p-10 shadow-sm text-center">
+          <div className="bg-card dark:bg-card rounded-xl border p-10 shadow-sm text-center">
             <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-4" />
             <h1 className="text-2xl font-bold mb-3">
               {isAr ? "تم استلام طلبك بنجاح" : "Your application was received"}
@@ -180,7 +180,7 @@ export default function MembershipApply() {
         required={f.required}
         value={String(form[f.k] ?? "")}
         onChange={update(f.k)}
-        className="mt-1 w-full rounded-md border border-border bg-white dark:bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+        className="mt-1 w-full rounded-md border border-border bg-card dark:bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
       />
     </label>
   );
@@ -200,7 +200,7 @@ export default function MembershipApply() {
   const canSubmit = form.declarationAccepted && !mutation.isPending;
 
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-background">
+    <div className="min-h-screen bg-muted/30 dark:bg-background">
       <Navbar />
       <main className="container mx-auto px-4 md:px-6 pt-32 pb-20 max-w-4xl">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
@@ -255,7 +255,7 @@ export default function MembershipApply() {
             }
             mutation.mutate(form);
           }}
-          className="bg-white dark:bg-card rounded-xl border p-6 md:p-8 shadow-sm space-y-8"
+          className="bg-card dark:bg-card rounded-xl border p-6 md:p-8 shadow-sm space-y-8"
         >
           {step === 0 && (
             <>
@@ -270,7 +270,7 @@ export default function MembershipApply() {
                     <select
                       value={form.gender}
                       onChange={update("gender")}
-                      className="mt-1 w-full rounded-md border border-border bg-white dark:bg-card px-3 py-2 text-sm"
+                      className="mt-1 w-full rounded-md border border-border bg-card dark:bg-card px-3 py-2 text-sm"
                     >
                       <option value="">{isAr ? "اختر..." : "Select..."}</option>
                       <option value="male">{isAr ? "ذكر" : "Male"}</option>
@@ -284,7 +284,7 @@ export default function MembershipApply() {
                     <select
                       value={form.socialStatus}
                       onChange={update("socialStatus")}
-                      className="mt-1 w-full rounded-md border border-border bg-white dark:bg-card px-3 py-2 text-sm"
+                      className="mt-1 w-full rounded-md border border-border bg-card dark:bg-card px-3 py-2 text-sm"
                     >
                       <option value="">{isAr ? "اختر..." : "Select..."}</option>
                       <option value="single">{isAr ? "أعزب" : "Single"}</option>
@@ -307,7 +307,7 @@ export default function MembershipApply() {
                     <select
                       value={form.provinceResidence}
                       onChange={update("provinceResidence")}
-                      className="mt-1 w-full rounded-md border border-border bg-white dark:bg-card px-3 py-2 text-sm"
+                      className="mt-1 w-full rounded-md border border-border bg-card dark:bg-card px-3 py-2 text-sm"
                     >
                       <option value="">{isAr ? "اختر..." : "Select..."}</option>
                       {PROVINCES.map((p) => (
@@ -326,7 +326,7 @@ export default function MembershipApply() {
                         type="text"
                         value={form.governorateAbroad}
                         onChange={update("governorateAbroad")}
-                        className="mt-1 w-full rounded-md border border-border bg-white dark:bg-card px-3 py-2 text-sm"
+                        className="mt-1 w-full rounded-md border border-border bg-card dark:bg-card px-3 py-2 text-sm"
                       />
                     </label>
                   )}
@@ -367,7 +367,7 @@ export default function MembershipApply() {
                     <select
                       value={form.membershipTier}
                       onChange={update("membershipTier")}
-                      className="mt-1 w-full rounded-md border border-border bg-white dark:bg-card px-3 py-2 text-sm"
+                      className="mt-1 w-full rounded-md border border-border bg-card dark:bg-card px-3 py-2 text-sm"
                     >
                       <option value="regular">{isAr ? "عضو عامل" : "Regular member"}</option>
                       <option value="associate">{isAr ? "عضو منتسب" : "Associate member"}</option>
@@ -383,7 +383,7 @@ export default function MembershipApply() {
                       rows={4}
                       value={form.notes}
                       onChange={update("notes")}
-                      className="mt-1 w-full rounded-md border border-border bg-white dark:bg-card px-3 py-2 text-sm"
+                      className="mt-1 w-full rounded-md border border-border bg-card dark:bg-card px-3 py-2 text-sm"
                     />
                   </label>
                 </div>

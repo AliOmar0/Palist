@@ -38,7 +38,7 @@ export default function ProfilePage() {
 
   if (!isLoaded || !user) {
     return (
-      <div className="min-h-screen bg-gray-50/50">
+      <div className="min-h-screen bg-muted/30">
         <Navbar />
         <main className="container mx-auto px-4 md:px-6 pt-32 pb-20 text-center">
           <Loader2 className="w-8 h-8 animate-spin mx-auto text-primary" />
@@ -122,7 +122,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-muted/30">
       <Navbar />
       <main className="container mx-auto px-4 md:px-6 pt-32 pb-20 max-w-4xl">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -138,7 +138,7 @@ export default function ProfilePage() {
         </motion.div>
 
         {/* Avatar */}
-        <section className="bg-white rounded-xl border p-6 shadow-sm mb-6">
+        <section className="bg-card rounded-xl border p-6 shadow-sm mb-6">
           <h2 className="text-lg font-bold mb-4">
             {isAr ? "الصورة الشخصية" : "Profile picture"}
           </h2>
@@ -196,7 +196,7 @@ export default function ProfilePage() {
         </section>
 
         {/* Name */}
-        <section className="bg-white rounded-xl border p-6 shadow-sm mb-6">
+        <section className="bg-card rounded-xl border p-6 shadow-sm mb-6">
           <h2 className="text-lg font-bold mb-4">
             {isAr ? "الاسم" : "Name"}
           </h2>
@@ -231,7 +231,7 @@ export default function ProfilePage() {
         </section>
 
         {/* Password */}
-        <section className="bg-white rounded-xl border p-6 shadow-sm mb-6">
+        <section className="bg-card rounded-xl border p-6 shadow-sm mb-6">
           <h2 className="text-lg font-bold mb-1">
             {isAr ? "كلمة المرور" : "Password"}
           </h2>

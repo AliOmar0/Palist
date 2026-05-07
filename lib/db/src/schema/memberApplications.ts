@@ -1,4 +1,4 @@
-import { boolean, integer, pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, serial, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
@@ -39,6 +39,9 @@ export const memberApplicationsTable = pgTable("member_applications", {
   declarationAccepted: boolean("declaration_accepted").notNull().default(false),
 
   status: varchar("status", { length: 20 }).notNull().default("pending"),
+  cardId: uuid("card_id").notNull().defaultRandom(),
+  membershipNumber: varchar("membership_number", { length: 32 }),
+  expiresAt: timestamp("expires_at", { withTimezone: true }),
   reviewedBy: varchar("reviewed_by", { length: 64 }),
   reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -51,6 +54,9 @@ export const memberApplicationsTable = pgTable("member_applications", {
 export const insertMemberApplicationSchema = createInsertSchema(memberApplicationsTable).omit({
   id: true,
   status: true,
+  cardId: true,
+  membershipNumber: true,
+  expiresAt: true,
   reviewedBy: true,
   reviewedAt: true,
   createdAt: true,

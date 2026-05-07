@@ -7,13 +7,18 @@ import { useLanguage } from "@/lib/language-context";
 import { apiFetch } from "@/lib/queryClient";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { CheckCircle2, Clock, FileText, UserCircle, Pencil } from "lucide-react";
+import { CheckCircle2, Clock, FileText, UserCircle, Pencil, Download } from "lucide-react";
+import { generateMembershipCardPdf } from "@/lib/membership-card";
 
 interface MemberApplication {
   id: number;
   fullName: string;
+  fullNameEn: string | null;
   status: string;
   membershipTier: string | null;
+  membershipNumber: string | null;
+  cardId: string;
+  expiresAt: string | null;
   createdAt: string;
 }
 
@@ -121,6 +126,27 @@ export default function Dashboard() {
                   : isAr ? "تقديم طلب عضوية" : "Apply for membership"}
               </Button>
             </Link>
+            {latest?.status === "approved" && latest.cardId && (
+              <Button
+                onClick={() =>
+                  generateMembershipCardPdf({
+                    fullName: latest.fullName,
+                    fullNameEn: latest.fullNameEn,
+                    membershipNumber: latest.membershipNumber,
+                    membershipTier: latest.membershipTier,
+                    cardId: latest.cardId,
+                    expiresAt: latest.expiresAt,
+                    verifyUrl: `${window.location.origin}/verify/${latest.cardId}`,
+                  })
+                }
+                variant="outline"
+                size="sm"
+                className="mt-2 w-full"
+              >
+                <Download className="w-4 h-4 me-2" />
+                {isAr ? "تنزيل بطاقة العضوية" : "Download membership card"}
+              </Button>
+            )}
           </div>
 
           <div className="bg-white rounded-xl border p-6 shadow-sm">

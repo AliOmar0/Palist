@@ -7,6 +7,7 @@ import { shadcn } from "@clerk/themes";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/lib/language-context";
+import { ThemeProvider } from "@/lib/theme-context";
 import { queryClient } from "@/lib/queryClient";
 import NotFound from "@/pages/not-found";
 
@@ -14,7 +15,9 @@ import Home from "@/pages/home";
 import About from "@/pages/about";
 import Membership from "@/pages/membership";
 import News from "@/pages/news";
+import NewsDetail from "@/pages/news-detail";
 import Events from "@/pages/events";
+import EventDetail from "@/pages/event-detail";
 import Training from "@/pages/training";
 import Reports from "@/pages/reports";
 import Contact from "@/pages/contact";
@@ -26,6 +29,9 @@ import AdminPage from "@/pages/admin";
 import ProfilePage from "@/pages/profile";
 import Privacy from "@/pages/privacy";
 import Terms from "@/pages/terms";
+import JobsList from "@/pages/jobs";
+import JobDetail from "@/pages/job-detail";
+import Verify from "@/pages/verify";
 
 const clerkPubKey = publishableKeyFromHost(
   window.location.hostname,
@@ -131,10 +137,15 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/membership" component={Membership} />
       <Route path="/news" component={News} />
+      <Route path="/news/:id" component={NewsDetail} />
       <Route path="/events" component={Events} />
+      <Route path="/events/:id" component={EventDetail} />
       <Route path="/training" component={Training} />
       <Route path="/reports" component={Reports} />
       <Route path="/contact" component={Contact} />
+      <Route path="/jobs" component={JobsList} />
+      <Route path="/jobs/:id" component={JobDetail} />
+      <Route path="/verify/:cardId" component={Verify} />
       <Route path="/sign-in/*?" component={SignInPage} />
       <Route path="/sign-up/*?" component={SignUpPage} />
       <Route path="/dashboard">
@@ -172,8 +183,10 @@ function ClerkProviderWithRoutes() {
         <ClerkQueryClientCacheInvalidator />
         <TooltipProvider>
           <LanguageProvider>
-            <Router />
-            <Toaster />
+            <ThemeProvider>
+              <Router />
+              <Toaster />
+            </ThemeProvider>
           </LanguageProvider>
         </TooltipProvider>
       </QueryClientProvider>

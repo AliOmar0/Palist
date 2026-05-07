@@ -1,9 +1,21 @@
+import { useState } from "react";
 import { Link } from "wouter";
+import { useMutation } from "@tanstack/react-query";
 import { useLanguage } from "@/lib/language-context";
-import { Facebook, Twitter, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { apiFetch } from "@/lib/queryClient";
+import { Facebook, Twitter, Linkedin, Mail, MapPin, Phone, CheckCircle2 } from "lucide-react";
 
 export function Footer() {
   const { t, language } = useLanguage();
+  const [email, setEmail] = useState("");
+  const subscribe = useMutation({
+    mutationFn: () =>
+      apiFetch("/api/newsletter/subscribe", {
+        method: "POST",
+        body: JSON.stringify({ email, lang: language }),
+      }),
+    onSuccess: () => setEmail(""),
+  });
 
   return (
     <footer className="bg-primary text-primary-foreground pt-16 pb-8 border-t-[8px] border-accent">
@@ -102,18 +114,44 @@ export function Footer() {
             <p className="text-primary-foreground/80 text-sm mb-4">
               {language === 'ar' ? 'اشترك ليصلك أحدث الأخبار والفعاليات المهنية' : 'Subscribe to receive latest professional news and events'}
             </p>
-            <form className="space-y-2" onSubmit={(e) => e.preventDefault()}>
-              <input 
-                type="email" 
-                placeholder={language === 'ar' ? 'البريد الإلكتروني' : 'Email Address'} 
+            <form
+              className="space-y-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (email) subscribe.mutate();
+              }}
+            >
+              <label className="sr-only" htmlFor="newsletter-email">
+                {language === 'ar' ? 'البريد الإلكتروني' : 'Email Address'}
+              </label>
+              <input
+                id="newsletter-email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={language === 'ar' ? 'البريد الإلكتروني' : 'Email Address'}
                 className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-2.5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
               />
-              <button 
+              <button
                 type="submit"
-                className="w-full bg-white text-primary font-bold rounded-md px-4 py-2.5 hover:bg-accent transition-colors"
+                disabled={subscribe.isPending || subscribe.isSuccess}
+                className="w-full bg-white text-primary font-bold rounded-md px-4 py-2.5 hover:bg-accent transition-colors disabled:opacity-70"
               >
-                {language === 'ar' ? 'اشتراك' : 'Subscribe'}
+                {subscribe.isSuccess ? (
+                  <span className="inline-flex items-center gap-2 justify-center">
+                    <CheckCircle2 className="w-4 h-4" />
+                    {language === 'ar' ? 'تم الاشتراك' : 'Subscribed'}
+                  </span>
+                ) : subscribe.isPending ? (
+                  language === 'ar' ? 'جاري...' : 'Submitting…'
+                ) : language === 'ar' ? 'اشتراك' : 'Subscribe'}
               </button>
+              {subscribe.isError && (
+                <p className="text-xs text-red-300" role="alert">
+                  {language === 'ar' ? 'تعذّر الاشتراك.' : 'Could not subscribe.'}
+                </p>
+              )}
             </form>
           </div>
         </div>

@@ -17,9 +17,22 @@ import {
   Users,
   Plus,
   Trash2,
+  Briefcase,
+  Send,
+  Activity,
 } from "lucide-react";
 
-type Tab = "overview" | "news" | "events" | "trainings" | "publications" | "applications" | "contact";
+type Tab =
+  | "overview"
+  | "news"
+  | "events"
+  | "trainings"
+  | "publications"
+  | "jobs"
+  | "applications"
+  | "contact"
+  | "newsletter"
+  | "audit";
 
 interface NewsRow { id: number; titleAr: string; titleEn: string | null; publishedAt: string; }
 interface EventRow { id: number; titleAr: string; startsAt: string; location: string | null; }
@@ -40,8 +53,11 @@ export default function AdminPage() {
     { k: "events", ar: "الفعاليات", en: "Events", icon: Calendar },
     { k: "trainings", ar: "التدريب", en: "Trainings", icon: GraduationCap },
     { k: "publications", ar: "التقارير", en: "Publications", icon: BookOpen },
+    { k: "jobs", ar: "الوظائف", en: "Jobs", icon: Briefcase },
     { k: "applications", ar: "طلبات العضوية", en: "Applications", icon: Users },
     { k: "contact", ar: "رسائل التواصل", en: "Contact", icon: Mail },
+    { k: "newsletter", ar: "النشرة البريدية", en: "Newsletter", icon: Send },
+    { k: "audit", ar: "سجل التدقيق", en: "Audit log", icon: Activity },
   ];
 
   return (
@@ -89,8 +105,11 @@ export default function AdminPage() {
             {tab === "events" && <EventsManager isAr={isAr} />}
             {tab === "trainings" && <TrainingsManager isAr={isAr} />}
             {tab === "publications" && <PublicationsManager isAr={isAr} />}
+            {tab === "jobs" && <JobsManager isAr={isAr} />}
             {tab === "applications" && <ApplicationsManager isAr={isAr} />}
             {tab === "contact" && <ContactManager isAr={isAr} />}
+            {tab === "newsletter" && <NewsletterManager isAr={isAr} />}
+            {tab === "audit" && <AuditLogView isAr={isAr} />}
           </section>
         </div>
       </main>
@@ -401,6 +420,141 @@ function PublicationsManager({ isAr }: { isAr: boolean }) {
       ]}
       defaults={{ titleAr: "", titleEn: "", category: "", fileUrl: "", coverImage: "", summaryAr: "", summaryEn: "" }}
     />
+  );
+}
+
+function JobsManager({ isAr }: { isAr: boolean }) {
+  return (
+    <GenericManager
+      isAr={isAr}
+      title={isAr ? "إدارة الوظائف" : "Manage Jobs"}
+      listKey={["jobs"]}
+      listUrl="/api/jobs"
+      adminUrl="/api/admin/jobs"
+      columns={[
+        { key: "id", label: "ID" },
+        { key: "titleAr", label: isAr ? "العنوان" : "Title" },
+        { key: "company", label: isAr ? "الشركة" : "Company" },
+        { key: "location", label: isAr ? "الموقع" : "Location" },
+      ]}
+      fields={[
+        { key: "titleAr", label: isAr ? "المسمى (عربي)" : "Title (AR)", required: true },
+        { key: "titleEn", label: isAr ? "المسمى (إنجليزي)" : "Title (EN)" },
+        { key: "company", label: isAr ? "الشركة" : "Company", required: true },
+        { key: "companyLogo", label: isAr ? "شعار الشركة" : "Company logo", type: "image" },
+        { key: "location", label: isAr ? "الموقع" : "Location" },
+        { key: "employmentType", label: isAr ? "نوع التعاقد" : "Employment type" },
+        { key: "category", label: isAr ? "التصنيف" : "Category" },
+        { key: "applyUrl", label: isAr ? "رابط التقديم الخارجي" : "External apply URL" },
+        { key: "contactEmail", label: isAr ? "بريد التواصل" : "Contact email" },
+        { key: "expiresAt", label: isAr ? "تاريخ الانتهاء" : "Expires at", type: "datetime-local" },
+        { key: "descriptionAr", label: isAr ? "الوصف (عربي)" : "Description (AR)", type: "textarea" },
+        { key: "descriptionEn", label: isAr ? "الوصف (إنجليزي)" : "Description (EN)", type: "textarea" },
+      ]}
+      defaults={{
+        titleAr: "", titleEn: "", company: "", companyLogo: "",
+        location: "", employmentType: "full_time", category: "",
+        applyUrl: "", contactEmail: "", expiresAt: "",
+        descriptionAr: "", descriptionEn: "",
+      }}
+    />
+  );
+}
+
+interface NewsletterRow { id: number; email: string; lang: string; createdAt: string; }
+function NewsletterManager({ isAr }: { isAr: boolean }) {
+  const list = useQuery<NewsletterRow[]>({
+    queryKey: ["admin", "newsletter"],
+    queryFn: () => apiFetch("/api/admin/newsletter"),
+  });
+  const csv = (list.data ?? []).map((r) => `${r.email},${r.lang}`).join("\n");
+  const compose = () => {
+    const emails = (list.data ?? []).map((r) => r.email).join(",");
+    window.location.href = `mailto:?bcc=${encodeURIComponent(emails)}&subject=${encodeURIComponent(isAr ? "نشرة نقابة تكنولوجيا المعلومات" : "Palist Newsletter")}`;
+  };
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+        <h2 className="text-xl font-bold">{isAr ? "مشتركو النشرة البريدية" : "Newsletter subscribers"}</h2>
+        <div className="flex gap-2">
+          <Button size="sm" variant="outline" onClick={() => navigator.clipboard.writeText(csv)}>
+            {isAr ? "نسخ كـ CSV" : "Copy CSV"}
+          </Button>
+          <Button size="sm" className="bg-primary text-white" onClick={compose} disabled={!list.data?.length}>
+            <Send className="w-4 h-4 me-2" />
+            {isAr ? "إنشاء نشرة" : "Compose digest"}
+          </Button>
+        </div>
+      </div>
+      <p className="text-sm text-muted-foreground mb-4">
+        {isAr ? `إجمالي ${list.data?.length ?? 0} مشترك` : `${list.data?.length ?? 0} subscribers total`}
+      </p>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-left text-muted-foreground border-b">
+              <th className="py-2">{isAr ? "البريد" : "Email"}</th>
+              <th className="py-2">{isAr ? "اللغة" : "Lang"}</th>
+              <th className="py-2">{isAr ? "تاريخ الاشتراك" : "Subscribed"}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {list.data?.map((r) => (
+              <tr key={r.id} className="border-b last:border-0">
+                <td className="py-2">{r.email}</td>
+                <td className="py-2 uppercase text-xs">{r.lang}</td>
+                <td className="py-2 text-muted-foreground">
+                  {new Date(r.createdAt).toLocaleDateString(isAr ? "ar" : "en")}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+interface AuditRow {
+  id: number;
+  actorUserId: string;
+  action: string;
+  entityType: string;
+  entityId: string | null;
+  payload: unknown;
+  createdAt: string;
+}
+function AuditLogView({ isAr }: { isAr: boolean }) {
+  const list = useQuery<AuditRow[]>({
+    queryKey: ["admin", "audit"],
+    queryFn: () => apiFetch("/api/admin/audit"),
+  });
+  return (
+    <div>
+      <h2 className="text-xl font-bold mb-6">{isAr ? "سجل تدقيق الإدارة" : "Admin audit log"}</h2>
+      <div className="space-y-2">
+        {list.data?.map((r) => (
+          <div key={r.id} className="border rounded-lg p-3 text-sm flex flex-wrap items-center gap-3">
+            <span className="font-mono text-xs text-muted-foreground">
+              {new Date(r.createdAt).toLocaleString(isAr ? "ar" : "en")}
+            </span>
+            <span className="px-2 py-0.5 rounded bg-primary/10 text-primary text-xs font-semibold uppercase">
+              {r.action}
+            </span>
+            <span className="text-foreground font-medium">{r.entityType}</span>
+            {r.entityId && <span className="text-muted-foreground">#{r.entityId}</span>}
+            <span className="text-xs text-muted-foreground ms-auto truncate max-w-[200px]" title={r.actorUserId}>
+              {r.actorUserId.slice(0, 12)}…
+            </span>
+          </div>
+        ))}
+        {list.data?.length === 0 && (
+          <p className="text-muted-foreground text-center py-8">
+            {isAr ? "لا توجد سجلات بعد." : "No audit entries yet."}
+          </p>
+        )}
+      </div>
+    </div>
   );
 }
 

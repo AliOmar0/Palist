@@ -5,3 +5,6 @@ export * from "./trainings";
 export * from "./publications";
 export * from "./memberApplications";
 export * from "./contactSubmissions";
+export * from "./jobs";
+export * from "./newsletter";
+export * from "./auditLog";

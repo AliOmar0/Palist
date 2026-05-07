@@ -8,6 +8,10 @@ import publicationsRouter from "./publications";
 import membersRouter from "./members";
 import contactRouter from "./contact";
 import uploadsRouter from "./uploads";
+import jobsRouter from "./jobs";
+import newsletterRouter from "./newsletter";
+import verifyRouter from "./verify";
+import auditRouter from "./audit";
 
 const router: IRouter = Router();
 
@@ -20,5 +24,9 @@ router.use(publicationsRouter);
 router.use(membersRouter);
 router.use(contactRouter);
 router.use(uploadsRouter);
+router.use(jobsRouter);
+router.use(newsletterRouter);
+router.use(verifyRouter);
+router.use(auditRouter);
 
 export default router;

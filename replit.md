@@ -1,49 +1,43 @@
 # Palist — Palestinian IT Syndicate
 
-Bilingual (Arabic-first RTL + English) site, member portal, and admin CMS for the Palestinian IT Syndicate (نقابة العلوم المعلوماتية التكنولوجية الفلسطينية). pnpm workspace monorepo using TypeScript.
+Bilingual (Arabic-first RTL + English) site, member portal, jobs board, and admin CMS for the Palestinian IT Syndicate (نقابة العلوم المعلوماتية التكنولوجية الفلسطينية). pnpm workspace monorepo using TypeScript.
 
 Author: Ali Omar <alidawood098@gmail.com>.
 
 ## Brand
 - Primary teal `#004953`, olive `#808000`, soft yellow CTA `#F5DF4D`.
 - Font: Changa (Google Fonts). Border radius 5px. No emojis anywhere.
+- Light + dark mode (toggle in navbar, persisted in `localStorage`).
 
 ## Auth & Roles
 - Clerk handles auth (`/sign-in`, `/sign-up`). `requireAuth` syncs the Clerk user into `users` on first hit.
-- Admin role is granted automatically to any signed-in user whose email is in the `ADMIN_EMAILS` env var (comma-separated). Set `ADMIN_EMAILS=alidawood098@gmail.com` on the Replit project, then sign in to be promoted to admin.
+- Admin role is granted automatically to any signed-in user whose email is in `ADMIN_EMAILS` (comma-separated). Set `ADMIN_EMAILS=alidawood098@gmail.com` on Replit, then sign in to be promoted.
+- All admin write actions are recorded in the `admin_audit_log` table (see admin → Audit log tab).
 
 ## Stack
-
 - **Monorepo tool**: pnpm workspaces
-- **Node.js version**: 24
-- **Package manager**: pnpm
-- **TypeScript version**: 5.9
-- **API framework**: Express 5
-- **Database**: PostgreSQL + Drizzle ORM
-- **Validation**: Zod (`zod/v4`), `drizzle-zod`
-- **API codegen**: Orval (from OpenAPI spec)
-- **Build**: esbuild (CJS bundle)
+- **Node.js**: 24
+- **TypeScript**: 5.9
+- **API**: Express 5, Drizzle ORM, PostgreSQL
+- **Web**: React 19 + Vite 7 + TanStack Query + Wouter + Tailwind v4
+- **PDF / QR**: `jspdf`, `qrcode` (membership card generation)
+- **Build**: esbuild (CJS bundle for api-server)
 
 ## Key Commands
-
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- `pnpm --filter @workspace/scripts run seed` — seed initial bilingual news/events/training/publications
-- `pnpm --filter @workspace/api-server run dev` — run API server locally
+- `pnpm run typecheck` — full typecheck
+- `pnpm run build` — typecheck + build
+- `pnpm --filter @workspace/api-spec run codegen` — regen API hooks/Zod from OpenAPI
+- `pnpm --filter @workspace/db run push` — push DB schema (dev)
+- `pnpm --filter @workspace/scripts run seed` — seed bilingual sample data
 
 ## Routes (front-end)
-- `/` — public homepage (auto-redirects signed-in users to `/dashboard`)
-- `/about`, `/membership`, `/news`, `/events`, `/training`, `/reports`, `/contact` — public pages
-- `/sign-in`, `/sign-up` — Clerk auth pages (branded)
-- `/dashboard` — member portal (status of application + quick links)
-- `/membership/apply` — bilingual membership application form
-- `/admin` — admin CMS (news / events / trainings / publications / applications / contact)
+Public: `/`, `/about`, `/membership`, `/news`, `/news/:id`, `/events`, `/events/:id`, `/training`, `/reports`, `/contact`, `/jobs`, `/jobs/:id`, `/verify/:cardId`, `/privacy`, `/terms`, `/sign-in`, `/sign-up`.
+Member (auth): `/dashboard`, `/membership/apply` (3-step wizard), `/profile`.
+Admin: `/admin` — News, Events, Trainings, Publications, Jobs, Applications, Contact, Newsletter, Audit log.
 
 ## Required env vars
-- `DATABASE_URL`, `CLERK_SECRET_KEY`, `CLERK_PUBLISHABLE_KEY`, `VITE_CLERK_PUBLISHABLE_KEY` (auto-provisioned)
-- `ADMIN_EMAILS` (comma-separated emails that should receive the `admin` role)
+- `DATABASE_URL`, `CLERK_SECRET_KEY`, `CLERK_PUBLISHABLE_KEY`, `VITE_CLERK_PUBLISHABLE_KEY`
+- `ADMIN_EMAILS` — comma-separated emails granted the `admin` role
 - `SESSION_SECRET` (already set)
 
-See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
+See [`DOCUMENTATION.md`](./DOCUMENTATION.md) for the full feature catalog and `pnpm-workspace` skill for monorepo conventions.

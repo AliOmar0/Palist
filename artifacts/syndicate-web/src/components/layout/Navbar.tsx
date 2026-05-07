@@ -1,14 +1,16 @@
 import { Link, useLocation } from "wouter";
 import { useLanguage } from "@/lib/language-context";
 import { Button } from "@/components/ui/button";
-import { Globe, Menu, X, LogOut, LayoutDashboard, UserCircle } from "lucide-react";
+import { Globe, Menu, X, LogOut, LayoutDashboard, UserCircle, Moon, Sun } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Show, useUser, useClerk } from "@clerk/react";
+import { useTheme } from "@/lib/theme-context";
 
 export function Navbar() {
   const [location] = useLocation();
   const { language, toggleLanguage, t } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -27,6 +29,7 @@ export function Navbar() {
     { href: "/news", label: t("nav.news") },
     { href: "/events", label: t("nav.events") },
     { href: "/training", label: t("nav.training") },
+    { href: "/jobs", label: language === 'ar' ? 'وظائف' : 'Jobs' },
     { href: "/reports", label: t("nav.reports") },
     { href: "/contact", label: t("nav.contact") },
   ];
@@ -70,10 +73,19 @@ export function Navbar() {
         <div className="hidden lg:flex items-center gap-4">
           <button
             onClick={toggleLanguage}
-            className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+            aria-label={language === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}
+            className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-1"
           >
             <Globe className="w-4 h-4" />
             <span>{language === 'ar' ? 'English' : 'العربية'}</span>
+          </button>
+
+          <button
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? (language === 'ar' ? 'الوضع الفاتح' : 'Light mode') : (language === 'ar' ? 'الوضع الليلي' : 'Dark mode')}
+            className="p-2 rounded-md text-muted-foreground hover:text-primary hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          >
+            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
 
           <Show when="signed-out">
@@ -134,6 +146,18 @@ export function Navbar() {
             >
               <Globe className="w-5 h-5" />
               <span>{language === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}</span>
+            </button>
+
+            <button
+              onClick={toggleTheme}
+              className="flex items-center gap-2 text-base font-medium text-foreground py-2"
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              <span>
+                {theme === 'dark'
+                  ? (language === 'ar' ? 'الوضع الفاتح' : 'Light mode')
+                  : (language === 'ar' ? 'الوضع الليلي' : 'Dark mode')}
+              </span>
             </button>
 
             <Show when="signed-out">

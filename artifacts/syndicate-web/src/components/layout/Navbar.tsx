@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { useLanguage } from "@/lib/language-context";
 import { Button } from "@/components/ui/button";
-import { Globe, Menu, X, LogOut, LayoutDashboard } from "lucide-react";
+import { Globe, Menu, X, LogOut, LayoutDashboard, UserCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Show, useUser, useClerk } from "@clerk/react";
@@ -193,10 +193,11 @@ function UserMenu() {
                 {user?.primaryEmailAddress?.emailAddress}
               </p>
             </div>
-            <Link href="/dashboard">
-              <a className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted" onClick={() => setOpen(false)}>
-                <LayoutDashboard className="w-4 h-4" /> Dashboard
-              </a>
+            <Link href="/dashboard" onClick={() => setOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted">
+              <LayoutDashboard className="w-4 h-4" /> Dashboard
+            </Link>
+            <Link href="/profile" onClick={() => setOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted">
+              <UserCircle className="w-4 h-4" /> {user?.firstName ? "Edit profile" : "Profile"}
             </Link>
             <SignOutButton onDone={() => setOpen(false)} />
           </div>

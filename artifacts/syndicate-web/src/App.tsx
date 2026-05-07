@@ -23,6 +23,9 @@ import SignUpPage from "@/pages/sign-up";
 import Dashboard from "@/pages/dashboard";
 import MembershipApply from "@/pages/membership-apply";
 import AdminPage from "@/pages/admin";
+import ProfilePage from "@/pages/profile";
+import Privacy from "@/pages/privacy";
+import Terms from "@/pages/terms";
 
 const clerkPubKey = publishableKeyFromHost(
   window.location.hostname,
@@ -140,9 +143,14 @@ function Router() {
       <Route path="/membership/apply">
         <Protected><MembershipApply /></Protected>
       </Route>
+      <Route path="/profile">
+        <Protected><ProfilePage /></Protected>
+      </Route>
       <Route path="/admin">
         <Protected><AdminPage /></Protected>
       </Route>
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/terms" component={Terms} />
       <Route component={NotFound} />
     </Switch>
   );

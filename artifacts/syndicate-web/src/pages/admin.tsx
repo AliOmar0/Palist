@@ -6,6 +6,7 @@ import { useLanguage } from "@/lib/language-context";
 import { apiFetch } from "@/lib/queryClient";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { ImageUpload } from "@/components/ImageUpload";
 import { useUser } from "@clerk/react";
 import {
   FileText,
@@ -197,28 +198,41 @@ function GenericManager({
           }}
           className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 mb-6 border border-dashed rounded-lg bg-gray-50"
         >
-          {fields.map((f) => (
-            <label key={f.key} className={f.type === "textarea" ? "md:col-span-2" : ""}>
-              <span className="text-xs font-medium text-foreground">{f.label}</span>
-              {f.type === "textarea" ? (
-                <textarea
-                  rows={4}
-                  required={f.required}
-                  value={String(form[f.key] ?? "")}
-                  onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
-                  className="mt-1 w-full rounded-md border bg-white px-3 py-2 text-sm"
-                />
-              ) : (
-                <input
-                  type={f.type ?? "text"}
-                  required={f.required}
-                  value={String(form[f.key] ?? "")}
-                  onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
-                  className="mt-1 w-full rounded-md border bg-white px-3 py-2 text-sm"
-                />
-              )}
-            </label>
-          ))}
+          {fields.map((f) => {
+            if (f.type === "image") {
+              return (
+                <div key={f.key} className="md:col-span-2">
+                  <ImageUpload
+                    label={f.label}
+                    value={String(form[f.key] ?? "") || null}
+                    onChange={(url) => setForm({ ...form, [f.key]: url })}
+                  />
+                </div>
+              );
+            }
+            return (
+              <label key={f.key} className={f.type === "textarea" ? "md:col-span-2" : ""}>
+                <span className="text-xs font-medium text-foreground">{f.label}</span>
+                {f.type === "textarea" ? (
+                  <textarea
+                    rows={4}
+                    required={f.required}
+                    value={String(form[f.key] ?? "")}
+                    onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
+                    className="mt-1 w-full rounded-md border bg-white px-3 py-2 text-sm"
+                  />
+                ) : (
+                  <input
+                    type={f.type ?? "text"}
+                    required={f.required}
+                    value={String(form[f.key] ?? "")}
+                    onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
+                    className="mt-1 w-full rounded-md border bg-white px-3 py-2 text-sm"
+                  />
+                )}
+              </label>
+            );
+          })}
           <div className="md:col-span-2">
             <Button
               type="submit"
@@ -294,7 +308,7 @@ function NewsManager({ isAr }: { isAr: boolean }) {
         { key: "titleAr", label: isAr ? "العنوان بالعربية" : "Title (Arabic)", required: true },
         { key: "titleEn", label: isAr ? "العنوان بالإنجليزية" : "Title (English)" },
         { key: "category", label: isAr ? "التصنيف" : "Category" },
-        { key: "coverImage", label: isAr ? "رابط الصورة" : "Cover image URL" },
+        { key: "coverImage", label: isAr ? "صورة الغلاف" : "Cover image", type: "image" },
         { key: "summaryAr", label: isAr ? "ملخص (عربي)" : "Summary (AR)", type: "textarea" },
         { key: "summaryEn", label: isAr ? "ملخص (إنجليزي)" : "Summary (EN)", type: "textarea" },
         { key: "contentAr", label: isAr ? "المحتوى (عربي)" : "Content (AR)", type: "textarea" },
@@ -325,7 +339,7 @@ function EventsManager({ isAr }: { isAr: boolean }) {
         { key: "location", label: isAr ? "الموقع" : "Location" },
         { key: "startsAt", label: isAr ? "تاريخ البداية" : "Starts at", type: "datetime-local", required: true },
         { key: "endsAt", label: isAr ? "تاريخ النهاية" : "Ends at", type: "datetime-local" },
-        { key: "coverImage", label: isAr ? "رابط الصورة" : "Cover image URL" },
+        { key: "coverImage", label: isAr ? "صورة الغلاف" : "Cover image", type: "image" },
         { key: "descriptionAr", label: isAr ? "الوصف (عربي)" : "Description (AR)", type: "textarea" },
         { key: "descriptionEn", label: isAr ? "الوصف (إنجليزي)" : "Description (EN)", type: "textarea" },
       ]}
@@ -354,7 +368,7 @@ function TrainingsManager({ isAr }: { isAr: boolean }) {
         { key: "durationHours", label: isAr ? "المدة (ساعات)" : "Duration (hours)", type: "number" },
         { key: "startsAt", label: isAr ? "تاريخ البداية" : "Starts at", type: "datetime-local" },
         { key: "registrationUrl", label: isAr ? "رابط التسجيل" : "Registration URL" },
-        { key: "coverImage", label: isAr ? "رابط الصورة" : "Cover image URL" },
+        { key: "coverImage", label: isAr ? "صورة الغلاف" : "Cover image", type: "image" },
         { key: "descriptionAr", label: isAr ? "الوصف (عربي)" : "Description (AR)", type: "textarea" },
         { key: "descriptionEn", label: isAr ? "الوصف (إنجليزي)" : "Description (EN)", type: "textarea" },
       ]}
@@ -380,8 +394,8 @@ function PublicationsManager({ isAr }: { isAr: boolean }) {
         { key: "titleAr", label: isAr ? "العنوان بالعربية" : "Title (Arabic)", required: true },
         { key: "titleEn", label: isAr ? "العنوان بالإنجليزية" : "Title (English)" },
         { key: "category", label: isAr ? "التصنيف" : "Category" },
-        { key: "fileUrl", label: isAr ? "رابط الملف" : "File URL" },
-        { key: "coverImage", label: isAr ? "رابط الصورة" : "Cover image URL" },
+        { key: "fileUrl", label: isAr ? "ملف PDF (رابط أو تحميل)" : "File (URL or upload)", type: "image" },
+        { key: "coverImage", label: isAr ? "صورة الغلاف" : "Cover image", type: "image" },
         { key: "summaryAr", label: isAr ? "ملخص (عربي)" : "Summary (AR)", type: "textarea" },
         { key: "summaryEn", label: isAr ? "ملخص (إنجليزي)" : "Summary (EN)", type: "textarea" },
       ]}

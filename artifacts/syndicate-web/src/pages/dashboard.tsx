@@ -7,7 +7,7 @@ import { useLanguage } from "@/lib/language-context";
 import { apiFetch } from "@/lib/queryClient";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { CheckCircle2, Clock, FileText, UserCircle } from "lucide-react";
+import { CheckCircle2, Clock, FileText, UserCircle, Pencil } from "lucide-react";
 
 interface MemberApplication {
   id: number;
@@ -64,15 +64,26 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           <div className="bg-white rounded-xl border p-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
-              <UserCircle className="w-5 h-5 text-primary" />
-              <h3 className="font-semibold text-foreground">
-                {isAr ? "حسابي" : "Account"}
-              </h3>
+              {user?.imageUrl ? (
+                <img src={user.imageUrl} alt="" className="w-10 h-10 rounded-full object-cover" />
+              ) : (
+                <UserCircle className="w-10 h-10 text-primary" />
+              )}
+              <div className="min-w-0">
+                <h3 className="font-semibold text-foreground truncate">
+                  {user?.firstName ? `${user.firstName}${user.lastName ? " " + user.lastName : ""}` : (isAr ? "حسابي" : "Account")}
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  {isAr ? "الدور:" : "Role:"} <span className="font-medium text-foreground">{me?.role ?? "member"}</span>
+                </p>
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground break-all">{user?.primaryEmailAddress?.emailAddress}</p>
-            <p className="text-xs text-muted-foreground mt-2">
-              {isAr ? "الدور:" : "Role:"} <span className="font-medium text-foreground">{me?.role ?? "member"}</span>
-            </p>
+            <p className="text-sm text-muted-foreground break-all mb-3">{user?.primaryEmailAddress?.emailAddress}</p>
+            <Link href="/profile">
+              <Button variant="outline" size="sm" className="w-full">
+                <Pencil className="w-4 h-4 me-2" /> {isAr ? "تعديل الملف الشخصي" : "Edit profile"}
+              </Button>
+            </Link>
           </div>
 
           <div className="bg-white rounded-xl border p-6 shadow-sm">

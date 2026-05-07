@@ -7,6 +7,7 @@ import trainingsRouter from "./trainings";
 import publicationsRouter from "./publications";
 import membersRouter from "./members";
 import contactRouter from "./contact";
+import uploadsRouter from "./uploads";
 
 const router: IRouter = Router();
 
@@ -18,5 +19,6 @@ router.use(trainingsRouter);
 router.use(publicationsRouter);
 router.use(membersRouter);
 router.use(contactRouter);
+router.use(uploadsRouter);
 
 export default router;

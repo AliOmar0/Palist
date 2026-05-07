@@ -198,31 +198,35 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { id: 'membership', icon: Users, color: 'text-blue-600', bg: 'bg-blue-100' },
-              { id: 'training', icon: BookOpen, color: 'text-green-600', bg: 'bg-green-100' },
-              { id: 'fund', icon: Briefcase, color: 'text-orange-600', bg: 'bg-orange-100' },
-              { id: 'legal', icon: Scale, color: 'text-purple-600', bg: 'bg-purple-100' },
+              { id: 'membership', icon: Users, color: 'text-blue-600', bg: 'bg-blue-100', href: '/membership' },
+              { id: 'training', icon: BookOpen, color: 'text-green-600', bg: 'bg-green-100', href: '/training' },
+              { id: 'fund', icon: Briefcase, color: 'text-orange-600', bg: 'bg-orange-100', href: '/membership' },
+              { id: 'legal', icon: Scale, color: 'text-purple-600', bg: 'bg-purple-100', href: '/about' },
             ].map((service, i) => (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
                 key={service.id}
-                className="bg-white rounded-xl p-8 border shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
               >
-                <div className={`w-14 h-14 rounded-lg flex items-center justify-center mb-6 transition-transform group-hover:scale-110 ${service.bg} ${service.color}`}>
-                  <service.icon className="w-7 h-7" />
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">
-                  {t(`services.${service.id}.title`)}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  {t(`services.${service.id}.desc`)}
-                </p>
-                <div className="flex items-center text-sm font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-4 group-hover:translate-x-0 rtl:-translate-x-4 rtl:group-hover:translate-x-0">
-                  {language === 'ar' ? 'المزيد' : 'Learn more'} <ArrowIcon className="w-4 h-4 ml-1 rtl:mr-1 rtl:ml-0" />
-                </div>
+                <Link
+                  href={service.href}
+                  className="block h-full bg-white rounded-xl p-8 border shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
+                >
+                  <div className={`w-14 h-14 rounded-lg flex items-center justify-center mb-6 transition-transform group-hover:scale-110 ${service.bg} ${service.color}`}>
+                    <service.icon className="w-7 h-7" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">
+                    {t(`services.${service.id}.title`)}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed mb-6">
+                    {t(`services.${service.id}.desc`)}
+                  </p>
+                  <div className="flex items-center text-sm font-bold text-primary">
+                    {isAr ? 'المزيد' : 'Learn more'} <ArrowIcon className="w-4 h-4 ms-1" />
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>

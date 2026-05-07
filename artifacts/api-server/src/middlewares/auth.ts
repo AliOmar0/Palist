@@ -14,18 +14,21 @@ function isAdminEmail(email: string): boolean {
 }
 
 async function syncUser(userId: string): Promise<string> {
-  const cu = await clerkClient.users.getUser(userId);
-  const email = cu.emailAddresses?.[0]?.emailAddress ?? "";
-  const desiredRole = isAdminEmail(email) ? "admin" : "member";
-
+  // Fast path: existing user — only re-evaluate admin role from cached email
+  // (no Clerk API call). The Clerk API roundtrip happens once on first sync.
   const existing = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
   if (existing.length > 0) {
+    const desiredRole = isAdminEmail(existing[0]!.email) ? "admin" : "member";
     if (existing[0]!.role !== desiredRole) {
       await db.update(usersTable).set({ role: desiredRole }).where(eq(usersTable.id, userId));
     }
     return desiredRole;
   }
 
+  // Slow path: first time — fetch profile from Clerk and create the user row.
+  const cu = await clerkClient.users.getUser(userId);
+  const email = cu.emailAddresses?.[0]?.emailAddress ?? "";
+  const desiredRole = isAdminEmail(email) ? "admin" : "member";
   await db
     .insert(usersTable)
     .values({

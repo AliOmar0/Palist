@@ -6,40 +6,63 @@ import {
   publicationsTable,
 } from "@workspace/db";
 
-function pickArEn(value: string | null | undefined): { ar: string; en: string } {
-  if (!value) return { ar: "", en: "" };
-  const parts = value.split("<>");
-  return { en: (parts[0] ?? "").trim(), ar: (parts[1] ?? "").trim() };
-}
-
 async function main() {
-  console.log("Seeding initial syndicate content...");
+  console.log("Seeding initial syndicate content (real titles from pis.ps)...");
 
+  // Idempotency: serial PKs mean onConflictDoNothing won't help.
+  // Skip seeding entirely if any news row already exists.
+  const existing = await db.select({ id: newsTable.id }).from(newsTable).limit(1);
+  if (existing.length > 0) {
+    console.log("News already present — skipping seed (run after wiping tables to re-seed).");
+    process.exit(0);
+  }
+
+  // Real news taken from the PHP/SQL export of palist.ps (palist_legion dump).
   const news = [
+    {
+      titleAr: "لقاء مع موظفي وزارة الاتصالات وتكنولوجيا المعلومات وانتخاب جهات الاتصال",
+      titleEn: "Meeting with Ministry of Telecom & IT staff and election of liaison officers",
+      summaryAr:
+        "بمبادرة من موظفي وزارة الاتصالات وتكنولوجيا المعلومات، جرت انتخابات لاختيار جهات تواصل رسمية بين الوزارة ونقابة العلوم المعلوماتية التكنولوجية الفلسطينية، بحضور معالي الوزير د.م. اسحاق سدر ونقيب المعلوماتية د. ميسون إبراهيم.",
+      summaryEn:
+        "Staff of the Palestinian Ministry of Telecom & IT held elections to choose official liaison officers between the ministry and the Palestinian IT Syndicate, attended by Minister Dr. Ishaq Sider and Syndicate President Dr. Maysoon Ibrahim.",
+      category: "partnerships",
+    },
+    {
+      titleAr: "البنك العربي ونقابة العلوم المعلوماتية التكنولوجية الفلسطينية يوقعان اتفاقية تعاون",
+      titleEn: "Arab Bank and the Palestinian IT Syndicate sign a cooperation agreement",
+      summaryAr:
+        "وقّع البنك العربي اتفاقية تعاون مع النقابة لتقديم حزمة من العروض والخدمات المصرفية الشاملة لمنتسبيها، ضمن مزايا برنامج عربي بريميوم للمهنيين.",
+      summaryEn:
+        "Arab Bank signed a cooperation agreement with the Syndicate to offer members a package of comprehensive banking services as part of the Arabi Premium program for professionals.",
+      category: "partnerships",
+    },
+    {
+      titleAr: "توقيع مذكرة تفاهم بين مجموعة مسار العالمية والنقابة في مدينة روابي",
+      titleEn: "MoU signed between Massar International Group and the Syndicate in Rawabi",
+      summaryAr:
+        "وقّعت مجموعة مسار العالمية ونقابة العلوم المعلوماتية التكنولوجية مذكرة تفاهم للتعاون في الأنشطة المشتركة في مجال التكنولوجيا والعلوم المعلوماتية، بحضور بشار المصري ود. ميسون إبراهيم.",
+      summaryEn:
+        "Massar International Group and the Palestinian IT Syndicate signed an MoU to cooperate on joint activities in technology and informatics, attended by Bashar Al-Masri and Dr. Maysoon Ibrahim.",
+      category: "partnerships",
+    },
+    {
+      titleAr: "توقيع اتفاقية تعاون مشترك بين النقابة وجامعة القدس المفتوحة",
+      titleEn: "Joint cooperation agreement signed between the Syndicate and Al-Quds Open University",
+      summaryAr:
+        "وقّعت النقابة وجامعة القدس المفتوحة اتفاقية لتطوير التعاون العلمي والأكاديمي عبر بحوث مشتركة، مؤتمرات، وورش عمل، إلى جانب برامج ونشاطات مشتركة.",
+      summaryEn:
+        "The Syndicate and Al-Quds Open University signed an agreement to develop scientific and academic cooperation through joint research, conferences, workshops, and joint programs.",
+      category: "partnerships",
+    },
     {
       titleAr: "النقابة تطلق البرنامج التدريبي الوطني لتأهيل مطوري البرمجيات",
       titleEn: "Syndicate launches national training program for software developers",
       summaryAr:
-        "في إطار جهودها للارتقاء بالكفاءات الوطنية، أعلنت نقابة تكنولوجيا المعلومات عن إطلاق برنامج تدريبي بالتعاون مع كبرى الشركات.",
+        "في إطار جهودها للارتقاء بالكفاءات الوطنية، أعلنت النقابة عن إطلاق برنامج تدريبي بالتعاون مع كبرى الشركات.",
       summaryEn:
-        "As part of its efforts to elevate national competencies, the IT Syndicate announced a training program in collaboration with major tech companies.",
-      contentAr: "تفاصيل البرنامج ستُعلن لاحقاً عبر القنوات الرسمية للنقابة.",
-      contentEn: "Program details will be announced via the syndicate's official channels.",
+        "As part of its efforts to elevate national competencies, the Syndicate announced a training program in collaboration with major tech companies.",
       category: "announcements",
-    },
-    {
-      titleAr: "اجتماع مجلس النقابة يناقش لائحة العضوية الجديدة",
-      titleEn: "Syndicate council meets to discuss new membership regulations",
-      summaryAr: "ناقش مجلس النقابة تحديث لائحة العضوية لمواكبة التطور المهني في القطاع.",
-      summaryEn: "The council discussed updating the membership regulations to keep pace with professional development.",
-      category: "council",
-    },
-    {
-      titleAr: "شراكة استراتيجية مع جامعات فلسطينية لتعزيز التعليم التقني",
-      titleEn: "Strategic partnership with Palestinian universities to advance technical education",
-      summaryAr: "وقّعت النقابة مذكرات تفاهم مع عدد من الجامعات لتطوير المناهج التقنية.",
-      summaryEn: "The syndicate signed MoUs with several universities to develop technical curricula.",
-      category: "partnerships",
     },
   ];
 
@@ -120,6 +143,3 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-
-// Used by tooling to satisfy the workspace package import — keeps pickArEn used.
-void pickArEn;

@@ -20,6 +20,8 @@ import {
   Briefcase,
   Send,
   Activity,
+  UserCog,
+  UserCircle2,
 } from "lucide-react";
 
 type Tab =
@@ -28,10 +30,12 @@ type Tab =
   | "events"
   | "trainings"
   | "publications"
+  | "board"
   | "jobs"
   | "applications"
   | "contact"
   | "newsletter"
+  | "admins"
   | "audit";
 
 interface NewsRow { id: number; titleAr: string; titleEn: string | null; publishedAt: string; }
@@ -53,10 +57,12 @@ export default function AdminPage() {
     { k: "events", ar: "الفعاليات", en: "Events", icon: Calendar },
     { k: "trainings", ar: "التدريب", en: "Trainings", icon: GraduationCap },
     { k: "publications", ar: "التقارير", en: "Publications", icon: BookOpen },
+    { k: "board", ar: "مجلس الإدارة", en: "Board Members", icon: UserCircle2 },
     { k: "jobs", ar: "الوظائف", en: "Jobs", icon: Briefcase },
     { k: "applications", ar: "طلبات العضوية", en: "Applications", icon: Users },
     { k: "contact", ar: "رسائل التواصل", en: "Contact", icon: Mail },
     { k: "newsletter", ar: "النشرة البريدية", en: "Newsletter", icon: Send },
+    { k: "admins", ar: "إدارة المسؤولين", en: "Admins", icon: UserCog },
     { k: "audit", ar: "سجل التدقيق", en: "Audit log", icon: Activity },
   ];
 
@@ -105,10 +111,12 @@ export default function AdminPage() {
             {tab === "events" && <EventsManager isAr={isAr} />}
             {tab === "trainings" && <TrainingsManager isAr={isAr} />}
             {tab === "publications" && <PublicationsManager isAr={isAr} />}
+            {tab === "board" && <BoardMembersManager isAr={isAr} />}
             {tab === "jobs" && <JobsManager isAr={isAr} />}
             {tab === "applications" && <ApplicationsManager isAr={isAr} />}
             {tab === "contact" && <ContactManager isAr={isAr} />}
             {tab === "newsletter" && <NewsletterManager isAr={isAr} />}
+            {tab === "admins" && <AdminsManager isAr={isAr} />}
             {tab === "audit" && <AuditLogView isAr={isAr} />}
           </section>
         </div>
@@ -300,6 +308,195 @@ function GenericManager({
               <tr>
                 <td colSpan={columns.length + 1} className="py-8 text-center text-muted-foreground">
                   {isAr ? "لا توجد عناصر بعد" : "No items yet"}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function BoardMembersManager({ isAr }: { isAr: boolean }) {
+  return (
+    <GenericManager
+      isAr={isAr}
+      title={isAr ? "إدارة مجلس الإدارة" : "Manage Board Members"}
+      listKey={["admin", "board-members"]}
+      listUrl="/api/admin/board-members"
+      adminUrl="/api/admin/board-members"
+      columns={[
+        { key: "id", label: "ID" },
+        { key: "displayOrder", label: isAr ? "الترتيب" : "Order" },
+        { key: "nameAr", label: isAr ? "الاسم (عربي)" : "Name (AR)" },
+        { key: "positionAr", label: isAr ? "المنصب" : "Position" },
+        { key: "active", label: isAr ? "نشط" : "Active" },
+      ]}
+      fields={[
+        { key: "nameAr", label: isAr ? "الاسم بالعربية" : "Name (Arabic)", required: true },
+        { key: "nameEn", label: isAr ? "الاسم بالإنجليزية" : "Name (English)" },
+        { key: "positionAr", label: isAr ? "المنصب (عربي)" : "Position (AR)" },
+        { key: "positionEn", label: isAr ? "المنصب (إنجليزي)" : "Position (EN)" },
+        { key: "email", label: isAr ? "البريد الإلكتروني" : "Email" },
+        { key: "displayOrder", label: isAr ? "الترتيب" : "Display order", type: "number" },
+        { key: "photoUrl", label: isAr ? "الصورة الشخصية" : "Photo", type: "image" },
+        { key: "bioAr", label: isAr ? "نبذة (عربي)" : "Bio (AR)", type: "textarea" },
+        { key: "bioEn", label: isAr ? "نبذة (إنجليزي)" : "Bio (EN)", type: "textarea" },
+      ]}
+      defaults={{
+        nameAr: "",
+        nameEn: "",
+        positionAr: "",
+        positionEn: "",
+        email: "",
+        displayOrder: 0,
+        photoUrl: "",
+        bioAr: "",
+        bioEn: "",
+      }}
+    />
+  );
+}
+
+interface AdminUserRow {
+  id: string;
+  email: string;
+  firstName: string | null;
+  lastName: string | null;
+  imageUrl: string | null;
+  role: string;
+  createdAt: string;
+  isPrimaryAdmin: boolean;
+}
+
+function AdminsManager({ isAr }: { isAr: boolean }) {
+  const qc = useQueryClient();
+  const { user: currentUser } = useUser();
+  const list = useQuery<AdminUserRow[]>({
+    queryKey: ["admin", "users"],
+    queryFn: () => apiFetch<AdminUserRow[]>("/api/admin/users"),
+  });
+  const setRole = useMutation({
+    mutationFn: ({ id, role }: { id: string; role: "admin" | "member" }) =>
+      apiFetch(`/api/admin/users/${id}/role`, {
+        method: "PATCH",
+        body: JSON.stringify({ role }),
+      }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin", "users"] });
+      qc.invalidateQueries({ queryKey: ["admin", "audit"] });
+    },
+    onError: (err) => {
+      alert(err instanceof Error ? err.message : String(err));
+    },
+  });
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-bold">{isAr ? "إدارة المسؤولين" : "Admin Management"}</h2>
+      </div>
+      <p className="text-sm text-muted-foreground mb-4">
+        {isAr
+          ? "قم بترقية أي عضو إلى مسؤول، أو إلغاء صلاحيات أي مسؤول. لا يمكن إلغاء صلاحيات المسؤول الأساسي أو حسابك الحالي."
+          : "Promote any member to admin, or demote any admin. The primary admin and your own account are protected from demotion."}
+      </p>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-left text-muted-foreground border-b">
+              <th className="py-2 pe-3">{isAr ? "المستخدم" : "User"}</th>
+              <th className="py-2 pe-3">{isAr ? "البريد" : "Email"}</th>
+              <th className="py-2 pe-3">{isAr ? "الدور" : "Role"}</th>
+              <th className="py-2 pe-3">{isAr ? "تاريخ الانضمام" : "Joined"}</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {list.data?.map((u) => {
+              const isSelf = currentUser?.id === u.id;
+              const isPrimary = u.isPrimaryAdmin;
+              const locked = isPrimary || isSelf;
+              const display = [u.firstName, u.lastName].filter(Boolean).join(" ") || "—";
+              return (
+                <tr key={u.id} className="border-b last:border-0 hover:bg-muted">
+                  <td className="py-2 pe-3 font-medium">
+                    {display}
+                    {isPrimary && (
+                      <span className="ms-2 text-xs px-2 py-0.5 rounded bg-accent/30 text-accent-foreground">
+                        {isAr ? "المسؤول الأساسي" : "Primary"}
+                      </span>
+                    )}
+                    {isSelf && !isPrimary && (
+                      <span className="ms-2 text-xs px-2 py-0.5 rounded bg-muted text-muted-foreground">
+                        {isAr ? "أنت" : "You"}
+                      </span>
+                    )}
+                  </td>
+                  <td className="py-2 pe-3 text-muted-foreground">{u.email}</td>
+                  <td className="py-2 pe-3">
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded ${
+                        u.role === "admin"
+                          ? "bg-primary/15 text-primary font-semibold"
+                          : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {u.role === "admin" ? (isAr ? "مسؤول" : "Admin") : isAr ? "عضو" : "Member"}
+                    </span>
+                  </td>
+                  <td className="py-2 pe-3 text-muted-foreground">
+                    {new Date(u.createdAt).toLocaleDateString(isAr ? "ar-EG" : "en-US")}
+                  </td>
+                  <td className="py-2 text-end">
+                    {u.role === "admin" ? (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={locked || setRole.isPending}
+                        onClick={() => {
+                          if (
+                            confirm(
+                              isAr
+                                ? `إلغاء صلاحيات المسؤول لـ ${u.email}؟`
+                                : `Remove admin role from ${u.email}?`,
+                            )
+                          ) {
+                            setRole.mutate({ id: u.id, role: "member" });
+                          }
+                        }}
+                      >
+                        {isAr ? "إلغاء الصلاحيات" : "Demote"}
+                      </Button>
+                    ) : (
+                      <Button
+                        size="sm"
+                        disabled={setRole.isPending}
+                        className="bg-primary text-white hover:bg-primary/90"
+                        onClick={() => {
+                          if (
+                            confirm(
+                              isAr
+                                ? `ترقية ${u.email} إلى مسؤول؟`
+                                : `Promote ${u.email} to admin?`,
+                            )
+                          ) {
+                            setRole.mutate({ id: u.id, role: "admin" });
+                          }
+                        }}
+                      >
+                        {isAr ? "ترقية إلى مسؤول" : "Promote to admin"}
+                      </Button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+            {list.data?.length === 0 && (
+              <tr>
+                <td colSpan={5} className="py-8 text-center text-muted-foreground">
+                  {isAr ? "لا يوجد مستخدمون بعد" : "No users yet"}
                 </td>
               </tr>
             )}

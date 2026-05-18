@@ -12,6 +12,8 @@ import jobsRouter from "./jobs";
 import newsletterRouter from "./newsletter";
 import verifyRouter from "./verify";
 import auditRouter from "./audit";
+import boardMembersRouter from "./boardMembers";
+import adminsRouter from "./admins";
 
 const router: IRouter = Router();
 
@@ -28,5 +30,7 @@ router.use(jobsRouter);
 router.use(newsletterRouter);
 router.use(verifyRouter);
 router.use(auditRouter);
+router.use(boardMembersRouter);
+router.use(adminsRouter);
 
 export default router;

@@ -13,6 +13,7 @@ import NotFound from "@/pages/not-found";
 
 import Home from "@/pages/home";
 import About from "@/pages/about";
+import Board from "@/pages/board";
 import Membership from "@/pages/membership";
 import News from "@/pages/news";
 import NewsDetail from "@/pages/news-detail";
@@ -135,6 +136,8 @@ function Router() {
     <Switch>
       <Route path="/" component={HomeRedirect} />
       <Route path="/about" component={About} />
+      <Route path="/about/board" component={Board} />
+      <Route path="/board" component={Board} />
       <Route path="/membership" component={Membership} />
       <Route path="/news" component={News} />
       <Route path="/news/:id" component={NewsDetail} />

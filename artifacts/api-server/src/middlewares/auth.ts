@@ -14,18 +14,18 @@ function isAdminEmail(email: string): boolean {
 }
 
 async function syncUser(userId: string): Promise<string> {
-  // Fast path: existing user — only re-evaluate admin role from cached email
-  // (no Clerk API call). The Clerk API roundtrip happens once on first sync.
+  // ADMIN_EMAILS is a BOOTSTRAP mechanism: it only takes effect when the user
+  // row is first created. After that, `users.role` is the sole source of truth.
+  // This means an admin demoted via the in-app Admins UI stays demoted across
+  // sign-ins, even if their email is still listed in ADMIN_EMAILS — without
+  // this, the env list would silently revert every audited demotion.
   const existing = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
   if (existing.length > 0) {
-    const desiredRole = isAdminEmail(existing[0]!.email) ? "admin" : "member";
-    if (existing[0]!.role !== desiredRole) {
-      await db.update(usersTable).set({ role: desiredRole }).where(eq(usersTable.id, userId));
-    }
-    return desiredRole;
+    return existing[0]!.role;
   }
 
-  // Slow path: first time — fetch profile from Clerk and create the user row.
+  // First-time sign-in: fetch profile from Clerk and create the user row.
+  // ADMIN_EMAILS is consulted exactly once here.
   const cu = await clerkClient.users.getUser(userId);
   const email = cu.emailAddresses?.[0]?.emailAddress ?? "";
   const desiredRole = isAdminEmail(email) ? "admin" : "member";

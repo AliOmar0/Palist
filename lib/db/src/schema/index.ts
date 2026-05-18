@@ -8,3 +8,4 @@ export * from "./contactSubmissions";
 export * from "./jobs";
 export * from "./newsletter";
 export * from "./auditLog";
+export * from "./boardMembers";

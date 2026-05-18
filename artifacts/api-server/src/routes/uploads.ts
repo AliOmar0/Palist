@@ -5,8 +5,24 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import { requireAuth } from "../middlewares/auth";
 
-const UPLOAD_DIR = path.resolve(process.cwd(), "uploads");
-fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+const UPLOAD_DIR =
+  process.env["VERCEL"] === "1"
+    ? "/tmp/uploads"
+    : path.resolve(process.cwd(), "uploads");
+
+try {
+  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+} catch {
+  // Read-only fs (e.g. serverless cold start before /tmp is writable). Will retry on first request.
+}
+
+function ensureUploadDir(): void {
+  try {
+    fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+  } catch {
+    // ignore
+  }
+}
 
 const ALLOWED_MIME = new Set([
   "image/png",
@@ -18,7 +34,10 @@ const ALLOWED_MIME = new Set([
 ]);
 
 const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, UPLOAD_DIR),
+  destination: (_req, _file, cb) => {
+    ensureUploadDir();
+    cb(null, UPLOAD_DIR);
+  },
   filename: (_req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase().slice(0, 10) || ".bin";
     const id = crypto.randomBytes(12).toString("hex");

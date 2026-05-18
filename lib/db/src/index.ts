@@ -1,8 +1,7 @@
 import { drizzle as drizzlePg } from "drizzle-orm/node-postgres";
-import { drizzle as drizzleNeon } from "drizzle-orm/neon-serverless";
-import { Pool as NeonPool, neonConfig } from "@neondatabase/serverless";
+import { drizzle as drizzleNeonHttp } from "drizzle-orm/neon-http";
+import { neon } from "@neondatabase/serverless";
 import pg from "pg";
-import ws from "ws";
 import * as schema from "./schema";
 
 if (!process.env.DATABASE_URL) {
@@ -18,13 +17,8 @@ type DbType = ReturnType<typeof drizzlePg<typeof schema>>;
 
 let _db: DbType;
 if (isNeon) {
-  neonConfig.webSocketConstructor = ws;
-  // Route individual queries through HTTP fetch instead of opening a
-  // long-lived WebSocket. Required for short-lived serverless invocations
-  // (Vercel) — without this, queries hang waiting for a WS connection.
-  neonConfig.poolQueryViaFetch = true;
-  const pool = new NeonPool({ connectionString: url });
-  _db = drizzleNeon(pool, { schema }) as unknown as DbType;
+  const sql = neon(url);
+  _db = drizzleNeonHttp(sql, { schema }) as unknown as DbType;
 } else {
   const pool = new pg.Pool({ connectionString: url });
   _db = drizzlePg(pool, { schema });

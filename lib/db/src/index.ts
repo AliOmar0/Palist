@@ -1,3 +1,8 @@
+import { drizzle as drizzlePg } from "drizzle-orm/node-postgres";
+import { drizzle as drizzleNeon } from "drizzle-orm/neon-serverless";
+import { Pool as NeonPool, neonConfig } from "@neondatabase/serverless";
+import pg from "pg";
+import ws from "ws";
 import * as schema from "./schema";
 
 if (!process.env.DATABASE_URL) {
@@ -9,23 +14,18 @@ if (!process.env.DATABASE_URL) {
 const url = process.env.DATABASE_URL;
 const isNeon = /neon\.tech/i.test(url);
 
-type DbType = ReturnType<typeof import("drizzle-orm/node-postgres").drizzle<typeof schema>>;
+type DbType = ReturnType<typeof drizzlePg<typeof schema>>;
 
-async function makeDb(): Promise<DbType> {
-  if (isNeon) {
-    const { Pool, neonConfig } = await import("@neondatabase/serverless");
-    const ws = (await import("ws")).default;
-    neonConfig.webSocketConstructor = ws;
-    const { drizzle } = await import("drizzle-orm/neon-serverless");
-    const pool = new Pool({ connectionString: url });
-    return drizzle(pool, { schema }) as unknown as DbType;
-  }
-  const pg = (await import("pg")).default;
-  const { drizzle } = await import("drizzle-orm/node-postgres");
+let _db: DbType;
+if (isNeon) {
+  neonConfig.webSocketConstructor = ws;
+  const pool = new NeonPool({ connectionString: url });
+  _db = drizzleNeon(pool, { schema }) as unknown as DbType;
+} else {
   const pool = new pg.Pool({ connectionString: url });
-  return drizzle(pool, { schema });
+  _db = drizzlePg(pool, { schema });
 }
 
-export const db: DbType = await makeDb();
+export const db: DbType = _db;
 
 export * from "./schema";

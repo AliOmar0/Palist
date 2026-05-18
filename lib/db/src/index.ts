@@ -1,8 +1,4 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import pg from "pg";
 import * as schema from "./schema";
-
-const { Pool } = pg;
 
 if (!process.env.DATABASE_URL) {
   throw new Error(
@@ -10,7 +6,26 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle(pool, { schema });
+const url = process.env.DATABASE_URL;
+const isNeon = /neon\.tech/i.test(url);
+
+type DbType = ReturnType<typeof import("drizzle-orm/node-postgres").drizzle<typeof schema>>;
+
+async function makeDb(): Promise<DbType> {
+  if (isNeon) {
+    const { Pool, neonConfig } = await import("@neondatabase/serverless");
+    const ws = (await import("ws")).default;
+    neonConfig.webSocketConstructor = ws;
+    const { drizzle } = await import("drizzle-orm/neon-serverless");
+    const pool = new Pool({ connectionString: url });
+    return drizzle(pool, { schema }) as unknown as DbType;
+  }
+  const pg = (await import("pg")).default;
+  const { drizzle } = await import("drizzle-orm/node-postgres");
+  const pool = new pg.Pool({ connectionString: url });
+  return drizzle(pool, { schema });
+}
+
+export const db: DbType = await makeDb();
 
 export * from "./schema";

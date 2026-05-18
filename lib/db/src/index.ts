@@ -19,6 +19,10 @@ type DbType = ReturnType<typeof drizzlePg<typeof schema>>;
 let _db: DbType;
 if (isNeon) {
   neonConfig.webSocketConstructor = ws;
+  // Route individual queries through HTTP fetch instead of opening a
+  // long-lived WebSocket. Required for short-lived serverless invocations
+  // (Vercel) — without this, queries hang waiting for a WS connection.
+  neonConfig.poolQueryViaFetch = true;
   const pool = new NeonPool({ connectionString: url });
   _db = drizzleNeon(pool, { schema }) as unknown as DbType;
 } else {

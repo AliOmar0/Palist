@@ -1,5 +1,6 @@
-import serverless from "serverless-http";
+import type { IncomingMessage, ServerResponse } from "node:http";
 import app from "./app";
 
-export const handler = serverless(app);
-export default handler;
+export default function handler(req: IncomingMessage, res: ServerResponse): void {
+  (app as unknown as (req: IncomingMessage, res: ServerResponse) => void)(req, res);
+}

@@ -42,6 +42,13 @@ const allowedOrigins = (process.env["REPLIT_DOMAINS"] ?? "")
   .map((d) => `https://${d}`);
 const devDomain = process.env["REPLIT_DEV_DOMAIN"];
 if (devDomain) allowedOrigins.push(`https://${devDomain}`);
+const vercelUrl = process.env["VERCEL_URL"];
+if (vercelUrl) allowedOrigins.push(`https://${vercelUrl}`);
+const extraOrigins = (process.env["ALLOWED_ORIGINS"] ?? "")
+  .split(",")
+  .map((d) => d.trim())
+  .filter(Boolean);
+for (const o of extraOrigins) allowedOrigins.push(o);
 
 app.use(
   cors({
@@ -49,6 +56,10 @@ app.use(
     origin(origin, cb) {
       if (!origin) return cb(null, true);
       if (allowedOrigins.includes(origin)) return cb(null, true);
+      // Allow any Vercel preview/production deployment of this project
+      if (/^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin)) {
+        return cb(null, true);
+      }
       return cb(new Error("Not allowed by CORS"));
     },
   }),

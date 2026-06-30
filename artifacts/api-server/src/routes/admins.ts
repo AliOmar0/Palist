@@ -26,6 +26,16 @@ router.get("/admin/users", requireAdmin, async (_req, res) => {
       lastName: usersTable.lastName,
       imageUrl: usersTable.imageUrl,
       role: usersTable.role,
+      fullNameAr: usersTable.fullNameAr,
+      fullNameEn: usersTable.fullNameEn,
+      nationalId: usersTable.nationalId,
+      specialty: usersTable.specialty,
+      mobile: usersTable.mobile,
+      workplace: usersTable.workplace,
+      alternateEmail: usersTable.alternateEmail,
+      accountStatus: usersTable.accountStatus,
+      approvedAt: usersTable.approvedAt,
+      approvalNotifiedAt: usersTable.approvalNotifiedAt,
       createdAt: usersTable.createdAt,
     })
     .from(usersTable)
@@ -37,6 +47,61 @@ router.get("/admin/users", requireAdmin, async (_req, res) => {
       isPrimaryAdmin: primary != null && u.email.toLowerCase() === primary,
     })),
   );
+});
+
+router.patch("/admin/users/:id/status", requireAdmin, async (req, res) => {
+  const id = String(req.params.id);
+  const body = req.body as { accountStatus?: unknown } | undefined;
+  const accountStatus = body?.accountStatus;
+  if (
+    accountStatus !== "pending" &&
+    accountStatus !== "approved" &&
+    accountStatus !== "rejected"
+  ) {
+    return res.status(400).json({ error: "accountStatus must be pending, approved, or rejected" });
+  }
+
+  const target = await db.select().from(usersTable).where(eq(usersTable.id, id)).limit(1);
+  if (!target[0]) return res.status(404).json({ error: "Not found" });
+
+  const primary = primaryAdminEmail();
+  const isPrimary = primary != null && target[0].email.toLowerCase() === primary;
+  if (isPrimary && accountStatus !== "approved") {
+    return res.status(403).json({ error: "Primary admin account must stay approved" });
+  }
+
+  const actor = req as AuthedRequest;
+  const now = new Date();
+  const [row] = await db
+    .update(usersTable)
+    .set({
+      accountStatus,
+      approvedBy: accountStatus === "approved" ? actor.userId : null,
+      approvedAt: accountStatus === "approved" ? now : null,
+      approvalNotifiedAt: accountStatus === "approved" ? now : null,
+    })
+    .where(eq(usersTable.id, id))
+    .returning();
+
+  await db
+    .insert(adminAuditLogTable)
+    .values({
+      actorUserId: actor.userId,
+      actorEmail: null,
+      action: accountStatus === "approved" ? "account_approved" : "account_status",
+      entityType: "user",
+      entityId: id,
+      payload: {
+        email: target[0].email,
+        accountStatus,
+        activationNoticeQueued: accountStatus === "approved",
+      } as never,
+    })
+    .catch(() => {
+      /* swallow audit failures */
+    });
+
+  return res.json(row);
 });
 
 router.patch("/admin/users/:id/role", requireAdmin, async (req, res) => {

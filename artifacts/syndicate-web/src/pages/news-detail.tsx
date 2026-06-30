@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useRoute } from "wouter";
 import { Layout } from "@/components/layout/Layout";
 import { useLanguage } from "@/lib/language-context";
 import { apiFetch } from "@/lib/queryClient";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight, Calendar, Share2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface NewsRow {
   id: number;
@@ -23,12 +25,32 @@ export default function NewsDetail() {
   const id = params?.id;
   const { language } = useLanguage();
   const isAr = language === "ar";
+  const [shareMsg, setShareMsg] = useState<string | null>(null);
 
   const { data, isLoading, isError } = useQuery<NewsRow>({
     queryKey: ["news", id],
     queryFn: () => apiFetch<NewsRow>(`/api/news/${id}`),
     enabled: Boolean(id),
   });
+
+  async function shareImage() {
+    if (!data?.coverImage) return;
+    const title = isAr ? data.titleAr : data.titleEn || data.titleAr;
+    const imageUrl = new URL(data.coverImage, window.location.origin).href;
+    setShareMsg(null);
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, text: title, url: imageUrl });
+      } else {
+        await navigator.clipboard.writeText(imageUrl);
+      }
+      setShareMsg(isAr ? "تم تجهيز رابط الصورة للمشاركة." : "Image link is ready to share.");
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") return;
+      setShareMsg(isAr ? "تعذّرت المشاركة. تم نسخ رابط الصورة إن أمكن." : "Sharing failed. Image link was copied if possible.");
+      await navigator.clipboard?.writeText(imageUrl).catch(() => undefined);
+    }
+  }
 
   return (
     <Layout>
@@ -69,11 +91,20 @@ export default function NewsDetail() {
               })}
             </div>
             {data.coverImage && (
-              <img
-                src={data.coverImage}
-                alt={isAr ? data.titleAr : data.titleEn || data.titleAr}
-                className="w-full h-auto rounded-xl border mb-8 object-cover max-h-[420px]"
-              />
+              <div className="mb-8">
+                <img
+                  src={data.coverImage}
+                  alt={isAr ? data.titleAr : data.titleEn || data.titleAr}
+                  className="w-full h-auto rounded-xl border object-cover max-h-[420px]"
+                />
+                <div className="mt-3 flex flex-wrap items-center gap-3">
+                  <Button type="button" variant="outline" onClick={shareImage}>
+                    <Share2 className="w-4 h-4 me-2" />
+                    {isAr ? "مشاركة الصورة" : "Share image"}
+                  </Button>
+                  {shareMsg && <span className="text-sm text-muted-foreground">{shareMsg}</span>}
+                </div>
+              </div>
             )}
             {(isAr ? data.summaryAr : data.summaryEn) && (
               <p className="text-lg text-foreground/80 mb-8 leading-relaxed font-medium">

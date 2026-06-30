@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Upload, X, Image as ImageIcon, Loader2 } from "lucide-react";
+import { Upload, X, Image as ImageIcon, Loader2, FileText } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import { Button } from "@/components/ui/button";
 
@@ -8,11 +8,24 @@ type Props = {
   onChange: (url: string) => void;
   label?: string;
   className?: string;
+  accept?: string;
+  helperText?: string;
+  buttonText?: string;
+  variant?: "image" | "file";
 };
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
-export function ImageUpload({ value, onChange, label, className }: Props) {
+export function ImageUpload({
+  value,
+  onChange,
+  label,
+  className,
+  accept = "image/png,image/jpeg,image/webp,image/gif,image/svg+xml",
+  helperText,
+  buttonText,
+  variant = "image",
+}: Props) {
   const { language } = useLanguage();
   const isAr = language === "ar";
   const ref = useRef<HTMLInputElement>(null);
@@ -49,10 +62,16 @@ export function ImageUpload({ value, onChange, label, className }: Props) {
       {label && <span className="text-xs font-medium text-foreground block mb-1">{label}</span>}
       <div className="flex items-center gap-3">
         <div className="w-20 h-20 rounded-md border bg-muted flex items-center justify-center overflow-hidden shrink-0">
-          {value ? (
+          {value && variant === "image" ? (
             <img src={value} alt="" className="w-full h-full object-cover" />
+          ) : value ? (
+            <FileText className="w-7 h-7 text-primary" />
           ) : (
-            <ImageIcon className="w-6 h-6 text-muted-foreground" />
+            variant === "image" ? (
+              <ImageIcon className="w-6 h-6 text-muted-foreground" />
+            ) : (
+              <FileText className="w-6 h-6 text-muted-foreground" />
+            )
           )}
         </div>
         <div className="flex flex-col gap-2 min-w-0 flex-1">
@@ -65,7 +84,10 @@ export function ImageUpload({ value, onChange, label, className }: Props) {
               onClick={() => ref.current?.click()}
             >
               {busy ? <Loader2 className="w-4 h-4 me-1 animate-spin" /> : <Upload className="w-4 h-4 me-1" />}
-              {isAr ? "اختر صورة من جهازك" : "Choose from device"}
+              {buttonText ??
+                (variant === "image"
+                  ? isAr ? "اختر صورة من جهازك" : "Choose image"
+                  : isAr ? "اختر ملفاً من جهازك" : "Choose file")}
             </Button>
             {value && (
               <Button
@@ -84,14 +106,17 @@ export function ImageUpload({ value, onChange, label, className }: Props) {
           )}
           {error && <p className="text-xs text-destructive">{error}</p>}
           <p className="text-[11px] text-muted-foreground">
-            {isAr ? "PNG / JPG / WebP — حتى 5 ميغابايت" : "PNG / JPG / WebP — up to 5 MB"}
+            {helperText ??
+              (variant === "image"
+                ? isAr ? "PNG / JPG / WebP — حتى 5 ميغابايت" : "PNG / JPG / WebP — up to 5 MB"
+                : isAr ? "صورة أو PDF / Word — حتى 5 ميغابايت" : "Image or PDF / Word — up to 5 MB")}
           </p>
         </div>
       </div>
       <input
         ref={ref}
         type="file"
-        accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"
+        accept={accept}
         className="hidden"
         onChange={(e) => {
           const f = e.target.files?.[0];

@@ -133,6 +133,10 @@
   --ring: 187 80% 30%;
 }
 
+.grayscale-mode body {
+  filter: grayscale(1);
+}
+
 @layer base {
   * {
     @apply border-border;

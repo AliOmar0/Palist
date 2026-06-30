@@ -1,16 +1,17 @@
 import { Link, useLocation } from "wouter";
 import { useLanguage } from "@/lib/language-context";
 import { Button } from "@/components/ui/button";
-import { Globe, Menu, X, LogOut, LayoutDashboard, UserCircle, Moon, Sun } from "lucide-react";
+import { Globe, Menu, X, LogOut, LayoutDashboard, UserCircle, Moon, Sun, Contrast } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Show, useUser, useClerk } from "@clerk/react";
 import { useTheme } from "@/lib/theme-context";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function Navbar() {
   const [location] = useLocation();
   const { language, toggleLanguage, t } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, grayscale, toggleTheme, toggleGrayscale } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -70,23 +71,15 @@ export function Navbar() {
         </nav>
 
         {/* Actions */}
-        <div className="hidden lg:flex items-center gap-4">
-          <button
-            onClick={toggleLanguage}
-            aria-label={language === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}
-            className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-1"
-          >
-            <Globe className="w-4 h-4" />
-            <span>{language === 'ar' ? 'English' : 'العربية'}</span>
-          </button>
-
-          <button
-            onClick={toggleTheme}
-            aria-label={theme === 'dark' ? (language === 'ar' ? 'الوضع الفاتح' : 'Light mode') : (language === 'ar' ? 'الوضع الليلي' : 'Dark mode')}
-            className="p-2 rounded-md text-muted-foreground hover:text-primary hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-          >
-            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
+        <div className="hidden lg:flex items-center gap-3">
+          <AccessibilityControls
+            language={language}
+            theme={theme}
+            grayscale={grayscale}
+            onLanguage={toggleLanguage}
+            onTheme={toggleTheme}
+            onGrayscale={toggleGrayscale}
+          />
 
           <Show when="signed-out">
             <Link href="/sign-in">
@@ -137,28 +130,18 @@ export function Navbar() {
           <div className="h-px bg-border my-2" />
           
           <div className="flex flex-col gap-4 px-2">
-            <button
-              onClick={() => {
+            <AccessibilityControls
+              language={language}
+              theme={theme}
+              grayscale={grayscale}
+              onLanguage={() => {
                 toggleLanguage();
                 setMobileMenuOpen(false);
               }}
-              className="flex items-center gap-2 text-base font-medium text-foreground py-2"
-            >
-              <Globe className="w-5 h-5" />
-              <span>{language === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}</span>
-            </button>
-
-            <button
-              onClick={toggleTheme}
-              className="flex items-center gap-2 text-base font-medium text-foreground py-2"
-            >
-              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              <span>
-                {theme === 'dark'
-                  ? (language === 'ar' ? 'الوضع الفاتح' : 'Light mode')
-                  : (language === 'ar' ? 'الوضع الليلي' : 'Dark mode')}
-              </span>
-            </button>
+              onTheme={toggleTheme}
+              onGrayscale={toggleGrayscale}
+              mobile
+            />
 
             <Show when="signed-out">
               <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
@@ -186,6 +169,120 @@ export function Navbar() {
         </div>
       )}
     </header>
+  );
+}
+
+function AccessibilityControls({
+  language,
+  theme,
+  grayscale,
+  onLanguage,
+  onTheme,
+  onGrayscale,
+  mobile,
+}: {
+  language: "ar" | "en";
+  theme: "light" | "dark";
+  grayscale: boolean;
+  onLanguage: () => void;
+  onTheme: () => void;
+  onGrayscale: () => void;
+  mobile?: boolean;
+}) {
+  const labels = {
+    language: language === "ar" ? "Switch to English" : "التبديل إلى العربية",
+    theme:
+      theme === "dark"
+        ? language === "ar"
+          ? "الوضع الفاتح"
+          : "Light mode"
+        : language === "ar"
+          ? "الوضع الليلي"
+          : "Dark mode",
+    grayscale: grayscale
+      ? language === "ar"
+        ? "إيقاف التدرج الرمادي"
+        : "Disable grayscale"
+      : language === "ar"
+        ? "تشغيل التدرج الرمادي"
+        : "Enable grayscale",
+  };
+
+  const controls = [
+    {
+      key: "language",
+      label: labels.language,
+      short: language === "ar" ? "EN" : "ع",
+      icon: <Globe className="w-4 h-4" />,
+      onClick: onLanguage,
+      active: false,
+    },
+    {
+      key: "theme",
+      label: labels.theme,
+      short: theme === "dark" ? (language === "ar" ? "فاتح" : "Light") : language === "ar" ? "ليلي" : "Dark",
+      icon: theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />,
+      onClick: onTheme,
+      active: theme === "dark",
+    },
+    {
+      key: "grayscale",
+      label: labels.grayscale,
+      short: language === "ar" ? "رمادي" : "Gray",
+      icon: <Contrast className="w-4 h-4" />,
+      onClick: onGrayscale,
+      active: grayscale,
+    },
+  ];
+
+  if (mobile) {
+    return (
+      <div className="grid grid-cols-1 gap-2">
+        {controls.map((control) => (
+          <button
+            key={control.key}
+            type="button"
+            onClick={control.onClick}
+            aria-pressed={control.active}
+            aria-label={control.label}
+            className={cn(
+              "flex items-center gap-2 rounded-md border px-3 py-2 text-base font-medium transition-colors",
+              control.active ? "border-primary bg-primary/10 text-primary" : "border-border text-foreground hover:bg-muted",
+            )}
+          >
+            {control.icon}
+            <span>{control.label}</span>
+          </button>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-1 rounded-md border border-border bg-muted/40 p-1">
+      {controls.map((control) => (
+        <Tooltip key={control.key}>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              onClick={control.onClick}
+              aria-pressed={control.active}
+              aria-label={control.label}
+              className={cn(
+                "inline-flex h-8 min-w-8 items-center justify-center gap-1 rounded px-2 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                control.active
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-background hover:text-primary",
+              )}
+            >
+              {control.icon}
+              <span className="hidden xl:inline">{control.short}</span>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>{control.label}</TooltipContent>
+        </Tooltip>
+      ))}
+    </div>
   );
 }
 

@@ -10,8 +10,10 @@ export const memberApplicationsTable = pgTable("member_applications", {
   fullNameEn: text("full_name_en"),
   email: text("email").notNull(),
   confirmEmail: text("confirm_email"),
+  alternateEmail: text("alternate_email"),
   phone: varchar("phone", { length: 40 }),
   nationalId: varchar("national_id", { length: 40 }),
+  nationalIdImageUrl: text("national_id_image_url"),
   gender: varchar("gender", { length: 16 }),
   dateOfBirth: varchar("date_of_birth", { length: 16 }),
   placeOfBirth: varchar("place_of_birth", { length: 120 }),
@@ -33,6 +35,7 @@ export const memberApplicationsTable = pgTable("member_applications", {
   employer: text("employer"),
   jobTitle: text("job_title"),
   yearsExperience: varchar("years_experience", { length: 16 }),
+  workConfirmationUrl: text("work_confirmation_url"),
 
   membershipTier: varchar("membership_tier", { length: 40 }),
   notes: text("notes"),

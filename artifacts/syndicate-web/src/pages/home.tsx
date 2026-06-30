@@ -18,6 +18,17 @@ interface NewsRow {
   publishedAt: string;
 }
 
+interface EventRow {
+  id: number;
+  titleAr: string;
+  titleEn: string | null;
+  descriptionAr: string | null;
+  descriptionEn: string | null;
+  location: string | null;
+  startsAt: string;
+  audience: string;
+}
+
 function HomeNewsGrid({ isAr, ArrowIcon }: { isAr: boolean; ArrowIcon: LucideIcon }) {
   const { data = [] } = useQuery<NewsRow[]>({
     queryKey: ["news"],
@@ -65,6 +76,58 @@ function HomeNewsGrid({ isAr, ArrowIcon }: { isAr: boolean; ArrowIcon: LucideIco
                 {isAr ? 'اقرأ التفاصيل' : 'Read details'} <ArrowIcon className="w-4 h-4 ms-1" />
               </span>
             </div>
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+function HomeEventsList({ isAr }: { isAr: boolean }) {
+  const { data = [] } = useQuery<EventRow[]>({
+    queryKey: ["events"],
+    queryFn: () => apiFetch<EventRow[]>("/api/events"),
+  });
+  const items = data.slice(0, 3);
+  if (items.length === 0) {
+    return (
+      <p className="text-center text-muted-foreground py-12">
+        {isAr ? "لا توجد فعاليات للعرض حالياً." : "No events to show right now."}
+      </p>
+    );
+  }
+  return (
+    <div className="space-y-4">
+      {items.map((event) => {
+        const title = isAr ? event.titleAr : event.titleEn || event.titleAr;
+        const desc = isAr ? event.descriptionAr : event.descriptionEn || event.descriptionAr;
+        return (
+          <Link
+            key={event.id}
+            href={`/events/${event.id}`}
+            className="block rounded-lg border bg-card p-5 shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div className="mb-2 flex flex-wrap items-center gap-2 text-xs">
+              <span className="rounded-md bg-primary/10 px-2 py-1 font-bold text-primary">
+                {event.audience === "members"
+                  ? isAr ? "للأعضاء" : "Members"
+                  : event.audience === "visitors"
+                    ? isAr ? "للزوار" : "Visitors"
+                    : isAr ? "للأعضاء والزوار" : "Members and visitors"}
+              </span>
+              <span className="inline-flex items-center gap-1 text-muted-foreground">
+                <Calendar className="w-3 h-3" />
+                {new Date(event.startsAt).toLocaleDateString(isAr ? "ar" : "en")}
+              </span>
+              {event.location && (
+                <span className="inline-flex items-center gap-1 text-muted-foreground">
+                  <MapPin className="w-3 h-3" />
+                  {event.location}
+                </span>
+              )}
+            </div>
+            <h3 className="font-bold text-foreground mb-2">{title}</h3>
+            {desc && <p className="line-clamp-2 text-sm text-muted-foreground">{desc}</p>}
           </Link>
         );
       })}
@@ -264,34 +327,7 @@ export default function Home() {
               <h2 className="text-2xl font-bold text-foreground mb-8 pb-4 border-b">
                 {t('section.events')}
               </h2>
-              <div className="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent rtl:before:mr-5 rtl:before:ml-auto md:rtl:before:mx-auto">
-                {[1, 2, 3].map((event) => (
-                  <div key={event} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                    {/* Marker */}
-                    <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-primary text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 rtl:md:group-odd:translate-x-1/2 rtl:md:group-even:-translate-x-1/2 z-10">
-                      <span className="text-xs font-bold">{10 + event}</span>
-                    </div>
-                    {/* Card */}
-                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border bg-card shadow-sm hover:shadow-md transition-shadow">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-bold text-primary">
-                          {language === 'ar' ? 'أبريل 2025' : 'April 2025'}
-                        </span>
-                        <span className="text-xs text-muted-foreground flex items-center">
-                          <MapPin className="w-3 h-3 ml-1 rtl:mr-1 rtl:ml-0" />
-                          {language === 'ar' ? 'رام الله' : 'Ramallah'}
-                        </span>
-                      </div>
-                      <h3 className="font-bold text-foreground mb-2">
-                        {language === 'ar' ? 'المؤتمر السنوي للأمن السيبراني' : 'Annual Cybersecurity Conference'}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {language === 'ar' ? 'ورش عمل متخصصة وجلسات حوارية حول أحدث تحديات أمن المعلومات.' : 'Specialized workshops and panel discussions on the latest information security challenges.'}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <HomeEventsList isAr={isAr} />
               <div className="mt-8 text-center">
                 <Link href="/events">
                   <Button variant="outline" className="border-border">

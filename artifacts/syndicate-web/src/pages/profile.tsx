@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useUser } from "@clerk/react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -7,13 +8,50 @@ import { useLanguage } from "@/lib/language-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ImageUpload } from "@/components/ImageUpload";
+import { apiFetch } from "@/lib/queryClient";
 import { Camera, Loader2, CheckCircle2, X, UserCircle } from "lucide-react";
 import { Link } from "wouter";
+
+interface Me {
+  id: string;
+  email: string;
+  firstName: string | null;
+  lastName: string | null;
+  fullNameAr: string | null;
+  fullNameEn: string | null;
+  nationalId: string | null;
+  nationalIdImageUrl: string | null;
+  specialty: string | null;
+  mobile: string | null;
+  workplace: string | null;
+  alternateEmail: string | null;
+  accountStatus: string;
+}
+
+type ProfessionalProfile = Pick<
+  Me,
+  | "fullNameAr"
+  | "fullNameEn"
+  | "nationalId"
+  | "nationalIdImageUrl"
+  | "specialty"
+  | "mobile"
+  | "workplace"
+  | "alternateEmail"
+>;
 
 export default function ProfilePage() {
   const { user, isLoaded } = useUser();
   const { language } = useLanguage();
   const isAr = language === "ar";
+  const qc = useQueryClient();
+
+  const { data: me } = useQuery<Me>({
+    queryKey: ["me"],
+    queryFn: () => apiFetch<Me>("/api/me"),
+    enabled: isLoaded && Boolean(user),
+  });
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -28,6 +66,17 @@ export default function ProfilePage() {
   const [pwNew, setPwNew] = useState("");
   const [pwBusy, setPwBusy] = useState(false);
   const [pwMsg, setPwMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+  const [professionalForm, setProfessionalForm] = useState<ProfessionalProfile>({
+    fullNameAr: "",
+    fullNameEn: "",
+    nationalId: "",
+    nationalIdImageUrl: "",
+    specialty: "",
+    mobile: "",
+    workplace: "",
+    alternateEmail: "",
+  });
+  const [professionalMsg, setProfessionalMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -35,6 +84,41 @@ export default function ProfilePage() {
       setLastName(user.lastName ?? "");
     }
   }, [user]);
+
+  useEffect(() => {
+    if (!me) return;
+    setProfessionalForm({
+      fullNameAr: me.fullNameAr ?? "",
+      fullNameEn: me.fullNameEn ?? "",
+      nationalId: me.nationalId ?? "",
+      nationalIdImageUrl: me.nationalIdImageUrl ?? "",
+      specialty: me.specialty ?? "",
+      mobile: me.mobile ?? "",
+      workplace: me.workplace ?? "",
+      alternateEmail: me.alternateEmail ?? "",
+    });
+  }, [me]);
+
+  const saveProfessionalProfile = useMutation({
+    mutationFn: (payload: ProfessionalProfile) =>
+      apiFetch<Me>("/api/me/profile", {
+        method: "PATCH",
+        body: JSON.stringify(payload),
+      }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["me"] });
+      setProfessionalMsg({
+        type: "ok",
+        text: isAr ? "تم حفظ المعلومات وتسجيل التعديل." : "Profile saved and audit entry recorded.",
+      });
+    },
+    onError: (err) => {
+      setProfessionalMsg({
+        type: "err",
+        text: err instanceof Error ? err.message : isAr ? "فشل الحفظ." : "Save failed.",
+      });
+    },
+  });
 
   if (!isLoaded || !user) {
     return (
@@ -87,6 +171,11 @@ export default function ProfilePage() {
     setSavingProfile(true);
     try {
       await user!.update({ firstName, lastName });
+      await apiFetch("/api/me/profile", {
+        method: "PATCH",
+        body: JSON.stringify({ firstName, lastName }),
+      });
+      qc.invalidateQueries({ queryKey: ["me"] });
       setProfileMsg({ type: "ok", text: isAr ? "تم حفظ التغييرات." : "Changes saved." });
     } catch (err) {
       setProfileMsg({
@@ -224,6 +313,122 @@ export default function ProfilePage() {
               {profileMsg && (
                 <span className={`text-sm ${profileMsg.type === "ok" ? "text-green-700" : "text-destructive"}`}>
                   {profileMsg.text}
+                </span>
+              )}
+            </div>
+          </form>
+        </section>
+
+        {/* Professional information */}
+        <section className="bg-card rounded-xl border p-6 shadow-sm mb-6">
+          <h2 className="text-lg font-bold mb-1">
+            {isAr ? "المعلومات الأساسية للنقابة" : "Syndicate profile information"}
+          </h2>
+          <p className="text-sm text-muted-foreground mb-5">
+            {isAr
+              ? "أي تعديل على هذه المعلومات يتم تسجيله في سجل التدقيق لدى الإدارة."
+              : "Changes to these fields are recorded in the admin audit log."}
+          </p>
+          {me?.accountStatus && (
+            <div className="mb-5 rounded-md border bg-muted/40 px-4 py-3 text-sm">
+              <span className="font-semibold">{isAr ? "حالة الحساب: " : "Account status: "}</span>
+              {me.accountStatus === "approved"
+                ? isAr ? "مفعّل" : "Approved"
+                : me.accountStatus === "rejected"
+                  ? isAr ? "مرفوض" : "Rejected"
+                  : isAr ? "بانتظار موافقة الإدارة" : "Pending admin approval"}
+            </div>
+          )}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setProfessionalMsg(null);
+              saveProfessionalProfile.mutate(professionalForm);
+            }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
+            <div className="space-y-2">
+              <Label htmlFor="fullNameAr">{isAr ? "الاسم بالعربية" : "Arabic name"}</Label>
+              <Input
+                id="fullNameAr"
+                value={professionalForm.fullNameAr ?? ""}
+                onChange={(e) => setProfessionalForm((f) => ({ ...f, fullNameAr: e.target.value }))}
+                className="h-11"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="fullNameEn">{isAr ? "الاسم بالإنجليزية" : "English name"}</Label>
+              <Input
+                id="fullNameEn"
+                value={professionalForm.fullNameEn ?? ""}
+                onChange={(e) => setProfessionalForm((f) => ({ ...f, fullNameEn: e.target.value }))}
+                className="h-11"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="nationalId">{isAr ? "رقم الهوية" : "National ID"}</Label>
+              <Input
+                id="nationalId"
+                value={professionalForm.nationalId ?? ""}
+                onChange={(e) => setProfessionalForm((f) => ({ ...f, nationalId: e.target.value }))}
+                className="h-11"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="specialty">{isAr ? "التخصص" : "Specialty"}</Label>
+              <Input
+                id="specialty"
+                value={professionalForm.specialty ?? ""}
+                onChange={(e) => setProfessionalForm((f) => ({ ...f, specialty: e.target.value }))}
+                className="h-11"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="mobile">{isAr ? "رقم الجوال" : "Mobile number"}</Label>
+              <Input
+                id="mobile"
+                value={professionalForm.mobile ?? ""}
+                onChange={(e) => setProfessionalForm((f) => ({ ...f, mobile: e.target.value }))}
+                className="h-11"
+                dir="ltr"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="workplace">{isAr ? "مكان العمل" : "Workplace"}</Label>
+              <Input
+                id="workplace"
+                value={professionalForm.workplace ?? ""}
+                onChange={(e) => setProfessionalForm((f) => ({ ...f, workplace: e.target.value }))}
+                className="h-11"
+              />
+            </div>
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="alternateEmail">{isAr ? "بريد إلكتروني احتياطي" : "Backup email"}</Label>
+              <Input
+                id="alternateEmail"
+                type="email"
+                value={professionalForm.alternateEmail ?? ""}
+                onChange={(e) => setProfessionalForm((f) => ({ ...f, alternateEmail: e.target.value }))}
+                className="h-11"
+                dir="ltr"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <ImageUpload
+                label={isAr ? "صورة الهوية" : "ID photo"}
+                value={professionalForm.nationalIdImageUrl}
+                onChange={(url) => setProfessionalForm((f) => ({ ...f, nationalIdImageUrl: url }))}
+                helperText={isAr ? "صورة واضحة للهوية — حتى 5 ميغابايت" : "Clear ID image — up to 5 MB"}
+              />
+            </div>
+            <div className="md:col-span-2 flex items-center gap-3">
+              <Button type="submit" className="bg-primary text-white hover:bg-primary/90" disabled={saveProfessionalProfile.isPending}>
+                {saveProfessionalProfile.isPending ? <Loader2 className="w-4 h-4 me-2 animate-spin" /> : <CheckCircle2 className="w-4 h-4 me-2" />}
+                {isAr ? "حفظ المعلومات" : "Save profile information"}
+              </Button>
+              {professionalMsg && (
+                <span className={`text-sm ${professionalMsg.type === "ok" ? "text-green-700" : "text-destructive"}`}>
+                  {professionalMsg.text}
                 </span>
               )}
             </div>

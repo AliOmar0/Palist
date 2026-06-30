@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { getAuth, clerkClient } from "@clerk/express";
-import { db, usersTable } from "@workspace/db";
+import { adminAuditLogTable, db, usersTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
 
 export type AuthedRequest = Request & { userId: string; userRole: string };
@@ -29,6 +29,7 @@ async function syncUser(userId: string): Promise<string> {
   const cu = await clerkClient.users.getUser(userId);
   const email = cu.emailAddresses?.[0]?.emailAddress ?? "";
   const desiredRole = isAdminEmail(email) ? "admin" : "member";
+  const accountStatus = desiredRole === "admin" ? "approved" : "pending";
   await db
     .insert(usersTable)
     .values({
@@ -38,8 +39,31 @@ async function syncUser(userId: string): Promise<string> {
       lastName: cu.lastName ?? null,
       imageUrl: cu.imageUrl ?? null,
       role: desiredRole,
+      accountStatus,
+      approvedAt: accountStatus === "approved" ? new Date() : null,
     })
     .onConflictDoNothing();
+
+  if (accountStatus === "pending") {
+    await db
+      .insert(adminAuditLogTable)
+      .values({
+        actorUserId: userId,
+        actorEmail: email,
+        action: "signup_request",
+        entityType: "user",
+        entityId: userId,
+        payload: {
+          email,
+          firstName: cu.firstName ?? null,
+          lastName: cu.lastName ?? null,
+          adminEmails: process.env["ADMIN_EMAILS"] ?? "",
+        } as never,
+      })
+      .catch(() => {
+        /* swallow audit failures */
+      });
+  }
   return desiredRole;
 }
 

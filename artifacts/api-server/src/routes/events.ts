@@ -1,5 +1,12 @@
 import { Router, type IRouter } from "express";
-import { db, eventsTable, insertEventSchema } from "@workspace/db";
+import { getAuth } from "@clerk/express";
+import {
+  db,
+  eventRegistrationsTable,
+  eventsTable,
+  insertEventRegistrationSchema,
+  insertEventSchema,
+} from "@workspace/db";
 import { and, desc, eq } from "drizzle-orm";
 import { requireAdmin } from "../middlewares/auth";
 import { auditAdmin } from "../middlewares/audit";
@@ -25,6 +32,36 @@ router.get("/events/:id", async (req, res) => {
     .limit(1);
   if (!rows[0]) return res.status(404).json({ error: "Not found" });
   return res.json(rows[0]);
+});
+
+router.post("/events/:id/register", async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isFinite(id)) return res.status(400).json({ error: "Bad id" });
+  const [event] = await db
+    .select({ id: eventsTable.id })
+    .from(eventsTable)
+    .where(and(eq(eventsTable.id, id), eq(eventsTable.published, true)))
+    .limit(1);
+  if (!event) return res.status(404).json({ error: "Not found" });
+
+  const auth = getAuth(req);
+  const parsed = insertEventRegistrationSchema.safeParse({
+    ...req.body,
+    eventId: id,
+    userId: auth?.userId ?? null,
+    attendeeType: req.body?.attendeeType ?? "visitor",
+  });
+  if (!parsed.success) return res.status(400).json({ error: parsed.error.issues });
+  const [row] = await db.insert(eventRegistrationsTable).values(parsed.data).returning();
+  return res.status(201).json(row);
+});
+
+router.get("/admin/event-registrations", requireAdmin, async (_req, res) => {
+  const rows = await db
+    .select()
+    .from(eventRegistrationsTable)
+    .orderBy(desc(eventRegistrationsTable.createdAt));
+  return res.json(rows);
 });
 
 router.post("/admin/events", requireAdmin, auditAdmin("event"), async (req, res) => {

@@ -1,8 +1,10 @@
 import { Router, type IRouter } from "express";
 import {
   db,
+  adminAuditLogTable,
   memberApplicationsTable,
   insertMemberApplicationSchema,
+  usersTable,
 } from "@workspace/db";
 import { and, desc, eq, inArray } from "drizzle-orm";
 import { requireAuth, requireAdmin, type AuthedRequest } from "../middlewares/auth";
@@ -32,6 +34,24 @@ router.post("/membership/apply", requireAuth, async (req, res) => {
   const parsed = insertMemberApplicationSchema.safeParse({ ...req.body, userId });
   if (!parsed.success) return res.status(400).json({ error: parsed.error.issues });
   const [row] = await db.insert(memberApplicationsTable).values(parsed.data).returning();
+  await db
+    .insert(adminAuditLogTable)
+    .values({
+      actorUserId: userId,
+      actorEmail: parsed.data.email,
+      action: "membership_apply",
+      entityType: "membership",
+      entityId: String(row.id),
+      payload: {
+        fullName: row.fullName,
+        email: row.email,
+        membershipTier: row.membershipTier,
+        adminEmails: process.env["ADMIN_EMAILS"] ?? "",
+      } as never,
+    })
+    .catch(() => {
+      /* swallow audit failures */
+    });
   return res.status(201).json(row);
 });
 
@@ -89,6 +109,21 @@ router.patch(
       .set(update)
       .where(eq(memberApplicationsTable.id, id))
       .returning();
+
+    if (status === "approved" && existing.userId) {
+      await db
+        .update(usersTable)
+        .set({
+          accountStatus: "approved",
+          approvedBy: (req as AuthedRequest).userId!,
+          approvedAt: new Date(),
+          approvalNotifiedAt: new Date(),
+        })
+        .where(eq(usersTable.id, existing.userId))
+        .catch(() => {
+          /* swallow user activation failures */
+        });
+    }
     return res.json(row);
   },
 );

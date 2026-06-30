@@ -31,6 +31,9 @@ const ALLOWED_MIME = new Set([
   "image/webp",
   "image/gif",
   "image/svg+xml",
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ]);
 
 const storage = multer.diskStorage({
@@ -50,7 +53,7 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
     if (ALLOWED_MIME.has(file.mimetype)) cb(null, true);
-    else cb(new Error("Unsupported image type"));
+    else cb(new Error("Unsupported file type"));
   },
 });
 

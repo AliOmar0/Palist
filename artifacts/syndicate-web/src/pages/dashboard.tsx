@@ -28,6 +28,7 @@ interface Me {
   firstName: string | null;
   lastName: string | null;
   role: string;
+  accountStatus: string;
 }
 
 export default function Dashboard() {
@@ -65,6 +66,25 @@ export default function Dashboard() {
               : "This is your member portal for the Palestinian IT Syndicate."}
           </p>
         </motion.div>
+
+        {me?.accountStatus && me.accountStatus !== "approved" && (
+          <div className="mb-8 rounded-lg border border-accent/50 bg-accent/15 p-5">
+            <h2 className="font-bold text-foreground">
+              {me.accountStatus === "rejected"
+                ? isAr ? "حسابك غير مفعّل حالياً" : "Your account is not active"
+                : isAr ? "حسابك بانتظار موافقة الإدارة" : "Your account is pending admin approval"}
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {me.accountStatus === "rejected"
+                ? isAr
+                  ? "يرجى التواصل مع النقابة لمراجعة حالة الحساب."
+                  : "Please contact the syndicate to review your account status."
+                : isAr
+                  ? "يمكنك إكمال معلوماتك وطلب العضوية، وسيظهر التفعيل هنا بعد موافقة الإدارة."
+                  : "You can complete your profile and membership request; activation will appear here after admin approval."}
+            </p>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           <div className="bg-card rounded-xl border p-6 shadow-sm">

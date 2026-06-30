@@ -16,6 +16,7 @@ const TABLES = [
   "users",
   "news",
   "events",
+  "event_registrations",
   "trainings",
   "publications",
   "jobs",

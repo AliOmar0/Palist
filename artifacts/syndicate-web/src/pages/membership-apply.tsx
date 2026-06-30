@@ -7,6 +7,7 @@ import { useLanguage } from "@/lib/language-context";
 import { apiFetch } from "@/lib/queryClient";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { ImageUpload } from "@/components/ImageUpload";
 import { useUser } from "@clerk/react";
 import { CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -15,8 +16,10 @@ type FormState = {
   fullNameEn: string;
   email: string;
   confirmEmail: string;
+  alternateEmail: string;
   phone: string;
   nationalId: string;
+  nationalIdImageUrl: string;
   gender: string;
   dateOfBirth: string;
   placeOfBirth: string;
@@ -35,6 +38,7 @@ type FormState = {
   employer: string;
   jobTitle: string;
   yearsExperience: string;
+  workConfirmationUrl: string;
   membershipTier: string;
   notes: string;
   declarationAccepted: boolean;
@@ -74,8 +78,10 @@ export default function MembershipApply() {
     fullNameEn: "",
     email: user?.primaryEmailAddress?.emailAddress ?? "",
     confirmEmail: user?.primaryEmailAddress?.emailAddress ?? "",
+    alternateEmail: "",
     phone: "",
     nationalId: "",
+    nationalIdImageUrl: "",
     gender: "",
     dateOfBirth: "",
     placeOfBirth: "",
@@ -94,7 +100,8 @@ export default function MembershipApply() {
     employer: "",
     jobTitle: "",
     yearsExperience: "",
-    membershipTier: "regular",
+    workConfirmationUrl: "",
+    membershipTier: "practicing",
     notes: "",
     declarationAccepted: false,
   });
@@ -145,6 +152,7 @@ export default function MembershipApply() {
     { k: "fullNameEn", ar: "الاسم الكامل (إنجليزي)", en: "Full name (English)", required: true },
     { k: "email", ar: "البريد الإلكتروني", en: "Email", required: true, type: "email" },
     { k: "confirmEmail", ar: "تأكيد البريد", en: "Confirm email", required: true, type: "email" },
+    { k: "alternateEmail", ar: "بريد إلكتروني احتياطي", en: "Backup email", type: "email" },
     { k: "nationalId", ar: "رقم الهوية", en: "National ID", required: true },
     { k: "phone", ar: "رقم الجوال", en: "Mobile number", required: true, type: "tel" },
     { k: "dateOfBirth", ar: "تاريخ الميلاد", en: "Date of birth", type: "date" },
@@ -192,7 +200,7 @@ export default function MembershipApply() {
         return false;
       }
       setEmailMismatch(false);
-      return Boolean(form.fullName && form.fullNameEn && form.email && form.nationalId && form.phone);
+      return Boolean(form.fullName && form.fullNameEn && form.email && form.nationalId && form.nationalIdImageUrl && form.phone);
     }
     return true;
   };
@@ -265,6 +273,19 @@ export default function MembershipApply() {
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {personal.map(renderField)}
+                  <div className="md:col-span-2">
+                    <ImageUpload
+                      label={isAr ? "صورة الهوية" : "ID photo"}
+                      value={form.nationalIdImageUrl}
+                      onChange={(url) => setForm((f) => ({ ...f, nationalIdImageUrl: url }))}
+                      helperText={isAr ? "صورة واضحة للهوية — حتى 5 ميغابايت" : "Clear ID image — up to 5 MB"}
+                    />
+                    {!form.nationalIdImageUrl && (
+                      <p className="mt-2 text-xs text-destructive">
+                        {isAr ? "صورة الهوية مطلوبة." : "ID photo is required."}
+                      </p>
+                    )}
+                  </div>
                   <label className="block">
                     <span className="text-sm font-medium text-foreground">{isAr ? "الجنس" : "Gender"}</span>
                     <select
@@ -349,6 +370,15 @@ export default function MembershipApply() {
                   {isAr ? "بيانات العمل" : "Employment"}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">{work.map(renderField)}</div>
+                <div className="mt-5">
+                  <ImageUpload
+                    label={isAr ? "مرفق تأكيد العمل في جهة العمل الحالية" : "Current workplace confirmation attachment"}
+                    value={form.workConfirmationUrl}
+                    onChange={(url) => setForm((f) => ({ ...f, workConfirmationUrl: url }))}
+                    variant="file"
+                    accept="image/png,image/jpeg,image/webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  />
+                </div>
               </div>
             </>
           )}
@@ -369,10 +399,15 @@ export default function MembershipApply() {
                       onChange={update("membershipTier")}
                       className="mt-1 w-full rounded-md border border-border bg-card dark:bg-card px-3 py-2 text-sm"
                     >
-                      <option value="regular">{isAr ? "عضو عامل" : "Regular member"}</option>
-                      <option value="associate">{isAr ? "عضو منتسب" : "Associate member"}</option>
-                      <option value="student">{isAr ? "عضو طالب" : "Student member"}</option>
-                      <option value="honorary">{isAr ? "عضو فخري" : "Honorary member"}</option>
+                      <option value="graduate_non_practicing">
+                        {isAr ? "عضوية خريج غير ممارس للمهنة" : "Graduate non-practicing membership"}
+                      </option>
+                      <option value="practicing">
+                        {isAr ? "عضوية ممارس للمهنة" : "Practicing professional membership"}
+                      </option>
+                      <option value="company">
+                        {isAr ? "عضوية شركات" : "Corporate membership"}
+                      </option>
                     </select>
                   </label>
                   <label className="block">
@@ -392,8 +427,8 @@ export default function MembershipApply() {
               <div className="border-t pt-5">
                 <p className="text-xs text-muted-foreground mb-3">
                   {isAr
-                    ? "يجب إرفاق المستندات الرسمية لاحقاً (شهادات جامعية مصدّقة، إثبات الهوية، شهادة الثانوية العامة، شهادة عدم محكومية، إثبات العمل، وصل البنك). سنتواصل معك لتزويدنا بها."
-                    : "Official documents will be requested after submission (attested university certificates, ID/passport, high school certificate, certificate of good conduct, work proof, and bank receipt). We will contact you to collect them."}
+                    ? "يجب إرفاق صورة الهوية الآن، وإرفاق ورقة تأكيد العمل في جهة العمل الحالية عند توفرها. قد تطلب النقابة مستندات إضافية بعد مراجعة الطلب."
+                    : "Please attach the ID photo now, and attach current workplace confirmation when available. The syndicate may request additional documents during review."}
                 </p>
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input

@@ -39,10 +39,25 @@ type Tab =
   | "audit";
 
 interface NewsRow { id: number; titleAr: string; titleEn: string | null; publishedAt: string; }
-interface EventRow { id: number; titleAr: string; startsAt: string; location: string | null; }
+interface EventRow { id: number; titleAr: string; startsAt: string; location: string | null; audience: string; }
 interface TrainingRow { id: number; titleAr: string; category: string | null; }
 interface PublicationRow { id: number; titleAr: string; publishedAt: string; }
-interface ApplicationRow { id: number; fullName: string; email: string; status: string; createdAt: string; membershipTier: string | null; }
+interface ApplicationRow {
+  id: number;
+  fullName: string;
+  fullNameEn: string | null;
+  email: string;
+  alternateEmail: string | null;
+  phone: string | null;
+  nationalId: string | null;
+  nationalIdImageUrl: string | null;
+  employer: string | null;
+  jobTitle: string | null;
+  workConfirmationUrl: string | null;
+  status: string;
+  createdAt: string;
+  membershipTier: string | null;
+}
 interface ContactRow { id: number; name: string; email: string; subject: string | null; message: string; read: boolean; createdAt: string; }
 
 export default function AdminPage() {
@@ -171,7 +186,13 @@ function GenericManager({
   listUrl: string;
   adminUrl: string;
   columns: Array<{ key: string; label: string }>;
-  fields: Array<{ key: string; label: string; type?: string; required?: boolean }>;
+  fields: Array<{
+    key: string;
+    label: string;
+    type?: string;
+    required?: boolean;
+    options?: Array<{ value: string; label: string }>;
+  }>;
   defaults: Record<string, unknown>;
 }) {
   const qc = useQueryClient();
@@ -235,6 +256,25 @@ function GenericManager({
                     onChange={(url) => setForm({ ...form, [f.key]: url })}
                   />
                 </div>
+              );
+            }
+            if (f.type === "select") {
+              return (
+                <label key={f.key}>
+                  <span className="text-xs font-medium text-foreground">{f.label}</span>
+                  <select
+                    required={f.required}
+                    value={String(form[f.key] ?? "")}
+                    onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
+                    className="mt-1 w-full rounded-md border bg-card px-3 py-2 text-sm"
+                  >
+                    {(f.options ?? []).map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
               );
             }
             return (
@@ -366,6 +406,16 @@ interface AdminUserRow {
   lastName: string | null;
   imageUrl: string | null;
   role: string;
+  fullNameAr: string | null;
+  fullNameEn: string | null;
+  nationalId: string | null;
+  specialty: string | null;
+  mobile: string | null;
+  workplace: string | null;
+  alternateEmail: string | null;
+  accountStatus: string;
+  approvedAt: string | null;
+  approvalNotifiedAt: string | null;
   createdAt: string;
   isPrimaryAdmin: boolean;
 }
@@ -391,6 +441,26 @@ function AdminsManager({ isAr }: { isAr: boolean }) {
       alert(err instanceof Error ? err.message : String(err));
     },
   });
+  const setStatus = useMutation({
+    mutationFn: ({
+      id,
+      accountStatus,
+    }: {
+      id: string;
+      accountStatus: "pending" | "approved" | "rejected";
+    }) =>
+      apiFetch(`/api/admin/users/${id}/status`, {
+        method: "PATCH",
+        body: JSON.stringify({ accountStatus }),
+      }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin", "users"] });
+      qc.invalidateQueries({ queryKey: ["admin", "audit"] });
+    },
+    onError: (err) => {
+      alert(err instanceof Error ? err.message : String(err));
+    },
+  });
 
   return (
     <div>
@@ -399,8 +469,8 @@ function AdminsManager({ isAr }: { isAr: boolean }) {
       </div>
       <p className="text-sm text-muted-foreground mb-4">
         {isAr
-          ? "قم بترقية أي عضو إلى مسؤول، أو إلغاء صلاحيات أي مسؤول. لا يمكن إلغاء صلاحيات المسؤول الأساسي أو حسابك الحالي."
-          : "Promote any member to admin, or demote any admin. The primary admin and your own account are protected from demotion."}
+          ? "راجع طلبات الحسابات الجديدة، فعّل أو ارفض الحساب، وقم بترقية أي عضو إلى مسؤول عند الحاجة."
+          : "Review new account requests, approve or reject accounts, and promote members to admin when needed."}
       </p>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
@@ -408,7 +478,9 @@ function AdminsManager({ isAr }: { isAr: boolean }) {
             <tr className="text-left text-muted-foreground border-b">
               <th className="py-2 pe-3">{isAr ? "المستخدم" : "User"}</th>
               <th className="py-2 pe-3">{isAr ? "البريد" : "Email"}</th>
+              <th className="py-2 pe-3">{isAr ? "الحالة" : "Status"}</th>
               <th className="py-2 pe-3">{isAr ? "الدور" : "Role"}</th>
+              <th className="py-2 pe-3">{isAr ? "معلومات أساسية" : "Profile"}</th>
               <th className="py-2 pe-3">{isAr ? "تاريخ الانضمام" : "Joined"}</th>
               <th />
             </tr>
@@ -437,6 +509,28 @@ function AdminsManager({ isAr }: { isAr: boolean }) {
                   <td className="py-2 pe-3 text-muted-foreground">{u.email}</td>
                   <td className="py-2 pe-3">
                     <span
+                      className={`text-xs px-2 py-0.5 rounded font-semibold ${
+                        u.accountStatus === "approved"
+                          ? "bg-green-100 text-green-700"
+                          : u.accountStatus === "rejected"
+                            ? "bg-destructive/10 text-destructive"
+                            : "bg-accent/25 text-primary"
+                      }`}
+                    >
+                      {u.accountStatus === "approved"
+                        ? isAr ? "مفعّل" : "Approved"
+                        : u.accountStatus === "rejected"
+                          ? isAr ? "مرفوض" : "Rejected"
+                          : isAr ? "بانتظار الموافقة" : "Pending"}
+                    </span>
+                    {u.approvalNotifiedAt && (
+                      <p className="text-[11px] text-muted-foreground mt-1">
+                        {isAr ? "تم تسجيل إشعار التفعيل" : "Activation notice recorded"}
+                      </p>
+                    )}
+                  </td>
+                  <td className="py-2 pe-3">
+                    <span
                       className={`text-xs px-2 py-0.5 rounded ${
                         u.role === "admin"
                           ? "bg-primary/15 text-primary font-semibold"
@@ -446,10 +540,39 @@ function AdminsManager({ isAr }: { isAr: boolean }) {
                       {u.role === "admin" ? (isAr ? "مسؤول" : "Admin") : isAr ? "عضو" : "Member"}
                     </span>
                   </td>
+                  <td className="py-2 pe-3 text-xs text-muted-foreground min-w-48">
+                    <div className="font-medium text-foreground">
+                      {u.fullNameAr || u.fullNameEn || "—"}
+                    </div>
+                    <div>{u.specialty || u.workplace || ""}</div>
+                    <div>{u.mobile || u.alternateEmail || ""}</div>
+                    {u.nationalId && <div>{isAr ? "هوية: " : "ID: "}{u.nationalId}</div>}
+                  </td>
                   <td className="py-2 pe-3 text-muted-foreground">
                     {new Date(u.createdAt).toLocaleDateString(isAr ? "ar-EG" : "en-US")}
                   </td>
                   <td className="py-2 text-end">
+                    <div className="flex flex-col items-end gap-2">
+                      {u.accountStatus !== "approved" && (
+                        <Button
+                          size="sm"
+                          disabled={setStatus.isPending}
+                          className="bg-green-600 hover:bg-green-700 text-white"
+                          onClick={() => setStatus.mutate({ id: u.id, accountStatus: "approved" })}
+                        >
+                          {isAr ? "تفعيل" : "Approve"}
+                        </Button>
+                      )}
+                      {u.accountStatus !== "rejected" && !isPrimary && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          disabled={setStatus.isPending}
+                          onClick={() => setStatus.mutate({ id: u.id, accountStatus: "rejected" })}
+                        >
+                          {isAr ? "رفض" : "Reject"}
+                        </Button>
+                      )}
                     {u.role === "admin" ? (
                       <Button
                         size="sm"
@@ -489,13 +612,14 @@ function AdminsManager({ isAr }: { isAr: boolean }) {
                         {isAr ? "ترقية إلى مسؤول" : "Promote to admin"}
                       </Button>
                     )}
+                    </div>
                   </td>
                 </tr>
               );
             })}
             {list.data?.length === 0 && (
               <tr>
-                <td colSpan={5} className="py-8 text-center text-muted-foreground">
+                <td colSpan={7} className="py-8 text-center text-muted-foreground">
                   {isAr ? "لا يوجد مستخدمون بعد" : "No users yet"}
                 </td>
               </tr>
@@ -537,30 +661,113 @@ function NewsManager({ isAr }: { isAr: boolean }) {
 
 function EventsManager({ isAr }: { isAr: boolean }) {
   return (
-    <GenericManager
-      isAr={isAr}
-      title={isAr ? "إدارة الفعاليات" : "Manage Events"}
-      listKey={["events"]}
-      listUrl="/api/events"
-      adminUrl="/api/admin/events"
-      columns={[
-        { key: "id", label: "ID" },
-        { key: "titleAr", label: isAr ? "العنوان" : "Title" },
-        { key: "location", label: isAr ? "الموقع" : "Location" },
-        { key: "startsAt", label: isAr ? "البداية" : "Starts" },
-      ]}
-      fields={[
-        { key: "titleAr", label: isAr ? "العنوان بالعربية" : "Title (Arabic)", required: true },
-        { key: "titleEn", label: isAr ? "العنوان بالإنجليزية" : "Title (English)" },
-        { key: "location", label: isAr ? "الموقع" : "Location" },
-        { key: "startsAt", label: isAr ? "تاريخ البداية" : "Starts at", type: "datetime-local", required: true },
-        { key: "endsAt", label: isAr ? "تاريخ النهاية" : "Ends at", type: "datetime-local" },
-        { key: "coverImage", label: isAr ? "صورة الغلاف" : "Cover image", type: "image" },
-        { key: "descriptionAr", label: isAr ? "الوصف (عربي)" : "Description (AR)", type: "textarea" },
-        { key: "descriptionEn", label: isAr ? "الوصف (إنجليزي)" : "Description (EN)", type: "textarea" },
-      ]}
-      defaults={{ titleAr: "", titleEn: "", location: "", startsAt: "", endsAt: "", coverImage: "", descriptionAr: "", descriptionEn: "" }}
-    />
+    <div className="space-y-8">
+      <GenericManager
+        isAr={isAr}
+        title={isAr ? "إدارة الفعاليات" : "Manage Events"}
+        listKey={["events"]}
+        listUrl="/api/events"
+        adminUrl="/api/admin/events"
+        columns={[
+          { key: "id", label: "ID" },
+          { key: "titleAr", label: isAr ? "العنوان" : "Title" },
+          { key: "audience", label: isAr ? "الفئة" : "Audience" },
+          { key: "location", label: isAr ? "الموقع" : "Location" },
+          { key: "startsAt", label: isAr ? "البداية" : "Starts" },
+        ]}
+        fields={[
+          { key: "titleAr", label: isAr ? "العنوان بالعربية" : "Title (Arabic)", required: true },
+          { key: "titleEn", label: isAr ? "العنوان بالإنجليزية" : "Title (English)" },
+          {
+            key: "audience",
+            label: isAr ? "تصنيف الفعالية" : "Event audience",
+            type: "select",
+            options: [
+              { value: "all", label: isAr ? "للأعضاء والزوار" : "Members and visitors" },
+              { value: "members", label: isAr ? "للأعضاء فقط" : "Members only" },
+              { value: "visitors", label: isAr ? "لغير الأعضاء / الزوار" : "Visitors / non-members" },
+            ],
+          },
+          { key: "location", label: isAr ? "الموقع" : "Location" },
+          { key: "startsAt", label: isAr ? "تاريخ البداية" : "Starts at", type: "datetime-local", required: true },
+          { key: "endsAt", label: isAr ? "تاريخ النهاية" : "Ends at", type: "datetime-local" },
+          { key: "coverImage", label: isAr ? "صورة الغلاف" : "Cover image", type: "image" },
+          { key: "descriptionAr", label: isAr ? "الوصف (عربي)" : "Description (AR)", type: "textarea" },
+          { key: "descriptionEn", label: isAr ? "الوصف (إنجليزي)" : "Description (EN)", type: "textarea" },
+        ]}
+        defaults={{
+          titleAr: "",
+          titleEn: "",
+          audience: "all",
+          location: "",
+          startsAt: "",
+          endsAt: "",
+          coverImage: "",
+          descriptionAr: "",
+          descriptionEn: "",
+        }}
+      />
+      <EventRegistrationsList isAr={isAr} />
+    </div>
+  );
+}
+
+interface EventRegistrationRow {
+  id: number;
+  eventId: number;
+  fullName: string;
+  email: string;
+  phone: string | null;
+  attendeeType: string;
+  createdAt: string;
+}
+
+function EventRegistrationsList({ isAr }: { isAr: boolean }) {
+  const list = useQuery<EventRegistrationRow[]>({
+    queryKey: ["admin", "event-registrations"],
+    queryFn: () => apiFetch("/api/admin/event-registrations"),
+  });
+  return (
+    <div className="border-t pt-6">
+      <h3 className="text-lg font-bold mb-4">
+        {isAr ? "تسجيلات الفعاليات كزوار/أعضاء" : "Event registrations"}
+      </h3>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-left text-muted-foreground border-b">
+              <th className="py-2 pe-3">{isAr ? "الفعالية" : "Event"}</th>
+              <th className="py-2 pe-3">{isAr ? "الاسم" : "Name"}</th>
+              <th className="py-2 pe-3">{isAr ? "البريد" : "Email"}</th>
+              <th className="py-2 pe-3">{isAr ? "الجوال" : "Phone"}</th>
+              <th className="py-2 pe-3">{isAr ? "النوع" : "Type"}</th>
+              <th className="py-2 pe-3">{isAr ? "التاريخ" : "Date"}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {list.data?.map((row) => (
+              <tr key={row.id} className="border-b last:border-0 hover:bg-muted">
+                <td className="py-2 pe-3">#{row.eventId}</td>
+                <td className="py-2 pe-3 font-medium">{row.fullName}</td>
+                <td className="py-2 pe-3 text-muted-foreground">{row.email}</td>
+                <td className="py-2 pe-3 text-muted-foreground">{row.phone ?? "—"}</td>
+                <td className="py-2 pe-3">{row.attendeeType}</td>
+                <td className="py-2 pe-3 text-muted-foreground">
+                  {new Date(row.createdAt).toLocaleDateString(isAr ? "ar" : "en")}
+                </td>
+              </tr>
+            ))}
+            {list.data?.length === 0 && (
+              <tr>
+                <td colSpan={6} className="py-8 text-center text-muted-foreground">
+                  {isAr ? "لا توجد تسجيلات بعد" : "No registrations yet"}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
 
@@ -764,7 +971,11 @@ function ApplicationsManager({ isAr }: { isAr: boolean }) {
   const update = useMutation({
     mutationFn: ({ id, status }: { id: number; status: string }) =>
       apiFetch(`/api/admin/applications/${id}`, { method: "PATCH", body: JSON.stringify({ status }) }),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "applications"] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin", "applications"] });
+      qc.invalidateQueries({ queryKey: ["admin", "users"] });
+      qc.invalidateQueries({ queryKey: ["admin", "audit"] });
+    },
   });
 
   return (
@@ -776,6 +987,9 @@ function ApplicationsManager({ isAr }: { isAr: boolean }) {
             <tr className="text-left text-muted-foreground border-b">
               <th className="py-2">{isAr ? "الاسم" : "Name"}</th>
               <th className="py-2">{isAr ? "البريد" : "Email"}</th>
+              <th className="py-2">{isAr ? "تواصل" : "Contact"}</th>
+              <th className="py-2">{isAr ? "العمل" : "Work"}</th>
+              <th className="py-2">{isAr ? "مرفقات" : "Attachments"}</th>
               <th className="py-2">{isAr ? "الفئة" : "Tier"}</th>
               <th className="py-2">{isAr ? "الحالة" : "Status"}</th>
               <th className="py-2">{isAr ? "إجراء" : "Action"}</th>
@@ -785,7 +999,36 @@ function ApplicationsManager({ isAr }: { isAr: boolean }) {
             {list.data?.map((row) => (
               <tr key={row.id} className="border-b last:border-0">
                 <td className="py-2">{row.fullName}</td>
-                <td className="py-2 text-muted-foreground">{row.email}</td>
+                <td className="py-2 text-muted-foreground">
+                  <div>{row.email}</div>
+                  {row.alternateEmail && (
+                    <div className="text-xs">{isAr ? "احتياطي: " : "Backup: "}{row.alternateEmail}</div>
+                  )}
+                </td>
+                <td className="py-2 text-muted-foreground">
+                  <div>{row.phone ?? "—"}</div>
+                  {row.nationalId && <div className="text-xs">{isAr ? "هوية: " : "ID: "}{row.nationalId}</div>}
+                </td>
+                <td className="py-2 text-muted-foreground">
+                  <div>{row.employer ?? "—"}</div>
+                  {row.jobTitle && <div className="text-xs">{row.jobTitle}</div>}
+                </td>
+                <td className="py-2">
+                  <div className="flex flex-col gap-1 text-xs">
+                    {row.nationalIdImageUrl ? (
+                      <a href={row.nationalIdImageUrl} target="_blank" rel="noreferrer" className="text-primary hover:underline">
+                        {isAr ? "صورة الهوية" : "ID photo"}
+                      </a>
+                    ) : (
+                      <span className="text-muted-foreground">—</span>
+                    )}
+                    {row.workConfirmationUrl && (
+                      <a href={row.workConfirmationUrl} target="_blank" rel="noreferrer" className="text-primary hover:underline">
+                        {isAr ? "تأكيد العمل" : "Work confirmation"}
+                      </a>
+                    )}
+                  </div>
+                </td>
                 <td className="py-2">{row.membershipTier ?? "—"}</td>
                 <td className="py-2 capitalize">{row.status}</td>
                 <td className="py-2">

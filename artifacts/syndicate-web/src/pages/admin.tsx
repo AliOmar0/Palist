@@ -51,6 +51,15 @@ interface ApplicationRow {
   phone: string | null;
   nationalId: string | null;
   nationalIdImageUrl: string | null;
+  documentRows: Array<{
+    id?: string;
+    documentType?: string;
+    issuer?: string;
+    title?: string;
+    date?: string;
+    fileUrl?: string;
+    notes?: string;
+  }> | null;
   employer: string | null;
   jobTitle: string | null;
   workConfirmationUrl: string | null;
@@ -1027,6 +1036,28 @@ function ApplicationsManager({ isAr }: { isAr: boolean }) {
                         {isAr ? "تأكيد العمل" : "Work confirmation"}
                       </a>
                     )}
+                    {row.documentRows?.map((doc, index) => {
+                      const label =
+                        doc.documentType ||
+                        doc.title ||
+                        (isAr ? `مرفق إضافي ${index + 1}` : `Additional document ${index + 1}`);
+                      return doc.fileUrl ? (
+                        <a
+                          key={doc.id ?? `${label}-${index}`}
+                          href={doc.fileUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-primary hover:underline"
+                          title={[doc.issuer, doc.date, doc.notes].filter(Boolean).join(" · ")}
+                        >
+                          {label}
+                        </a>
+                      ) : (
+                        <span key={doc.id ?? `${label}-${index}`} className="text-muted-foreground">
+                          {label}
+                        </span>
+                      );
+                    })}
                   </div>
                 </td>
                 <td className="py-2">{row.membershipTier ?? "—"}</td>

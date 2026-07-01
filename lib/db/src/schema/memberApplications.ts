@@ -1,6 +1,16 @@
-import { boolean, integer, pgTable, serial, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { boolean, integer, jsonb, pgTable, serial, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
+
+export type ApplicationDocumentRow = {
+  id?: string;
+  documentType?: string;
+  issuer?: string;
+  title?: string;
+  date?: string;
+  fileUrl?: string;
+  notes?: string;
+};
 
 export const memberApplicationsTable = pgTable("member_applications", {
   id: serial("id").primaryKey(),
@@ -31,6 +41,7 @@ export const memberApplicationsTable = pgTable("member_applications", {
   major: text("major"),
   average: varchar("average", { length: 16 }),
   graduationYear: varchar("graduation_year", { length: 8 }),
+  documentRows: jsonb("document_rows").$type<ApplicationDocumentRow[]>(),
 
   employer: text("employer"),
   jobTitle: text("job_title"),

@@ -9,7 +9,17 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ImageUpload } from "@/components/ImageUpload";
 import { useUser } from "@clerk/react";
-import { CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
+import { CheckCircle2, ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react";
+
+type ApplicationDocumentRow = {
+  id: string;
+  documentType: string;
+  issuer: string;
+  title: string;
+  date: string;
+  fileUrl: string;
+  notes: string;
+};
 
 type FormState = {
   fullName: string;
@@ -35,6 +45,7 @@ type FormState = {
   major: string;
   average: string;
   graduationYear: string;
+  documentRows: ApplicationDocumentRow[];
   employer: string;
   jobTitle: string;
   yearsExperience: string;
@@ -64,6 +75,18 @@ const STEPS = [
   { ar: "التعليم والعمل", en: "Education & employment" },
   { ar: "العضوية والإقرار", en: "Membership & declaration" },
 ];
+
+function createDocumentRow(): ApplicationDocumentRow {
+  return {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    documentType: "",
+    issuer: "",
+    title: "",
+    date: "",
+    fileUrl: "",
+    notes: "",
+  };
+}
 
 export default function MembershipApply() {
   const { language } = useLanguage();
@@ -97,6 +120,7 @@ export default function MembershipApply() {
     major: "",
     average: "",
     graduationYear: "",
+    documentRows: [createDocumentRow()],
     employer: "",
     jobTitle: "",
     yearsExperience: "",
@@ -121,6 +145,32 @@ export default function MembershipApply() {
         e.target.type === "checkbox" ? (e.target as HTMLInputElement).checked : e.target.value;
       setForm((f) => ({ ...f, [k]: value as FormState[K] }));
     };
+
+  const updateDocumentRow = <K extends keyof ApplicationDocumentRow>(
+    id: string,
+    key: K,
+    value: ApplicationDocumentRow[K],
+  ) => {
+    setForm((f) => ({
+      ...f,
+      documentRows: f.documentRows.map((row) =>
+        row.id === id ? { ...row, [key]: value } : row,
+      ),
+    }));
+  };
+
+  const addDocumentRow = () => {
+    setForm((f) => ({ ...f, documentRows: [...f.documentRows, createDocumentRow()] }));
+  };
+
+  const removeDocumentRow = (id: string) => {
+    setForm((f) => ({
+      ...f,
+      documentRows: f.documentRows.length > 1
+        ? f.documentRows.filter((row) => row.id !== id)
+        : [createDocumentRow()],
+    }));
+  };
 
   if (submitted) {
     return (
@@ -261,7 +311,12 @@ export default function MembershipApply() {
               setStep(0);
               return;
             }
-            mutation.mutate(form);
+            mutation.mutate({
+              ...form,
+              documentRows: form.documentRows.filter((row) =>
+                Object.entries(row).some(([key, value]) => key !== "id" && String(value).trim() !== ""),
+              ),
+            });
           }}
           className="bg-card dark:bg-card rounded-xl border p-6 md:p-8 shadow-sm space-y-8"
         >
@@ -364,6 +419,118 @@ export default function MembershipApply() {
                   {isAr ? "المؤهلات العلمية" : "Education"}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">{education.map(renderField)}</div>
+                <div className="mt-8">
+                  <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <h3 className="font-bold text-foreground">
+                        {isAr ? "أوراق التعليم والمرفقات الداعمة" : "Education papers and supporting documents"}
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {isAr
+                          ? "أضف صفاً لكل شهادة، ورقة خبرة، اعتماد، أو مستند داعم."
+                          : "Add one row for each degree, experience paper, certificate, or supporting document."}
+                      </p>
+                    </div>
+                    <Button type="button" variant="outline" size="sm" onClick={addDocumentRow}>
+                      <Plus className="w-4 h-4 me-1" />
+                      {isAr ? "إضافة صف" : "Add row"}
+                    </Button>
+                  </div>
+                  <div className="overflow-x-auto rounded-lg border">
+                    <table className="w-full min-w-[980px] text-sm">
+                      <thead className="bg-muted/50 text-muted-foreground">
+                        <tr>
+                          <th className="px-3 py-2 text-start font-semibold">
+                            {isAr ? "نوع الورقة" : "Document type"}
+                          </th>
+                          <th className="px-3 py-2 text-start font-semibold">
+                            {isAr ? "الجهة / المؤسسة" : "Issuer / institution"}
+                          </th>
+                          <th className="px-3 py-2 text-start font-semibold">
+                            {isAr ? "العنوان / التخصص" : "Title / specialty"}
+                          </th>
+                          <th className="px-3 py-2 text-start font-semibold">
+                            {isAr ? "التاريخ / السنة" : "Date / year"}
+                          </th>
+                          <th className="px-3 py-2 text-start font-semibold">
+                            {isAr ? "المرفق" : "Attachment"}
+                          </th>
+                          <th className="px-3 py-2 text-start font-semibold">
+                            {isAr ? "ملاحظات" : "Notes"}
+                          </th>
+                          <th className="px-3 py-2" aria-label={isAr ? "إجراءات" : "Actions"} />
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {form.documentRows.map((row) => (
+                          <tr key={row.id} className="border-t align-top">
+                            <td className="p-3">
+                              <input
+                                value={row.documentType}
+                                onChange={(e) => updateDocumentRow(row.id, "documentType", e.target.value)}
+                                placeholder={isAr ? "شهادة، خبرة..." : "Degree, experience..."}
+                                className="w-full rounded-md border border-border bg-card px-3 py-2"
+                              />
+                            </td>
+                            <td className="p-3">
+                              <input
+                                value={row.issuer}
+                                onChange={(e) => updateDocumentRow(row.id, "issuer", e.target.value)}
+                                placeholder={isAr ? "جامعة/شركة..." : "University/company..."}
+                                className="w-full rounded-md border border-border bg-card px-3 py-2"
+                              />
+                            </td>
+                            <td className="p-3">
+                              <input
+                                value={row.title}
+                                onChange={(e) => updateDocumentRow(row.id, "title", e.target.value)}
+                                placeholder={isAr ? "بكالوريوس حاسوب..." : "BSc Computer Science..."}
+                                className="w-full rounded-md border border-border bg-card px-3 py-2"
+                              />
+                            </td>
+                            <td className="p-3">
+                              <input
+                                value={row.date}
+                                onChange={(e) => updateDocumentRow(row.id, "date", e.target.value)}
+                                placeholder={isAr ? "2024" : "2024"}
+                                className="w-full rounded-md border border-border bg-card px-3 py-2"
+                              />
+                            </td>
+                            <td className="p-3 min-w-64">
+                              <ImageUpload
+                                value={row.fileUrl}
+                                onChange={(url) => updateDocumentRow(row.id, "fileUrl", url)}
+                                variant="file"
+                                accept="image/png,image/jpeg,image/webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                buttonText={isAr ? "رفع" : "Upload"}
+                              />
+                            </td>
+                            <td className="p-3">
+                              <input
+                                value={row.notes}
+                                onChange={(e) => updateDocumentRow(row.id, "notes", e.target.value)}
+                                placeholder={isAr ? "أي تفاصيل إضافية" : "Extra details"}
+                                className="w-full rounded-md border border-border bg-card px-3 py-2"
+                              />
+                            </td>
+                            <td className="p-3 text-end">
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => removeDocumentRow(row.id)}
+                                aria-label={isAr ? "حذف الصف" : "Remove row"}
+                                className="text-destructive hover:text-destructive"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
               <div>
                 <h2 className="text-lg font-bold mb-4 border-b pb-2">

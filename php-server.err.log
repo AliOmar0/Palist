@@ -514,3 +514,40 @@
 [Mon Jul  6 00:47:18 2026] 127.0.0.1:65132 Closing
 [Mon Jul  6 00:47:28 2026] 127.0.0.1:52444 [404]: GET /favicon.ico - No such file or directory
 [Mon Jul  6 00:47:28 2026] 127.0.0.1:52444 Closing
+[Mon Jul  6 01:01:05 2026] 127.0.0.1:59146 Accepted
+[Mon Jul  6 01:01:06 2026] 
+<div class="l_purple_c l_f10">[LEGION MARK]</div><div class="l_purple_c">MySQL Statement: </div>'SELECT * FROM reports_8362 WHERE !deleted   ORDER BY  id desc LIMIT 4'<div class="l_mb3"></div>Table 'palist_legion.reports_8362' doesn't exist<pre class="l_grass_c l_lh12 l_f10"><div class="l_po" onclick="$(this).parent().find('.__error_expandable').slideToggle()">Expand</div><div class="__error_expandable" style="display:none">array (
+  'file' => 'C:\\Users\\shath\\Palist\\legacy-php\\palistnew-shatha\\index.php',
+  'line' => 212,
+  'function' => 'db',
+  'args' => 
+  array (
+    0 => 'reports_8362',
+    1 => NULL,
+    2 => ' id desc',
+    3 => 'LIMIT 4',
+  ),
+)</div></pre>
+[Mon Jul  6 01:01:06 2026] 127.0.0.1:59146 [200]: GET /
+[Mon Jul  6 01:01:06 2026] 127.0.0.1:59146 Closing
+[Mon Jul  6 01:01:07 2026] 127.0.0.1:59148 Accepted
+[Mon Jul  6 01:01:07 2026] 127.0.0.1:59148 [200]: GET /
+[Mon Jul  6 01:01:07 2026] 127.0.0.1:59148 Closing
+[Mon Jul  6 01:02:04 2026] 127.0.0.1:51535 Accepted
+[Mon Jul  6 01:02:04 2026] 127.0.0.1:53581 Accepted
+[Mon Jul  6 01:02:04 2026] 127.0.0.1:51535 [404]: GET /api/v2/news.phphttp://127.0.0.1:8090/api/v2/events.php - No such file or directory
+[Mon Jul  6 01:02:04 2026] 127.0.0.1:51535 Closing
+[Mon Jul  6 01:02:20 2026] 127.0.0.1:53581 [200]: GET /api/v2/news.php
+[Mon Jul  6 01:02:20 2026] 127.0.0.1:53581 Closing
+[Mon Jul  6 01:02:20 2026] 127.0.0.1:62990 Accepted
+[Mon Jul  6 01:02:51 2026] 127.0.0.1:62990 [200]: GET /api/v2/events.php
+[Mon Jul  6 01:02:51 2026] 127.0.0.1:62990 Closing
+[Mon Jul  6 01:02:51 2026] 127.0.0.1:56655 Accepted
+[Mon Jul  6 01:04:41 2026] 127.0.0.1:56655 Closed without sending a request; it was probably just an unused speculative preconnection
+[Mon Jul  6 01:04:41 2026] 127.0.0.1:56655 Closing
+[Mon Jul  6 01:28:08 2026] 127.0.0.1:54598 Accepted
+[Mon Jul  6 01:28:08 2026] 127.0.0.1:52865 Accepted
+[Mon Jul  6 01:28:19 2026] 127.0.0.1:52865 [200]: GET /api/v2/events.php
+[Mon Jul  6 01:28:19 2026] 127.0.0.1:52865 Closing
+[Mon Jul  6 01:28:57 2026] 127.0.0.1:54598 [404]: GET /.well-known/appspecific/com.chrome.devtools.json - No such file or directory
+[Mon Jul  6 01:28:57 2026] 127.0.0.1:54598 Closing

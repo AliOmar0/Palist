@@ -977,15 +977,20 @@ function curr(){
         elseif($_SERVER['REQUEST_URI'])
                 {
                         
-                        $curr_lang=explode('/',$_SERVER['REQUEST_URI']);
+                        $request_path=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
+                        $segments=array_values(array_filter(explode('/',$request_path),'strlen'));
                         if($settings['cms_folder']==NULL)
-                                $curr_lang=$curr_lang[1];
-                        else
-                                $curr_lang=$curr_lang[2];
+                                $curr_lang=$segments[0] ?? NULL;
+                        else{
+                                $cms_segment=trim($settings['cms_folder'],'/');
+                                $curr_lang=(($segments[0] ?? NULL)==$cms_segment)
+                                        ? ($segments[1] ?? NULL)
+                                        : ($segments[0] ?? NULL);
+                        }
                         
         
 
-                        $key = array_search($curr_lang,array_column($langArr,'prefix'));
+                        $key = $curr_lang==NULL ? false : array_search($curr_lang,array_column($langArr,'prefix'));
 
                         if($key!==false)
                                 return $langArr[$key]['prefix'];

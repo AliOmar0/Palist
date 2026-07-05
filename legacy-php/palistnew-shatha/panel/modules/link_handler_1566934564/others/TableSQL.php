@@ -1,0 +1,30 @@
+CREATE TABLE `link_handler_1566934564` (
+		 `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+		 `date_modified` datetime DEFAULT NULL,
+ 		`admin_add_id` int(11) NOT NULL DEFAULT '0',
+		 `date_created` datetime DEFAULT NULL,
+	    `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		`deleted` tinyint(1) NOT NULL DEFAULT '0',
+		`restricted` tinyint(1) NOT NULL DEFAULT '0',
+        
+		    `module_prefix` INT(11) DEFAULT NULL  COMMENT 'Module Prefix',
+		    `all_entries` VARCHAR(250) DEFAULT NULL  COMMENT 'All Entries',
+		    `single` VARCHAR(250) DEFAULT NULL  COMMENT 'Single',
+		    `custom` VARCHAR(250) DEFAULT NULL  COMMENT 'Custom',
+		    `single_title` INT(11) DEFAULT NULL  COMMENT 'Single Title',
+		    `single_description` INT(11) DEFAULT NULL  COMMENT 'Single Description',
+		    `publish_date_field` INT(11) DEFAULT NULL  COMMENT 'Publish Date Field',
+		    `single_photo` INT(11) DEFAULT NULL  COMMENT 'Single Photo',
+		    `single_title_alternative` INT(11) DEFAULT NULL  COMMENT 'Single Title Alternative',
+		    `single_alternative` INT(11) DEFAULT NULL  COMMENT 'Single Description Alternative',
+		    `single_photo_description` INT(11) DEFAULT NULL  COMMENT 'Single Photo Description',
+		    `single_title_prefix` VARCHAR(250) DEFAULT NULL  COMMENT 'Single Title Prefix',
+		    `all_entries_title` VARCHAR(250) DEFAULT NULL  COMMENT 'All Entries Title',
+		    `robot_index` BOOLEAN  DEFAULT '1' COMMENT 'Robot Index',
+		    `robot_follow` BOOLEAN  DEFAULT '1' COMMENT 'Robot Follow',
+		    `all_entries_photo` VARCHAR(2000) DEFAULT NULL  COMMENT 'All Entries Photo',
+		    `all_entries_description` TEXT DEFAULT NULL  COMMENT 'All Entries Description',
+PRIMARY KEY (`id`),
+INDEX (`deleted`)
+,INDEX (`module_prefix`),INDEX (`all_entries`),INDEX (`single`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

@@ -1,0 +1,2 @@
+INSERT INTO `module_settings` (`admin_add_id`,`module_prefix`, `default_column`, `default_order`, `items_per_page`, `ml_fields`,`menu_field`) VALUES
+('1','link_handler_1566934564','id','DESC', 25,'module_prefix,single_title_prefix,all_entries_title,all_entries_description','');

@@ -1,0 +1,2 @@
+INSERT INTO `module_settings` (`admin_add_id`,`module_prefix`, `default_column`, `default_order`, `items_per_page`, `ml_fields`,`menu_field`) VALUES
+('1','menu_items_1564508835','id','DESC', 25,'custom_title,custom_link','');

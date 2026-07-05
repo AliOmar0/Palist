@@ -1,0 +1,2 @@
+INSERT INTO `module_settings` (`admin_add_id`,`module_prefix`, `search_phrase`, `default_column`, `default_order`, `items_per_page`, `ml_fields`,`menu_field`) VALUES
+('1','about_the_syndicate_8362', 'title,photo,photo_in_single,summary,content,mission_icon,mission_title,mission_content,vision_icon,vision_title,vision_content', 'id', 'DESC', 50,'title,summary,content,mission_title,mission_content,vision_title,vision_content','title');

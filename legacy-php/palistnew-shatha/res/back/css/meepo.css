@@ -1,0 +1,402 @@
+.meElemTool:hover {
+    text-decoration:underline;
+}
+
+.meElemTool:last-child {
+    margin-right: unset;
+}
+
+.meElemTool {
+    padding: 3px;
+    font-size: 12px;
+}
+
+.meElemTools {
+    position: absolute;
+    z-index: 1;
+    background: #eee;
+    padding: 0;
+    font-size: 9px;
+    color: black;
+    box-shadow: 0 0 3px #80808070;
+    display: none;
+    top:0;
+    left:0;
+    /* right:0; */
+}
+
+.meTool input {
+    border: 1px solid #ececec !important;
+    border-radius: 4px !important;
+    padding: 1px !important;
+    /* width: 50px !important; */
+    font-size: 9px !important;
+  }
+
+
+  .meTool input[type=color] {
+    border: none !important;
+    width: 20px !important;
+    height: 10px !important;
+    border-radius: 100% !important;
+    vertical-align:middle !important;
+    
+  }
+
+  .meTool {
+    margin-top: 3px;
+  }
+
+
+.meColumn {
+    min-height: 16px;
+    /* padding-bottom: 20px; */
+  }
+/* 
+.meColumn:hover{
+    padding-bottom: 20px;
+} */
+.meAboveTools {
+    top: 0;
+    /* right:unset; */
+    /* left: */
+}
+
+.meBelowTools {
+    border: 1px solid green;
+    bottom: -24px;
+    top:unset;
+}
+
+#gradx_gradX .gradx_panel {
+    width: 100%;
+}
+
+#gradx_code {
+    height: 37px;
+    overflow: hidden;
+    min-height: unset;
+}
+
+#gradx_gradX .gradx_start_sliders {
+    width: calc(100% + 12px);
+    margin-top: 8px;
+    margin-left: -6px;
+
+}
+
+#gradX {
+    position: absolute;
+    z-index: 1;
+}
+
+
+.meLabelSugg:hover {
+    background: #fff5ff;
+}
+
+#meRights {
+    font-size: 10px;
+    color: #979797;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.move {
+    cursor: move;
+}
+
+#meepo {
+    margin: 20px 0;
+    padding-bottom: 360px;
+}
+
+#meControlWrap {
+    width: 250px;
+  }
+
+
+#meepoBig {
+    width: calc(100% - 280px);
+    margin-right:30px;
+  }
+
+
+#meToolsWrap {
+    text-align: center;
+    z-index: 1;
+    margin-bottom: 10px;
+}
+
+.meLabelSugg {
+    padding: 9px 20px;
+    background: #fff;
+    box-shadow: 0 0 3px #8080803d;
+}
+
+.meLabelSugg i {
+    color: purple;
+    text-shadow: 0 0 3px #dcd;
+}
+
+
+.meGreen {
+    background: #86FFCE;
+}
+
+.meRow {
+    width: 100%;
+    /* min-height: 50px; */
+}
+#meBoard img {
+    max-width: 100%;
+  }
+
+.meEditBtn {
+    position: absolute;
+    left: 0;
+    font-size: 8px;
+    background: purple;
+    color: white;
+    padding: 2px;
+    border-radius: 3px;
+    z-index: 3;
+    display: none;
+}
+#meFrame:hover .meEditBtn{
+    display: unset;
+}
+
+.meEditBtnRow {
+    top: -12px;
+
+    background: brown;
+}
+
+.meEditBtnCol {
+    bottom: -12px;
+
+    background: brown;
+}
+
+#meBoard {
+    padding: 20px 0;
+  }
+
+  .meepo-info-box {
+    margin-bottom: 3px;
+    font-size: 8px;
+    border-bottom: 1px dashed #e1e1e1;
+    padding-bottom: 3px;
+  }
+
+  /* #meBoard::before, */
+  .meAllowDrop::before {
+    content: "above..";
+    width: 100%;
+    height: 20px;
+    text-align: center;
+    color:#b7b7b7;
+    font-size: 10px;
+    position: absolute;
+    background: linear-gradient(to top,#f7f7f7,transparent);
+    top: -20px;
+    
+  }
+
+  /* #meBoard::after, */
+  .meAllowDrop::after {
+    content: "below..";
+    text-align: center;
+    color:#b7b7b7;
+    font-size: 10px;
+    width: 100%;
+    height: 20px;
+    position: absolute;
+    /* f7f7f7 */
+    background: linear-gradient(to bottom,#f7f7f7,transparent);
+    bottom: -20px;
+  }
+
+  .meAllowDrop{
+    /* padding:20px 0; */
+  }
+
+
+  #meBoard:hover .meElem{
+    box-shadow: inset 0px 0px 0px 1px #f0eeee;
+  }
+
+.meElemHover {
+    background-color: aliceblue;
+}
+
+.meElem:hover {
+    box-shadow: inset 0px 0px 0px 1px #7298ff !important;
+}
+
+
+
+
+.color_palette_transparent::before {
+    position: absolute;
+    left: 10px;
+    content: ' ';
+    height: 142%;
+    width: 1px;
+    background-color: #000;
+    transform: rotate(-45deg);
+    top: -5px;
+}
+
+
+
+.meControlQuatroSquare {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    z-index: 1;
+    left: calc(50% - 23px);
+    top: calc(50% - 23px);
+    border-radius: 2px;
+    border: 1px solid #b7b7b7;
+  }
+
+  .meControlQuatroContain{
+  width: 100px;
+height: 100px;
+left: calc(50% - 50px);
+top: calc(50% - 50px);
+}
+
+  .meControlQuatroWrap {
+    height: 100px;
+    margin-top: 3px;
+  }
+
+
+  .meQuatro-top {
+    left: calc(50% - 23px) !important;
+  }
+
+  .meQuatro-left {
+    left: calc(50% - 72px) !important;
+    top: 37.5px !important;
+  }
+
+  .meQuatro-bottom {
+    left: calc(50% - 23px) !important;
+    bottom: 0 !important;
+  }
+
+  .meQuatro-right {
+    right: 40px !important;
+    top: 37.5px !important;
+    left: unset !important;
+  }
+
+
+
+  .meQuatro-in-top {
+    left: calc(50% - 23px) !important;
+    top: 1px;
+  }
+
+  .meQuatro-in-left {
+    left: calc(50% - 49px) !important;
+    top: 37.5px !important;
+  }
+
+  .meQuatro-in-bottom {
+    left: calc(50% - 23px) !important;
+    bottom: 1px !important;
+
+  }
+
+  .meQuatro-in-right {
+    right: 64px !important;
+    top: 37.5px !important;
+    left: unset !important;
+  }
+
+
+
+  .meQuatro-top-right {
+    left: calc(72% - 23px) !important;
+  }
+
+  .meQuatro-top-left {
+    left: calc(50% - 72px) !important;
+    /* top: 37.5px !important; */
+  }
+
+  .meQuatro-bottom-right {
+    left: calc(72% - 23px) !important;
+    bottom: 0 !important;
+  }
+
+  .meQuatro-bottom-left {
+    top: 74.5px !important;
+    left: calc(50% - 72px) !important;
+  
+  }
+
+  .meControlQuatroWrap .l_reset_input {
+    position: absolute;
+    width: 46px !important;
+    height: 25px;
+    left: 0;
+    font-size: 9px !important;
+    text-align: center;
+    box-shadow: 0 0 2px #6c6c6c5e;
+    border-radius: 1px !important;
+    z-index: 1;
+  }
+
+
+  .meControlBoxTitle {
+    color: gray;
+    font-size: 12px;
+
+  }
+
+
+  .meControlBox {
+    border-bottom: 1px solid #80808029;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+
+  .meControlLabel {
+    font-size: 10px;
+    color: gray;
+  }
+
+
+
+  .dark .meLabelSugg i {
+    text-shadow: unset;
+  }
+  .dark .meLabelSugg {
+    background: var(--darkless);
+  }
+
+
+
+  [meepo-elem-highlight] {
+    box-shadow: 0 0 0 1px blue;
+  }
+
+
+  #meBoard[meepo-elem-highlight] {
+    box-shadow: 0 0 0 4px purple;
+  }
+
+  .meRow[meepo-elem-highlight] {
+    box-shadow: 0 0 0 3px #e10d2b;
+  }
+
+  .meColumn[meepo-elem-highlight] {
+    box-shadow: 0 0 0 2px #32c141;
+  }

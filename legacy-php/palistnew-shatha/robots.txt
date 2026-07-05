@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /panel/
+Disallow: /res/
+Disallow: /plugins/
+Disallow: /comp/
+Disallow: /protected/
+
+Sitemap: http://localhost/palistNew/sitemap.xml

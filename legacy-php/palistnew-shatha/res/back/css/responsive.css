@@ -1,0 +1,265 @@
+ /*portrait iphone7 Devices, Phones , generic all */ 
+
+@media all and (max-width: 1199px) {
+	#mob_menu_btn{display:unset;}
+	#menus{width:unset;
+		display: none;
+	margin-top:unset;
+	}
+	#menu_layout_options_wrap{
+		display:none;
+	}
+	
+	
+
+/*	#dashboard_checklist ul li{width:49%;}*/
+	.half{width:100%;}
+	
+	
+		
+	
+			#wrap{
+/*		width: 100vw;*/
+/*			    margin-top: 150px;*/
+/*    margin-left: 0;*/
+    }
+	
+	.form_field {
+    width: 100% !important;
+}
+
+	#below_bread {
+    display: none;
+}
+	#bread_save_new{
+		display:none;
+	}
+	
+	
+	
+	.listBtn {
+  margin-bottom: 4px;
+ padding: 1px 1px;
+  font-size: 11px;
+}
+	
+	
+	
+	.input_area {
+  text-align: center;
+}
+.working_area {
+  padding: 12px !important;
+}
+	
+	
+	.permissions {
+    width: 100%;
+    text-align: center;
+}
+	
+	.check_row {
+    margin: unset;
+}
+	
+	.filling {
+    overflow: scroll;
+    width: 100%;
+    display: block;
+}
+	#bread {
+    font-size: 12px;
+		height: 27px;
+}
+	
+	#preBread {
+  top: 5px;
+		
+	}
+	
+	#exec_time {
+  top: 29px;
+	}
+} 
+
+
+
+
+
+
+@media all and (max-width: 575px) {
+/*
+#dashboard_checklist ul li{width:100%;
+	}
+*/
+	
+	.list_count_hint {
+  margin-left: 1px;
+  font-size: 7px;
+		
+	}
+	.list_numba {
+  font-size: 12px;
+}
+.filling td label{
+		margin-bottom:0;
+	}
+	.list_count_hint{
+		width:auto;
+	}
+	#curr_view::before{
+/*		display:none !important;*/
+	}
+	
+	#curr_view {
+  padding: 0 4px !important;
+  margin: 0 1px !important;
+	}
+	
+	.bread_stat_icon,.bread_del_icon {
+  min-width: unset !important;
+  min-height: unset !important;
+  margin: 0 !important;
+		
+	}
+	
+	#exec_time {
+
+  display: none;
+}
+	#wrap::before {
+
+  height: 27px;
+}
+	
+	.input_area {
+  padding-right: 0 !important;
+}
+	
+	#lang_box {
+  margin: auto !important;
+  display: block !important;
+		text-align: right;
+}
+	.lang_item{
+		padding: 6px 4px !important;
+height: unset !important;
+	}
+	
+	
+	.filling td {
+  width: 49%;
+  display: inline-block;
+		vertical-align: top;
+  word-break: break-word;
+}
+	
+	.filling{
+		box-shadow:unset;
+	}
+	
+	.pv_info{
+		text-align:center;
+		margin-bottom:10px;
+	}
+
+	label {
+    width: 100%;
+/*    text-align: center;*/
+	margin-bottom: 10px;
+
+		
+}
+	
+	.filling label{
+		text-align: unset;
+	}
+	
+	input[type="text"], input[type="password"], input[type="email"], input[type="url"], input[type="number"], input[type="datetime-local"]{
+		width: 100%;
+    text-align: center;
+		text-indent:unset;
+	}
+	
+	
+	#wrap img {
+    max-height: 200px;
+    max-width: 200px;
+    margin: auto;
+    display: block;
+}
+	.group {
+
+    text-align: center;
+}
+	
+	.mceNoEditor {
+    width: 100%;
+}
+	
+	select {
+    width: 100%;
+}
+
+	.page_title{display:none;}
+	
+	
+	/*tables to cards*/
+		/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { 
+		border: 1px solid #ccc; 
+		margin-bottom:10px;
+	}
+	
+	td { 
+		height:unset;
+	}
+	
+	td:before { 
+
+content: '';
+		display:block;
+		margin-bottom: 4px;
+color: #888;
+	}
+	/*tables to cards*/
+	
+	.stats_wrapper{
+	display:block !important;
+}
+
+.stats_box{
+  margin-bottom: 11px !important;
+}
+
+.working_area {
+  padding: 5px;
+}
+
+	
+#preBread div:not(#dark_switch), #preBread a {
+  display: none;
+}
+	#dashboard_checklist label {
+  text-align: unset;
+}
+	.new_group {
+  padding: 4px 8px !important;
+	}
+	
+	#rem_block * {
+  display: unset !important;
+}
+	
+}

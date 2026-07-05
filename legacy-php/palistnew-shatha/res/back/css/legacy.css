@@ -1,0 +1,195 @@
+/*
+ProVision Co.
+-------------
+This web application design and development by ProVision Co.
+
+All source files, presentable or core, graphics and layout are owned/controlled by ProVision, and no one, entity or individual, can use/modify/destribute at anytime or to anywhere without a written approval from ProVision.
+
+This website/web app is based on LegionCMS engine, which is a MVC platform built completely from scratch by ProVision's team.
+
+-We know that you like this code, if you are interested joining our team, dont hesitate sending your CV to us.
+--------------
+Omar Shamali
+https://provision.ps 
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+
+/*sharedCSS*/
+label {
+    /*    font-weight: bold;*/
+    color: #121215;
+    min-height: 13px;
+    font-size: 13px;
+    display: block;
+  }
+
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form input[type="url"],
+form input[type="number"],
+form input[type="date"],
+form input[type="datetime-local"]{
+  font-size: 15px;
+  padding: 3px;
+  text-indent: 5px;
+  min-height: 40px;
+  border: 1px solid #aaaaaa;
+  border-radius: 4px;
+  width: 100%;
+}
+
+
+textarea {
+  border: 1px solid #aaaaaa;
+  border-radius: 4px;
+  font-family: arial;
+  padding: 5px;
+}
+
+input[type="color"] {
+  background: none;
+  height: 35px;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  width: 35px;
+  border-radius: 100%;
+  overflow: hidden;
+  border: 2px solid white;
+  box-shadow: 0 0 3px;
+  cursor: pointer;
+}

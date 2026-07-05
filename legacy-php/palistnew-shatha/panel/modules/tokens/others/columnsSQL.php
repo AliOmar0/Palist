@@ -1,0 +1,1 @@
+user_id,module_prefix,token,_d,app_version,device_model,os_version,browser_name,browser,language,player_id,id,date_modified,admin_add_id,date_created,time_stamp,deleted,restricted

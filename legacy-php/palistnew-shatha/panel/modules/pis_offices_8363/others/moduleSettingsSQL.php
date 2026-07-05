@@ -1,0 +1,2 @@
+INSERT INTO `module_settings` (`admin_add_id`,`module_prefix`, `search_phrase`, `default_column`, `default_order`, `items_per_page`, `ml_fields`,`menu_field`) VALUES
+('1','pis_offices_8363', 'title,location', 'id', 'DESC', 25,'title','');

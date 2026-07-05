@@ -1,0 +1,3 @@
+- [MariaDB on Replit](mariadb-on-replit.md) — run mariadbd via a workflow (bash tool's syscall monitor kills it); disable native AIO; app needs the original DB dump to boot.
+- [PHP behind Replit proxy](php-on-replit-proxy.md) — put nginx in front of `php -S` (keep-alive), and emit root-relative URLs (preview browser loads via localhost, not the public domain).
+- [legion CMS scoped theming & content gaps](legion-cms-theming.md) — restyle individual pages via a `.prx`-anchored opt-in stylesheet (multi-owner site); missing uploads render as `NA`/site-fallback; cache-bust is off; `black_s2` overlay escapes its card.

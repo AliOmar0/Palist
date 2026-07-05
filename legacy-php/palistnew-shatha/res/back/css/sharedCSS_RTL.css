@@ -1,0 +1,61 @@
+/* CSS Document */
+
+ .input_area {
+
+    padding-right: unset;
+    padding-left: 21px;
+
+}
+
+ul#menu li ul {
+    right: unset;
+    left: -100%;
+}
+
+#below_bread{
+	position:unset;
+}
+
+#preBread {
+    right: unset !important;
+    left: 20px;
+  }
+
+status {
+    right: unset;
+    left: 5px;
+}
+
+
+.center_info {
+    margin-left: unset;
+    margin-right: 10px;
+}
+
+/*
+
+.css-checkbox + label::before{
+	margin-right: unset;
+	margin-left: 10px;
+}
+*/
+
+.quick_access_box i {
+    margin-right: unset;
+    margin-left: 10px;
+}
+
+a.quick_access_box {
+    margin: 10px 0 20px 22px;
+}
+
+.below_bread_sub i {
+ 
+    margin-left: 3px;
+	margin-right: unset;
+}
+
+.pr20{
+	padding-right:unset;
+	padding-left:20px;
+}

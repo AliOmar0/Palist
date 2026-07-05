@@ -1,0 +1,1 @@
+app_name,app_icon,apple_version,apple_store_id,ios_active,ios_download_image,android_version,android_store_id,android_active,android_download_image,id,date_modified,admin_add_id,date_created,time_stamp,deleted,restricted

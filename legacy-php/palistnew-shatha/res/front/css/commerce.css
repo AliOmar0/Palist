@@ -1,0 +1,298 @@
+/*
+ProVision Co.
+-------------
+This web application design and development by ProVision Co.
+
+All source files, presentable or core, graphics and layout are owned/controlled by ProVision, and no one, entity or individual, can use/modify/destribute at anytime or to anywhere without a written approval from ProVision.
+
+This website/web app is based on LegionCMS engine, which is a MVC platform built completely from scratch by ProVision's team.
+
+-We know that you like this code, if you are interested joing our team, dont hesitate sending your CV to us.
+--------------
+Omar Shamali
+https://provision.ps 
+*/
+
+
+#c_bag {
+    background: #b94751c7;
+    color: white;
+    padding: 6px;
+    border-radius: 100%;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    margin-left: 17px;
+    border: 1px solid white;
+    box-shadow: 0 0 3px saddlebrown;
+}
+
+
+#c_header_login {
+/*
+    background: var(--mainColor);
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0 0 2px pink;
+    padding-bottom: 8px;
+*/
+}
+
+#c_header{
+	margin-left:20px;
+}
+
+
+
+
+.c_full_width_form .form_field {
+/*
+    margin: unset !important;
+    width: 100% !important;
+    margin-bottom: 25px !important;
+*/
+}
+
+.c_full_width_form .input_area {
+    padding-right: unset !important;
+}
+.c_cart_sub_sec_title {
+    margin-bottom: 15px;
+    font-style: italic;
+    font-size: 14px;
+    margin-top: 20px;
+}
+#c_close_add_address_btn {
+    text-align: right;
+    color: darkred;
+    position: absolute;
+    text-decoration: underline;
+    right: 10px;
+}
+
+#c_add_address_btn {
+    margin: 20px 0;
+}
+
+.address_book_box i,.payment_box i {
+    background: green;
+    color: white;
+    padding: 3px;
+    font-size: 10px;
+    margin-right: 2%;
+}
+
+.address_book_box, .payment_box {
+    margin-bottom: 20px;
+    border: 1px solid #8080804d;
+    padding: 10px;
+}
+
+
+#c_notes_txtarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 21px;
+}
+
+
+.c_cart_left_address {
+    margin-right: 10%;
+}
+#c_add_address_wrap {
+    padding: 10px;
+    background: whitesmoke;
+    margin: 10px 0;
+}
+
+#c_successSignup,#c_successLogin {
+    width: 300px;
+    margin: auto;
+    text-align: center;
+    background: var(--mainColor);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 3px gray;
+    color: white;
+    line-height: 23px;
+}
+.c_cart_sec_title {
+    font-size: 20px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    display: inline-block;
+    border-bottom: 2px solid purple;
+    padding-bottom: 8px;
+}
+
+.products_price {
+    color: var(--mainColor);
+    font-size: 20px;
+    font-family: indie;
+}
+
+price {
+    font-size: 12px;
+    margin-left: 3px;
+    color: #535353;
+}
+.c_in_price {
+    margin-top: 20px;
+    font-size: 30px;
+}
+.c_table {
+    border-collapse: collapse;
+    font-size: 13px;
+    width: 100%;
+    background: white;
+    max-width: 100%;
+        box-shadow: 0 0 3px #dcdcdc;
+}
+
+#c_success_order {
+    margin-bottom: 20px;
+    font-size: 21px;
+    font-weight: bold;
+    color: green;
+}
+
+.c_products_cart_photo_picture {
+    width: 96px;
+}
+.c_qnty_btn {
+    width: 25px;
+    height: 25px;
+    background: #7c9eb3;
+    color: white;
+    text-align: center;
+    font-size: 26px;
+    border-radius: 2px;
+    box-shadow: 0 0 2px grey;
+}
+
+.c_qnty_lbl {
+    padding: 0 20px;
+    background: #f1f1f1;
+    height: 25px;
+    line-height: 26px;
+    font-weight: bold;
+}
+
+.c_del_cart_col {
+    text-align: center !important;
+}
+.c_checkout_btn {
+    background-image: linear-gradient(
+45deg
+, #009688,#009688,#4caf50);
+    width: 200px;
+    display: block;
+    text-align: center;
+    font-size: 21px;
+    height: 100%;
+/*    margin: auto;*/
+	margin-top:50px;
+	
+    color: white;
+    box-shadow: 0 0 8px #00000087;
+    line-height: 50px;
+}
+.c_grand_total {
+    background: #ececec;
+    color: #404040;
+    font-weight: bold;
+    font-size: 20px;
+}
+.c_grand_total_title{
+    text-align:right;
+    padding-right: 10px !important;
+    font-size: 16px;
+}
+
+.c_cart_remove_btn {
+    color: white;
+    background: linear-gradient(
+45deg
+, #b71c1c, #d32f2f);
+    display: inline;
+    padding: 5px;
+    box-shadow: 0 0 2px grey;
+    border-radius: 2px;
+}
+
+.c_table thead {
+    background: #ececec;
+    padding: 10px 0;
+    color: #4e4e4e;
+}
+
+.c_table th,.c_table td {
+    vertical-align: middle;
+    padding-left: 10px;
+}
+.c_table th {
+    padding: 10px 0;
+        padding-left: 0px;
+    white-space: nowrap;
+    text-align: left;
+    line-height: 19px;
+    border-bottom: 1px solid #80808073;
+}
+
+
+.c_table td {
+    padding: 5px 0;
+        padding-left: 0px;
+    height: 60px;
+        border-bottom: 1px solid #f7f7f7;
+
+}
+
+
+.c_cart_btn:hover {
+    background-color: #c12fda;
+    box-shadow: 7px 1px 9px #00000085;
+    background-image: unset;
+}
+
+.c_cart_btn {
+    display: inline-block;
+    background-image: linear-gradient(
+134deg
+, #9c27b0,#c12fda, #ff9800);
+    background-color: #c12fda;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 30px;
+    box-shadow: 0 0 3px black;
+    border-radius: 3px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.c_cart_added_btn {
+    background-image: linear-gradient( 
+134deg
+ , #4caf50,#009688, #009688);
+    box-shadow: unset;
+    opacity: 0.8;
+    cursor: unset;
+}
+ .c_cart_added_btn:hover{
+      background-color: green;
+    box-shadow: unset;
+     transition: none;
+}
+
+
+
+.product_category_box {
+    margin-right: 20px;
+    border: 1px solid #80808070;
+    padding: 10px;
+}
+
+.product_category_box:hover,.c_active_cat{
+	border-color:var(--mainColor);
+}

@@ -1,0 +1,1 @@
+email_title,module_id,module_action,from_email,include_site_name,to_email,cc_email,bcc_email,reply_email,content,extra_css,id,date_modified,admin_add_id,date_created,time_stamp,deleted,restricted

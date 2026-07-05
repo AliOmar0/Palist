@@ -1,0 +1,108 @@
+nav {
+overflow: hidden;
+    width: 40px;
+}
+
+#nav_wrap {
+  width: 40px;
+}
+
+.menu_span,#search_menu_wrap,#quick,#username,#menu_top_logo_holder,.legion_option {
+    display: none;
+}
+#menuLayoutOptionsWrap{display: unset;}
+#profile_pic img {
+
+    width: 100%;
+    height: 100%;
+    border-width: unset !important;
+    border-radius: unset;
+    border: unset !important;
+}
+
+.logout {
+    font-size: 6px;
+    height: 30px;
+    line-height: 30px;
+    width: 100%;
+}
+
+
+
+
+
+
+#top_nav {
+  position: fixed;
+  z-index: 1;
+  width: 40px;
+}
+
+
+#preBreadSettingsMenu .menu_span{
+  display: unset;
+}
+
+mhp{
+	height:99px;
+}
+
+
+.logout i{
+	font-size: 18px;
+}
+#menuLayoutOptionsWrap {
+    text-align: center;
+    background: var(--mainColor);
+    color: white;
+    display: block;
+    width: 100%;
+}
+.legion_option{
+	margin-left:unset;
+}
+
+a#profile_pic picture {
+  width: 32px;
+  height: 32px;
+	
+}
+
+.logout span {
+  font-size: 7px;
+  color: white;
+}
+
+
+.logout {
+  margin-left: unset;
+}
+
+ul#menu li ul li {
+  padding-left: 0;
+}
+
+ul#menu li ul li i {
+  font-size: 14px;
+}
+
+.menu_small_options{
+	display:none !important;
+}
+
+#wrap,#bread {
+	width:calc(100% - 40px);
+}
+#profile {
+  padding: 0;
+  padding-top: 7px;
+}
+
+ul#menu li a {
+    width: 100%;
+    text-align: center;
+}
+#menu .material-icons {
+    margin: unset;
+    margin-bottom: unset;
+}

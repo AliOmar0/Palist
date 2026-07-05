@@ -1,0 +1,21 @@
+/* CSS Document */
+
+._admin_user {
+  background: black;
+  color: white;
+  padding: 3px;
+}
+
+._admin_line {
+  margin: 0 10px;
+  font-size: 13px;
+}
+
+._admin_post_photo{
+  width: 83px;
+	margin: 3px;
+}
+
+._admin_photos {
+  background: #2b2b2b;
+}

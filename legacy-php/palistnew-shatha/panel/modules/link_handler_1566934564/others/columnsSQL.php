@@ -1,0 +1,1 @@
+module_prefix,all_entries,single,custom,single_title,single_description,publish_date_field,single_photo,single_title_alternative,single_alternative,single_photo_description,single_title_prefix,all_entries_title,robot_index,robot_follow,all_entries_photo,all_entries_description,id,date_modified,admin_add_id,date_created,time_stamp,deleted,restricted

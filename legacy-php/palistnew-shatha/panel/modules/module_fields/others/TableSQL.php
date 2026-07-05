@@ -1,0 +1,31 @@
+CREATE TABLE `module_fields` (
+		 `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+		 `date_modified` datetime DEFAULT NULL,
+ 		`admin_add_id` int(11) NOT NULL DEFAULT '0',
+		 `date_created` datetime DEFAULT NULL,
+	    `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		`deleted` tinyint(1) NOT NULL DEFAULT '0',
+		`restricted` tinyint(1) NOT NULL DEFAULT '0',
+        
+		    `module_id` INT(11) DEFAULT NULL  COMMENT 'Module ID',
+		    `field_name` VARCHAR(250) DEFAULT NULL  COMMENT 'Field Name',
+		    `label` VARCHAR(250) DEFAULT NULL  COMMENT 'Label',
+		    `type` VARCHAR(250) DEFAULT NULL  COMMENT 'Type',
+		    `sub_type` VARCHAR(250) DEFAULT NULL  COMMENT 'Sub Type',
+		    `sub_sub_type` VARCHAR(250) DEFAULT NULL  COMMENT 'Sub Sub Type',
+		    `protected_file` BOOLEAN  DEFAULT '0' COMMENT 'Protected File',
+		    `main` BOOLEAN  DEFAULT '0' COMMENT 'Main',
+		    `select_table` VARCHAR(250) DEFAULT NULL  COMMENT 'Select Table',
+		    `select_field` VARCHAR(250) DEFAULT NULL  COMMENT 'Select Field',
+		    `parenter_field` BOOLEAN  DEFAULT '0' COMMENT 'Parenter Field',
+		    `is_ml` BOOLEAN  DEFAULT '0' COMMENT 'Is ML',
+		    `is_unique` BOOLEAN  DEFAULT '0' COMMENT 'Is Unique',
+		    `noMCE` BOOLEAN  DEFAULT '0' COMMENT 'NoMCE',
+		    `required` BOOLEAN  DEFAULT '0' COMMENT 'Required',
+		    `multi_files` BOOLEAN  DEFAULT '0' COMMENT 'Multi Files',
+		    `visibility_matrix` VARCHAR(250) DEFAULT NULL  COMMENT 'Visibility Matrix',
+		    `db_default` VARCHAR(250) DEFAULT NULL  COMMENT 'DB Default',
+PRIMARY KEY (`id`),
+INDEX (`deleted`)
+,INDEX (`module_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

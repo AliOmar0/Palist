@@ -1,0 +1,2 @@
+INSERT INTO `module_settings` (`admin_add_id`,`module_prefix`, `search_phrase`, `default_column`, `default_order`, `items_per_page`, `ml_fields`,`menu_field`) VALUES
+('1','contact_form_8363', 'name,email,mobile_number,telephone,message', 'id', 'DESC', 25,'name','name');

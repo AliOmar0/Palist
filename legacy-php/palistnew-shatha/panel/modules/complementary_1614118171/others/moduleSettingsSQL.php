@@ -1,0 +1,2 @@
+INSERT INTO `module_settings` (`module_prefix`, `search_phrase`, `default_column`, `default_order`, `items_per_page`, `ml_fields`,`menu_field`) VALUES
+('complementary_1614118171', 'mother_module_prefix,mother_id,child_module_prefix,child_id', 'id', 'DESC', 25,'','');

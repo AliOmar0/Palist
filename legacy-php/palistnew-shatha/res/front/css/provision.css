@@ -1,0 +1,255 @@
+/*
+ProVision Co.
+-------------
+This web application design and development by ProVision Co.
+
+All source files, presentable or core, graphics and layout are owned/controlled by ProVision, and no one, entity or individual, can use/modify/destribute at anytime or to anywhere without a written approval from ProVision.
+
+This website/web app is based on LegionCMS engine, which is a MVC platform built completely from scratch by ProVision's team.
+
+-We know that you like this code, if you are interested joing our team, dont hesitate sending your CV to us.
+--------------
+Omar Shamali
+https://provision.ps 
+*/
+#search_window input:focus {
+    outline: none !important;
+    border:1px solid red;
+    box-shadow: 0 0 10px #719ECE;
+}
+
+
+#search_window input::placeholder {
+  color: white;
+}
+#search_window input {
+    width: 60%;
+    height: 50px;
+    text-align: center;
+    background: none;
+    border: none;
+    border-bottom: 3px solid #ffffff40;
+    font-size: 30px;
+    color: white;
+}
+
+.close_search {
+    color: white;
+    display: inline-block;
+    padding: 10px;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 50px;
+    font-family: sans-serif;
+	    z-index: 10;
+}
+
+
+#search_window h1 {
+    margin-bottom: 50px;
+    font-size: 30px;
+    color: white;
+}
+
+#search_window {
+    position: fixed;
+background-image: linear-gradient(#737373,#252525db);
+	z-index: 1000000;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    text-align: center;
+    left: 0;
+    padding-top: 30%;
+    right: 0;
+}
+
+#menu_window {
+    position: fixed;
+background-image: linear-gradient(#737373,#252525db);
+	z-index: 1000000;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    text-align: center;
+    left: 0;
+    padding-top: 10%;
+    right: 0;
+}
+
+#menu li {
+    color: white;
+    font-size: 30px;
+    margin: 10px 0;
+}
+
+#share_box {
+    margin: 30px 0;
+}
+
+
+
+#contact {
+    padding-left: 1%;
+    margin-top: 30px;
+	    margin-bottom: 30px;
+}
+
+#contact label {
+    width: 150px;
+    display: inline-block;
+    font-weight: bold;
+    height: 30px;
+}
+
+
+#contact input {
+    height: 30px;
+    width: 300px;
+}
+
+
+#contact textarea {
+    width: 300px;
+    height: 200px;
+    vertical-align: top;
+}
+
+
+
+.photo_gallery {
+    width: 50%;
+    height: 40vh;
+    padding: 50px;
+    overflow: hidden;
+}
+
+
+.photo_cover {
+    height: 70%;
+}
+
+.photo_cover img {
+    width: 100%;
+    height: 100%;
+}
+
+
+.photo_gallery h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.gallery_head {
+    width: 100%;
+    height: 30vh;
+	overflow: hidden;
+}
+
+.gallery_head h1 {
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    width: 100%;
+    bottom: 10%;
+	    padding: 20px;
+    color: white;
+    background: #0000003b;
+}
+
+.gallery_head img {
+    width: 100%;
+    height: 100%;
+}
+
+.gallery_single_photo {
+    width: 33.333%;
+    height: 40vh;
+}
+
+.event_info {
+    padding: 30px;
+}
+
+.gallery_single_photo img {
+    width: 100%;
+    padding: 10px 0 10px 4px;
+    height: 100%;
+}
+
+.search_section a {
+    display: block;
+    margin: 10px 5px;
+}
+.search_title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 50px;
+}
+
+.attach {
+    padding: 10px;
+    color: #0281b3;
+}
+
+
+section.social {
+    position: absolute;
+    bottom: 30px;
+    text-align: center;
+    width: 100%;
+}
+
+#menu_lang {
+    margin-right: 5%;
+}
+
+.social_link {
+    padding: 5px;
+    color: white !important;
+}
+
+a.menu_lang_item {
+    color: white;
+    border-bottom: 1px solid wheat;
+    padding-bottom: 5px;
+}
+
+
+.social i {
+    color: white;
+    padding: 2px;
+    border-right: 1px solid white;
+    padding-right: 10px;
+    margin-right: 5px;
+}
+
+footer {
+    text-align: center;
+    background: white;
+}
+.consider_header{
+	margin-top: 79px;
+}
+
+.tri_sub_menu {
+    display: none;
+}
+.sub_li:hover .tri_sub_menu {
+    display: unset;
+}
+
+
+.tri_sub_menu {
+	display: none;
+    left: 100%;
+    top: 0;
+    position: absolute;
+    background: #214b84;
+    text-align: left;
+    z-index: 1;
+    box-shadow: 0 0 3px black;
+    border-radius: 3px;
+}
+

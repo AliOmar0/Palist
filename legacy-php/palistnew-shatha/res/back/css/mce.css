@@ -1,0 +1,159 @@
+@import url(https://fonts.googleapis.com/css?family=Lato);
+.mce * {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: 0 0;
+  color: inherit;
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  font-weight: 400
+}
+:focus {
+  outline: 0
+}
+.mce a {
+  text-decoration: none
+}
+.mce b, .mce b *, .mce strong, .mce strong * {
+  font-weight: 700
+}
+.mce ol, .mce ul {
+  list-style: none
+}
+.mce pre {
+  font: inherit
+}
+.mce .mce button, .mce input, .mce input:not([type]), .mce input[type=button], .mce input[type=color], .mce input[type=date], .mce input[type=datetime-local], .mce input[type=datetime], .mce input[type=email], .mce input[type=month], .mce input[type=number], .mce input[type=password], .mce input[type=reset], .mce input[type=search], .mce input[type=submit], .mce input[type=tel], .mce input[type=text], .mce input[type=time], .mce input[type=url], .mce input[type=week], .mce select, .mce textarea {
+  font: inherit
+} 
+/*
+@font-face {
+  font-family: aileron;
+  font-style: normal;
+  font-weight: 200;
+  src: url(../fonts/aileron-ultra-light.eot?#iefix) format("embedded-opentype"), url(../fonts/aileron-ultra-light.woff) format("woff"), url(../fonts/aileron-ultra-light.ttf) format("truetype")
+}
+*/
+.mce body {
+  padding: 1em
+}
+.codepen body {
+  margin: 10px 0 0
+}
+.codepen body textarea {
+  display: none
+}
+.mce-container textarea {
+  display: inline-block !important
+}
+.mce {
+   /* font-size: 14px;  #! */
+  /* color: #626262;  #!  */
+/*  padding: 0 25px 25px*/ 
+	/* line-height: 1.3rem; */
+}
+.mce * {
+  background-position: initial
+}
+.mce h1 {
+  font-size: 34px;
+  font-family: aileron;
+  font-weight: 200;
+  line-height: 1.4em;
+  margin: 25px 0 15px
+}
+.mce h2 {
+  font-size: 30px;
+  font-family: aileron;
+  font-weight: 200;
+  line-height: 1.4em;
+  margin: 25px 0 15px
+}
+.mce h3 {
+  font-size: 26px;
+  font-family: aileron;
+  font-weight: 200;
+  line-height: 1.4em;
+  margin: 25px 0 15px
+}
+.mce h4 {
+  font-size: 22px;
+  font-family: aileron;
+  font-weight: 200;
+  line-height: 1.4em;
+  margin: 25px 0 15px
+}
+.mce h5 {
+  font-size: 18px;
+  font-family: aileron;
+  font-weight: 200;
+  line-height: 1.4em;
+  margin: 25px 0 15px
+}
+.mce h6 {
+  font-size: 14px;
+  font-family: aileron;
+  font-weight: 200;
+  line-height: 1.4em;
+  margin: 25px 0 15px
+}
+.mce p {
+  margin: 25px 0;
+	/* line-height: 1rem; #! */
+}
+.mce pre {
+  font-family: monospace
+}
+.mce ol, .mce ul {
+  margin-left: 15px;
+  list-style-position: outside;
+  margin-bottom: 20px
+}
+.mce ol li, .mce ul li {
+  margin-left: 10px;
+  margin-bottom: 10px;
+  color: #626262
+}
+.mce ul {
+  list-style-type: disc
+}
+.mce ol {
+  list-style-type: decimal
+}
+.mce a[href] {
+  text-decoration: underline
+}
+.mce table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: separate;
+  border: 1px solid #aaa;
+	display:block;
+	max-width:100%;
+}
+.mce table tr:nth-child(even) {
+  background: #fafafa
+}
+.mce table caption, .mce table td, .mce table th {
+  padding: 15px 7px;
+  font: inherit
+}
+.mce table td, .mce table th {
+  border: 1px solid #aaa;
+  border-collapse: collapse
+}
+.mce table th {
+  font-weight: 400;
+  color: #6e6e6e;
+  background-position: 100% 100%;
+  background-size: 2px 10px;
+  background-repeat: no-repeat
+}
+.mce table th:last-child {
+  background: 0 0
+}
+.mce hr {
+  border-top: 2px solid #bbb
+}

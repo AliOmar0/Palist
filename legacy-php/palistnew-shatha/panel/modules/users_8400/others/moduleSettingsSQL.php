@@ -1,0 +1,2 @@
+INSERT INTO `module_settings` (`admin_add_id`,`module_prefix`, `search_phrase`, `default_column`, `default_order`, `items_per_page`, `ml_fields`,`menu_field`) VALUES
+('1','users_8400', 'username,password,email_address,profile_photo,active,full_name,full_name_en,date_of_birth,province,id_number,gender,specialization,employment_status,organisation,business_type,work_nature', 'id', 'DESC', 50,'','username');

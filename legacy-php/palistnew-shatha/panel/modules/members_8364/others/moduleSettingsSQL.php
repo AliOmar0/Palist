@@ -1,0 +1,2 @@
+INSERT INTO `module_settings` (`admin_add_id`,`module_prefix`, `search_phrase`, `default_column`, `default_order`, `items_per_page`, `ml_fields`,`menu_field`) VALUES
+('1','members_8364', 'name,job_name,photo,summary,content,order_number', 'id', 'DESC', 50,'name,job_name,summary,content','name');

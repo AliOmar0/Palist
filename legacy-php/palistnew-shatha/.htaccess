@@ -1,0 +1,31 @@
+RewriteEngine On
+RewriteBase /palistNew/
+
+DirectoryIndex index.php
+
+# Keep real files and directories working normally.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Default language.
+RewriteRule ^$ ar/ [R=302,L]
+RewriteRule ^(en|ar)$ $1/ [R=302,L]
+
+# Legacy language-at-end links, e.g. about_us/ar -> ar/about_us.
+RewriteRule ^(.+)/(en|ar)/?$ $2/$1 [R=302,L]
+
+# Home.
+RewriteRule ^(en|ar)/?$ index.php [L,QSA]
+
+# Listing pages.
+RewriteRule ^(en|ar)/(about_us|news|photos_albums|programs|events|announcements|videos|publications|join_us|internal_system|members|other_laws|trainings_and_workshops)/?$ $2.php [L,QSA]
+
+# Single-entry pages.
+RewriteRule ^(en|ar)/(single-news|photos|single-program|event|single-announce|page|single_member|law|training_and_workshop)/([^/]+)/?$ $2.php [L,QSA]
+
+# Error pages.
+RewriteRule ^error/([^/]+)/([a-zA-Z0-9]+)?$ legion_$1.php?lang=$2 [L,QSA]
+RewriteRule ^error/([^/]+) legion_$1.php [L,QSA]
+
+Options -Indexes

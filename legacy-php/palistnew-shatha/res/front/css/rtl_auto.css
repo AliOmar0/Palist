@@ -1,0 +1,652 @@
+/*
+ProVision Co.
+-------------
+This web application design and development by ProVision Co.
+
+All source files, presentable or core, graphics and layout are owned/controlled by ProVision, and no one, entity or individual, can use/modify/destribute at anytime or to anywhere without a written approval from ProVision.
+
+This website/web app is based on LegionCMS engine, which is a MVC platform built completely from scratch by ProVision's team.
+
+-We know that you like this code, if you are interested joining our team, dont hesitate sending your CV to us.
+--------------
+Omar Shamali
+https://provision.ps
+*//* Created by flipcss.php 0.4 by daif alotaibi (http://daif.net) */
+
+body{
+	direction:RTL;
+}
+
+.news_box {
+	margin-left: 3%;
+}
+
+.what_chosen {
+	left: auto;
+	right: -15px;
+}
+
+.filter_item_box {
+	margin-left: 10px;
+}
+
+#c_users_1607779937 .input_area {
+	padding-left: unset !important;
+	margin-left: unset !important;
+}
+
+statuss {
+	left: auto;
+	right: 25%;
+}
+
+}
+#refreshBlock {
+	right: auto;
+	left: 0;
+}
+
+.lang_item {
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+#lang_box {
+	margin-left: 0;
+	margin-right: 52px;
+}
+
+.t_l .comp_title {
+	margin-left: 0;
+	margin-right: 10px;
+	padding-left: 0;
+	padding-right: 15px;
+}
+
+.t_time {
+	margin-left: 0;
+	padding-left: 30px;
+}
+
+#t_groups .target_groups_icon_picture {
+	margin-left: 10px;
+}
+
+.book_title::after {
+	margin-left: 0;
+	margin-right: 30px;
+}
+
+.con_l {
+	text-align: right;
+	padding-left: 12%;
+}
+
+.con_r {
+	text-align: right;
+}
+
+.s_l .arr {
+	left: auto;
+	right: 9px;
+}
+
+.arr_tail {
+	left: auto;
+	right: 2px;
+}
+
+.s_r {
+	margin-left: 0;
+	margin-right: 10%;
+}
+
+.g_l {
+	padding-left: 60px;
+}
+
+.guiding_ideas_icon_picture.mid {
+	margin-left: 20px;
+}
+
+.submit_steps_brief {
+	padding-left: 0;
+	padding-right: 19px;
+}
+
+#partner_cont .row picture {
+	margin-left: 4px;
+}
+
+.white {
+	left: auto;
+	right: 0;
+}
+
+.row {
+	text-align: right;
+}
+
+.row {
+	text-align: right;
+}
+
+.row label {
+	margin-left: 10px;
+}
+
+.row .input_area {
+	padding-left: unset;
+}
+
+.row_btns {
+	text-align: left;
+}
+
+.filter_title {
+	padding-left: 0;
+	padding-right: 8px;
+}
+
+.fx_btn {
+	left: auto;
+	right: 20px;
+}
+
+.whitebtn i {
+	margin-left: 3px;
+}
+
+.book_btn {
+	margin-left: 0;
+	margin-right: -40px !important;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 16px !important;
+}
+
+#book_right {
+	padding-left: 0;
+	padding-right: 40px;
+}
+
+#t_groups .comp_title {
+	text-align: right;
+	margin-left: 12px;
+}
+
+.help_btn_header {
+	margin-left: 0;
+	margin-right: 46px;
+}
+
+.c_header_login {
+	margin-left: 0;
+	margin-right: 20px;
+}
+
+#download {
+	float: left;
+	right: auto;
+	left: 12px;
+}
+
+#web2 .inline {
+	margin-left: 2%;
+}
+
+.an_l {
+	margin-left: 10%;
+	padding-left: unset;
+}
+
+#socialities {
+	float: left;
+}
+
+.success_stories_photo_picture {
+	margin-left: 0;
+	margin-right: 10%;
+}
+
+.suc_in {
+	margin-left: 0;
+	margin-right: -10%;
+	text-align: right;
+}
+
+.client_menu_item i {
+	margin-left: 8px;
+}
+
+td i.pointer {
+	margin-left: 10px;
+}
+
+#client_menu {
+	left: auto;
+	right: 0;
+}
+
+.tickets_issue {
+	padding-left: 30px;
+}
+
+.t_r {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+.total_tr {
+	text-align: left;
+	padding-left: 7px !important;
+}
+
+#actions_head .btn {
+	margin-left: 10px;
+}
+
+.resp_info .btn {
+	margin-left: 0;
+	margin-right: 20px;
+}
+
+.responses_employee {
+	margin-left: 0;
+	margin-right: 27px;
+}
+
+.assigns_box {
+	margin-left: 0;
+	margin-right: 36px;
+}
+
+thead {
+	text-align: right;
+}
+
+.responses_box time {
+	margin-left: 0;
+	margin-right: 36px;
+}
+
+#poper {
+	left: auto;
+	right: 5%;
+}
+
+#status {
+	text-align: right;
+}
+
+#circ {
+	margin-left: 3px;
+}
+
+#tleft {
+	padding-left: 66px;
+}
+
+#menuCont {
+	margin-left: 0;
+	margin-right: 31px;
+}
+
+.product_phrases_icon_picture {
+	margin-right: 5px;
+	margin-left: unset;
+}
+
+.menu_items_box:hover .sub_menu {
+	left: auto;
+	right: 0;
+	text-align: right;
+}
+
+.products_box:nth-child(3n) {
+	margin-left: unset;
+}
+
+.product_gallery {
+	margin-left: 5%;
+}
+
+.slide_box {
+	float: left;
+	padding-left: 30px;
+}
+
+.target_groups_box {
+	padding-left: 50px;
+	margin-left: 1%;
+}
+
+#con_r {
+	margin-left: 0;
+	margin-right: 20%;
+}
+
+.faq_answer {
+	margin-left: 0;
+	margin-right: 16px;
+}
+
+#con_r::after {
+	right: auto;
+	left: 0;
+}
+
+#con_r::before {
+	right: auto;
+	left: 0;
+}
+
+.course_dates_course_date {
+	margin-left: 29px;
+}
+
+.services_photo_picture {
+	margin-left: -10px;
+}
+
+.service_txt {
+	text-align: right;
+}
+
+.event_txt {
+	margin-left: 8%;
+}
+
+.events_box picture {
+	float: left;
+}
+
+.events_box {
+	text-align: right;
+}
+
+.services_box:nth-child(2n) .services_photo_picture {
+	margin-right: -10px;
+	margin-left: unset;
+}
+
+.t_time {
+	padding-right: 30px;
+	padding-left: 5px;
+	text-align: left;
+}
+
+.more::after {
+	margin-left: 0;
+	margin-right: 20px;
+}
+
+.more {
+	padding-left: 10%;
+}
+
+.c_box {
+	padding-left: 20px;
+}
+
+.c_r {
+	margin-left: 10%;
+}
+
+#our {
+	right: auto;
+	left: 0;
+	text-align: left;
+}
+
+#sea {
+	text-align: left;
+	float: left;
+}
+
+.faq_answer {
+	margin-left: 0;
+	margin-right: 16px;
+}
+
+.product_phrases_icon_picture {
+	margin-left: 5px;
+}
+
+.members_box {
+	margin-left: 3%;
+}
+
+#c_header {
+	right: auto;
+	left: 0;
+}
+
+#intro {
+	padding-left: 0;
+	padding-right: 10vh;
+}
+
+.highlights_box {
+	margin-left: 5%;
+}
+
+.highlights_box:last-child {
+	margin-left: unset;
+}
+
+.hl_details {
+	left: auto;
+	right: 0;
+}
+
+whi {
+	left: auto;
+	right: 0;
+}
+
+.lover_border::before {
+	left: auto;
+	right: 13px;
+}
+
+.blog_photo_picture {
+	margin-left: 0;
+	margin-right: calc(50% - 75px);
+}
+
+.blog_box {
+	text-align: right;
+}
+
+.gBtn {
+	margin-left: 20px;
+}
+
+#certs_txt {
+	text-align: right;
+}
+
+.why_shankaboot_box {
+	text-align: right;
+}
+
+.why_shankaboot_title {
+	margin-left: 0;
+	margin-right: 9px;
+}
+
+.sec_head p {
+	padding-left: 0;
+	padding-right: 17px;
+}
+
+.b {
+	text-align: right;
+}
+
+.process_box:nth-child(2n) .sep::before {
+	right: unset;
+	left: 0;
+}
+
+.process_box:nth-child(2n) .sep {
+	margin-left: -21px;
+	margin-right: unset;
+}
+
+.sep {
+	margin-left: 0;
+	margin-right: -21px;
+}
+
+.sep::before {
+	left: auto;
+	right: 0;
+}
+
+#contact_sec .w1200 {
+	padding-left: 0;
+	padding-right: 59px;
+}
+
+#contact_sec .native {
+	left: auto;
+	right: 195px;
+}
+
+.akon {
+	margin-left: 14px;
+}
+
+#mob_menu_btn {
+	right: auto;
+	left: 0;
+}
+
+#top_tool {
+	right: auto;
+	left: 5px;
+}
+
+#web2 section {
+	margin-left: 6%;
+}
+
+.slDots {
+	left: auto;
+	right: 50% !important;
+}
+
+.team_p {
+	margin-left: 0;
+	margin-right: 8%;
+}
+
+.team_box {
+	margin-left: 36px;
+}
+
+.sub_txt {
+	padding-left: 50px;
+}
+
+.sub_menu_item_btn {
+	margin-left: 22px;
+}
+
+.new_sub {
+	left: auto;
+	right: 0;
+}
+
+.related_links_box {
+	padding-left: 0;
+	padding-right: 0px;
+}
+
+.numa {
+	margin-left: 13px;
+	margin-right: -10px;
+}
+
+.products_box {
+	margin-left: 7%;
+}
+
+#training_photo {
+	left: auto;
+	right: 0;
+}
+
+.block2 h3::before,.block3 h3::before {
+	margin-left: 10px;
+}
+
+.block3 {
+	padding-left: 0;
+	padding-right: 50px;
+}
+
+.block2 h3,.block3 h3 {
+	padding-left: 0;
+	padding-right: 10px;
+	margin-left: 0;
+	margin-right: 21px;
+}
+
+.block2 .w600 {
+	text-align: right;
+}
+
+.products_category {
+	padding-left: 0;
+	padding-right: 8px;
+}
+
+.products_box:last-child {
+	margin-left: unset;
+}
+
+#web2 .social {
+	margin-left: 17px;
+}
+
+.langa {
+	margin-left: 0;
+	margin-right: 10px;
+}
+
+#shop .products_box:last-child {
+	margin-left: unset;
+}
+
+#shop .products_box:nth-child(4n) {
+	margin-left: unset;
+}
+
+#shop .products_box:nth-child(3n) {
+	margin-left: 5%;
+}
+
+num {
+	margin-left: 11px;
+}
+
+#shop .products_box {
+	margin-left: 5%;
+}
+
+.reqqa {
+	margin-left: 0px;
+}
+
+.filter_box .row_btns {
+	text-align: right;
+}
+
+.filter_box .row_btns {
+	text-align: right;
+}
+

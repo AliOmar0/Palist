@@ -1,0 +1,88 @@
+#email{
+	max-width:85%;
+	margin:auto;
+	box-shadow:0 0 10px whitesmoke;
+}
+
+#header{
+	background:#f5f5f578;
+	text-indent:5px;
+/*	background:red;*/
+/*	text-indent:5px;*/
+	padding:5px;
+	display:block;
+	width:100%;
+	border-top-right-radius:5px;
+	border-top-left-radius:5px;
+	box-shadow: 0 0 5px #f5f5f5;
+}
+#header img{max-height:70px;max-width: 100%;width:auto;height:auto;}
+
+*{ 
+	box-sizing: border-box;
+	font-family:verdana;
+}
+
+.clear{clear:both;}
+
+.content{
+	padding:10px
+}
+
+.mid{
+	display: inline-block;vertical-align: middle;
+}
+.in{display: inline-block;vertical-align: top;}
+
+.site_name{
+	font-size: 16px;
+	font-weight: bold;
+	margin:auto 10px;
+}
+
+#footer{
+	background:#f5f5f578;
+	text-indent:5px;
+	padding:5px;
+	border-bottom-right-radius:5px;
+	border-bottom-left-radius:5px;
+	font-size:10px;
+}
+
+.tip_for_reply{
+	font-size:9px;
+	display:block;
+	margin:10px;
+	padding:0;
+	line-height:9px;
+	padding-bottom:10px;
+	color:#80808052;
+	
+}
+
+#footer img{vertical-align:middle;}
+
+@media (max-width:500px){
+	#email{
+		max-width:unset;
+		width:100%;
+		box-shadow:unset;
+		margin:unset;
+	}
+	#header{text-align:  center;box-shadow: unset;}
+	
+	.content{
+	padding:5px
+}
+}
+
+@media (prefers-color-scheme: dark) {
+ body {
+      background: black;
+	 color:white;
+	 
+ }
+	#header,#footer{
+		background:unset;
+	}
+}

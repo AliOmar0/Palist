@@ -1,0 +1,39 @@
+# 1. ملفات الاتصال بقاعدة البيانات (مهم جداً للأمان)
+# هذا الملف يحتوي على اسم المستخدم وكلمة السر الخاصة بقاعدة البيانات
+panel/core/conn.php
+
+# 2. ملفات الرفع (Uploads)
+# لا يتم رفع الصور والملفات التي يرفعها المستخدمون إلى Git
+uploads/*
+# نستثني ملف index.php أو الملفات الافتراضية إذا كنت تريد إبقاء المجلد موجوداً
+!uploads/index.php
+
+# 3. المجلدات الناتجة عن النظام (Generated files)
+backups/
+panel/exported/
+logs/
+*.log
+
+# 4. الملفات التي يتم توليدها تلقائياً بواسطة محرك Legion
+# هذه الملفات يتم تحديثها برمجياً من لوحة التحكم
+autoMeta.php
+manifest.json
+offline.html
+res/front/css/fonts.css
+res/back/css/colors.css
+
+# 5. مكتبات الطرف الثالث (Dependencies)
+# إذا كنت تستخدم Composer
+vendor/
+comp/vendor/
+
+# 6. ملفات بيئة العمل والأنظمة (OS/IDE)
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.nginx/
+.mysql/
+
+error_log
+panel/error_log
